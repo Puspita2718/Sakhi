@@ -97,6 +97,49 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
     }
   ];
 
+  const heroContent = {
+    badge: {
+      en: "★ SAKHI Platform",
+      hi: "★ सखी प्लेटफॉर्म",
+      bn: "★ সখী প্ল্যাটফর্ম",
+      ta: "★ சகி தளம்",
+      te: "★ సఖి ప్లాట్‌ఫారమ్",
+      mr: "★ सखी प्लॅटफॉर्म"
+    },
+    title: {
+      en: "SAKHI: Your AI-Powered Women's Health Companion",
+      hi: "सखी: आपका एआई-संचालित महिला स्वास्थ्य साथी",
+      bn: "সখী: আপনার এআই-চালিত নারী স্বাস্থ্য সঙ্গী",
+      ta: "சகி: உங்கள் ஏஐ-இயங்கும் பெண்கள் சுகாதார தோழி",
+      te: "సఖి: మీ ఏఐ-ఆధారిత మహిళా ఆరోగ్య స్నేహితురాలు",
+      mr: "सखी: आपले एआई-संचलित महिला आरोग्य सहकारी"
+    },
+    desc: {
+      en: "Empowering your wellness with scientific clinical logs. Securely track period cycles, consult top gynecologists, analyze biological variables, and access AI-driven nutritional strategies daily.",
+      hi: "वैज्ञानिक नैदानिक ​​लॉग के साथ आपकी भलाई को सशक्त बनाना। सुरक्षित रूप से चक्रों को ट्रैक करें, शीर्ष स्त्री रोग विशेषज्ञों से परामर्श करें, जैविक चरों का विश्लेषण करें और दैनिक एआई-संचालित पोषण रणनीतियों तक पहुंचें।",
+      bn: "বিজ্ঞানসম্মত ক্লিনিকাল লগের মাধ্যমে আপনার সুস্থতাকে ক্ষমতায়ন করা। নিরাপদে পিরিয়ড চক্র ট্র্যাক করুন, শীর্ষ স্ত্রীরোগ বিশেষজ্ঞদের সাথে পরামর্শ করুন, জৈবিক ভেরিয়েবল বিশ্লেষণ করুন এবং প্রতিদিন এআই-চালিত পুষ্টি কৌশলগুলি অ্যাক্সেস করুন।",
+      ta: "அறிவியல் மருத்துவப் பதிவுகள் மூலம் உங்கள் ஆரோக்கியத்தை மேம்படுத்துதல். பாதுகாப்பாக மாதவிடாய் சுழற்சிகளை கண்காணிக்கவும், சிறந்த மகளிர் நல மருத்துவரை அணுகவும், உயிரியல் மாறிகளை பகுப்பாய்வு செய்யவும், தினசரி ஏஐ ஊட்டச்சத்து உத்திகளைப் பெறவும்.",
+      te: "శాస్త్రీయ క్లినికల్ లాగ్‌లతో మీ ఆరోగ్యాన్ని పెంపొందించడం. సురక్షితంగా చక్రాలను ట్రాక్ చేయండి, అగ్రశ్రేణి గైనకాలజిస్ట్‌లను సంప్రదించండి, జీవసంబంధ వేరియబుల్స్ విశ్లేషించండి మరియు రోజువారీ ఏఐ-ఆధారిత పోషకాహార వ్యూహాలను పొందండి.",
+      mr: "वैज्ञानिक क्लिनिकल लॉगसह तुमच्या आरोग्याला सक्षम करणे. सुरक्षितपणे सायकलचा मागोवा घ्या, तज्ज्ञ स्त्रीरोगतज्ञांचा सल्ला घ्या, जैविक चलांचे विश्लेषण करा आणि दररोज एआय-चालित पोषण धोरणे मिळवा।"
+    },
+    btnStart: {
+      en: "Launch Dashboard",
+      hi: "डैशबोर्ड लॉन्च करें",
+      bn: "ড্যাশবোর্ড শুরু করুন",
+      ta: "டாஷ்போர்டு தொடங்கு",
+      te: "డ్యాష్‌బోర్డ్ ప్రారంభించండి",
+      mr: "डॅशボード लाँच करा"
+    },
+    btnLearn: {
+      en: "Explore Features",
+      hi: "विशेषताएं देखें",
+      bn: "ফিচারগুলি জানুন",
+      ta: "அம்சங்களை ஆராய்க",
+      te: "ఫీచర్లు అన్వేషించండి",
+      mr: "वैशिष्ट्ये एक्सप्लोर करा"
+    }
+  };
+
   return (
     <div className="flex flex-col gap-20">
       
@@ -127,15 +170,15 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
         {/* Hero Content */}
         <div className="relative z-10 max-w-2xl px-8 py-16 sm:px-12 flex flex-col gap-6 items-start text-left">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-feminine-pink/20 border border-feminine-pink/40 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-widest text-pink-300">
-            ★ Featured Topic
+            {heroContent.badge[language] || heroContent.badge['en']}
           </span>
           
           <h1 className="font-display text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-            Understanding PCOS: A 360° Precision Care Guide
+            {heroContent.title[language] || heroContent.title['en']}
           </h1>
           
-          <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-xl">
-            Deep dive into the science of hormone regulation with Dr. Ananya Sharma. Learn about tailored nutrition, lifestyle pivots, and clinical management.
+          <p className="text-sm sm:text-base text-zinc-350 leading-relaxed max-w-xl">
+            {heroContent.desc[language] || heroContent.desc['en']}
           </p>
           
           <div className="flex flex-wrap gap-4 mt-2">
@@ -143,13 +186,13 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
               onClick={handleAutoLogin}
               className="rounded-full bg-feminine-pink hover:bg-feminine-pink/90 px-6 py-3 text-xs font-bold text-white shadow-lg active:scale-95 transition-all duration-300 flex items-center gap-2 cursor-pointer"
             >
-              ▶ Start Reading
+              ▶ {heroContent.btnStart[language] || heroContent.btnStart['en']}
             </button>
             <button 
               onClick={handleAutoLogin}
               className="rounded-full border border-white/30 bg-white/10 hover:bg-white/20 backdrop-blur-md px-6 py-3 text-xs font-bold text-white active:scale-95 transition-all duration-300 flex items-center gap-2 cursor-pointer"
             >
-              ↺ More Topics
+              ↺ {heroContent.btnLearn[language] || heroContent.btnLearn['en']}
             </button>
           </div>
         </div>
