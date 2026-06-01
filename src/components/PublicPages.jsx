@@ -976,10 +976,10 @@ export function ProfilePage({ user, setUser }) {
   const [firstName, setFirstName] = useState(user?.firstName || 'Ananya');
   const [lastName, setLastName] = useState(user?.lastName || 'Sharma');
   const [email, setEmail] = useState(user?.email || 'ananya@example.com');
-  const [age, setAge] = useState('25');
-  const [cycleLength, setCycleLength] = useState('28');
-  const [sleepTarget, setSleepTarget] = useState('8');
-  const [waterTarget, setWaterTarget] = useState('2.5');
+  const [age, setAge] = useState(user?.age || '25');
+  const [cycleLength, setCycleLength] = useState(user?.cycleLength || '28');
+  const [sleepTarget, setSleepTarget] = useState(user?.sleepTarget || '8');
+  const [waterTarget, setWaterTarget] = useState(user?.waterTarget || '2.5');
   const [saved, setSaved] = useState(false);
 
   const handleSave = (e) => {
@@ -988,7 +988,11 @@ export function ProfilePage({ user, setUser }) {
       ...prev,
       firstName,
       lastName,
-      email
+      email,
+      age: parseInt(age) || 25,
+      cycleLength: parseInt(cycleLength) || 28,
+      sleepTarget: parseInt(sleepTarget) || 8,
+      waterTarget: parseFloat(waterTarget) || 2.5
     }));
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
@@ -1026,7 +1030,7 @@ export function ProfilePage({ user, setUser }) {
             {/* Active Subscription badge */}
             <div className="w-full bg-feminine-pink/10 border border-feminine-pink/20 rounded-2xl py-3 px-4 flex flex-col gap-1 mt-2">
               <span className="text-[9px] font-extrabold uppercase tracking-widest text-feminine-pink">Care Subscription</span>
-              <strong className="text-xs text-[var(--text-primary)]">{view === 'premium' ? 'Premium Pass' : 'SAKHI Premium Pass'}</strong>
+              <strong className="text-xs text-[var(--text-primary)]">{user?.subscriptionPlan === 'premium' ? 'Premium Pass' : 'SAKHI Premium Pass'}</strong>
               <span className="text-[10px] text-[var(--text-secondary)]">Renews on Nov 24, 2026</span>
             </div>
           </div>
