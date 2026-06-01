@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-feminine-light: hsl(280, 40%, 98%);
+  --color-feminine-pink: hsl(330, 70%, 48%);
+  --color-feminine-purple: hsl(265, 60%, 55%);
+  --color-feminine-lavender: hsl(275, 65%, 92%);
+  --color-feminine-dark: hsl(285, 20%, 8%);
+  
+  --font-display: 'Outfit', 'Inter', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+}
+
+@utility glass-panel {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(210, 180, 220, 0.15);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.dark .glass-panel {
+  background-color: rgba(20, 10, 30, 0.7);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-panel:hover {
+  box-shadow: 0 12px 40px 0 rgba(210, 180, 220, 0.25);
+}
+
+.dark .glass-panel:hover {
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+}
+
+body {
+  background-color: var(--color-feminine-light);
+  color: hsl(285, 30%, 15%);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition-property: color, background-color;
+  transition-duration: 300ms;
+}
+
+.dark body {
+  background-color: var(--color-feminine-dark);
+  color: hsl(280, 20%, 92%);
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  transition-property: color, background-color;
+  transition-duration: 300ms;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #3f3f46;
+}
+
+/* Day dots calendar styles */
+.day-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  cursor: pointer;
+  position: relative;
+}
+
+.day-dot:hover {
+  transform: scale(1.05);
+}
+
+.day-dot.period {
+  background-color: var(--color-feminine-pink);
+  color: white;
+  box-shadow: 0 4px 12px rgba(230, 50, 120, 0.25);
+}
+
+.day-dot.ovulation {
+  background-color: var(--color-feminine-purple);
+  color: white;
+  box-shadow: 0 4px 12px rgba(130, 50, 230, 0.25);
+}
+
+.day-dot.fertile {
+  background-color: rgba(230, 50, 120, 0.15);
+  border-width: 1px;
+  border-style: dashed;
+  border-color: var(--color-feminine-pink);
+  color: hsl(285, 30%, 15%);
+}
+.dark .day-dot.fertile {
+  color: white;
+}
+
+.day-dot.normal {
+  background-color: white;
+  border-width: 1px;
+  border-color: #f3f4f6;
+}
+.dark .day-dot.normal {
+  background-color: #27272a;
+  border-color: #3f3f46;
+}
+
+.day-dot.logged::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--color-feminine-pink);
+}
+
+/* Animations */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 16px rgba(230, 50, 120, 0.2); }
+  50% { transform: scale(1.1); box-shadow: 0 0 32px rgba(230, 50, 120, 0.5); }
+}
+
+.breathe-animation {
+  animation: breathe 4s ease-in-out infinite;
+}
