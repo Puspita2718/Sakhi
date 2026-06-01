@@ -20,43 +20,13 @@ import {
   User,
   Key,
   CheckCircle2,
-  Calendar
+  Calendar,
+  Globe
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 // =================== 1. HOME VIEW ===================
 export function HomePage({ setPage, setTab, language, setUser }) {
-  const [activeFaq, setActiveFaq] = useState(null);
-
-  const features = [
-    { title: 'AI Health Assistant', desc: 'ChatGPT-style symptom checker and condition identifier.', icon: Sparkles, color: 'from-pink-500/10 to-pink-500/5', border: 'border-pink-200 dark:border-pink-900/50' },
-    { title: 'Period Tracker', desc: 'Symptom logs, mood diaries, and ovulation predictions.', icon: Calendar, color: 'from-purple-500/10 to-purple-500/5', border: 'border-purple-200 dark:border-purple-900/50' },
-    { title: 'Blood Color Guide', desc: 'Educational details explaining flow shades and warning parameters.', icon: Droplet, color: 'from-red-500/10 to-red-500/5', border: 'border-red-200 dark:border-red-900/50' },
-    { title: 'AI Diet Generator', desc: 'Condition-specific budgets and shopping checklists.', icon: Utensils, color: 'from-amber-500/10 to-amber-500/5', border: 'border-amber-200 dark:border-amber-900/50' },
-    { title: 'Female Hygiene Hub', desc: 'Vaginal cleaning guidelines and products compared.', icon: ShieldCheck, color: 'from-emerald-500/10 to-emerald-500/5', border: 'border-emerald-200 dark:border-emerald-900/50' },
-    { title: 'Doctor Consultation', desc: 'Calendar bookings, physician reviews, and digital prescriptions.', icon: Activity, color: 'from-blue-500/10 to-blue-500/5', border: 'border-blue-200 dark:border-blue-900/50' },
-    { title: 'Yoga & Wellness', desc: 'Period pain exercises and stress relief poses.', icon: Heart, color: 'from-rose-500/10 to-rose-500/5', border: 'border-rose-200 dark:border-rose-900/50' },
-    { title: 'Community Support', desc: 'Shared experiences, forums, and anonymous questions.', icon: Users, color: 'from-indigo-500/10 to-indigo-500/5', border: 'border-indigo-200 dark:border-indigo-900/50' }
-  ];
-
-  const pricing = [
-    { name: 'Basic Plan', price: '₹199', period: 'month', desc: 'Perfect for quick medical checks.', features: ['7-Day Active Pass', '24/7 Chat General Physician', 'AI Symptom Checker (5/month)', 'Cycle logging calendar'] },
-    { name: 'Standard Plan', price: '₹499', period: 'month', desc: 'Complete specialized support.', features: ['30-Day Active Pass', 'Video + Chat Gynecologist', 'Unlimited AI symptom reviews', 'Dynamic PCOS & Diet plans'], highlight: true },
-    { name: 'Premium Plan', price: '₹999', period: 'month', desc: 'Total health transformation.', features: ['90-Day Active Pass', 'Unlimited Doctor & Dietitian calls', 'Mental wellness coach access', 'Downloadable diagnostic summaries'] }
-  ];
-
-  const faqs = [
-    { q: 'How does the AI Symptom Analyst work?', a: 'You enter symptoms, cycle details, and historical files. The engine compares metrics to PCOS, Anemia, UTIs, and vaginal infections, returning risk charts and recovery guidelines.' },
-    { q: 'Is my intimate health tracking data safe?', a: '100% yes. All database models are encrypted, and doctor chats use end-to-end Signal protocol Double-Ratchet encryption.' },
-    { q: 'How do I claim doctor prescriptions?', a: 'After consultations finish, doctors upload prescriptions directly. They are securely encrypted inside private storage and downloadable as authenticated PDFs.' }
-  ];
-
-  const testimonials = [
-    { text: "HerCare AI completely changed how I manage my PCOS. The AI diet generator provided local budget-friendly alternatives that fit my lifestyle immediately.", author: "Rhea Sen", role: "Active Member" },
-    { text: "Having a direct chat with certified gynecologists under standard passes saved me countless stressful clinic commutes. Highly recommend the Swasthya Mitra tools.", author: "Pooja Mehta", role: "Premium Member" }
-  ];
-
-  // Auto-login helper to test dashboard
   const handleAutoLogin = () => {
     setUser({
       firstName: 'Ananya',
@@ -68,190 +38,511 @@ export function HomePage({ setPage, setTab, language, setUser }) {
     setPage('dashboard');
   };
 
+  const conditions = [
+    { title: 'PCOS Management', image: '/pcos_flowers.png' },
+    { title: 'Endometriosis Care', image: '/endometriosis_vases.png' },
+    { title: 'UTI & Pelvic Health', image: '/pelvic_spiral.png' },
+    { title: 'Pregnancy Journey', image: '/pregnancy_belly.png' }
+  ];
+
+  const appFeatures = [
+    {
+      title: 'Cycle Tracker & Loggers',
+      desc: 'Predict ovulation, track menstrual phases, and log biological symptoms daily for full timeline awareness.',
+      icon: '📅',
+      badge: 'Interactive',
+      color: 'hsl(340, 75%, 45%)',
+      bg: 'var(--primary-light)'
+    },
+    {
+      title: 'Blood Color Analyzer',
+      desc: 'Analyze menstrual flow colors to understand oxygen levels, hormonal balances, and get immediate clinical alerts.',
+      icon: '🩸',
+      badge: 'Clinical Tool',
+      color: 'hsl(355, 90%, 45%)',
+      bg: 'rgba(230, 50, 120, 0.08)'
+    },
+    {
+      title: 'My Health Chat (AI Assistant)',
+      desc: 'Get immediate clinical symptom insights and lifestyle guidelines using our secure conversational AI doctor.',
+      icon: '✨',
+      badge: 'AI Powered',
+      color: 'hsl(285, 20%, 30%)',
+      bg: 'var(--secondary-light)'
+    },
+    {
+      title: 'Custom Diet & Yoga Planners',
+      desc: 'Generate low-GI PCOS diets, cost-saving local ingredient swaps, and guided yoga routines to ease period cramps.',
+      icon: '🥗',
+      badge: 'Personalized',
+      color: 'hsl(150, 60%, 45%)',
+      bg: 'var(--success-light)'
+    },
+    {
+      title: 'Zen Breathing Sphere',
+      desc: 'Lower cortisol and PMS stress using our animated deep breathing helper, anxiety assessments, and positive logs.',
+      icon: '🧘‍♀️',
+      badge: 'Mindfulness',
+      color: 'hsl(275, 65%, 92%)',
+      bg: 'var(--accent-lavender)'
+    },
+    {
+      title: 'Safe-Space Community',
+      desc: 'Share stories, join peer groups, and consult qualified healthcare specialists anonymously in moderated forums.',
+      icon: '👥',
+      badge: 'Moderated',
+      color: 'hsl(200, 75%, 45%)',
+      bg: 'rgba(200, 30, 86, 0.04)'
+    }
+  ];
+
+  const masterclasses = [
+    {
+      title: 'Decoding Your Hormonal Cycle',
+      desc: 'Understand the four phases of your cycle and how to sync your lifestyle for peak wellness.',
+      author: 'Dr. Kavita Iyer',
+      role: 'Senior Endocrinologist',
+      duration: '18:24',
+      bgGradient: 'from-pink-50 to-purple-50 dark:from-zinc-900 dark:to-zinc-800'
+    },
+    {
+      title: 'The Future of Fertility Tracking',
+      desc: 'How predictive data and AI are revolutionizing the conception plan for their future families.',
+      author: 'Dr. Sameer Verma',
+      role: 'Reproductive Specialist',
+      duration: '12:15',
+      bgGradient: 'from-blue-50 to-indigo-50 dark:from-zinc-900 dark:to-zinc-800'
+    },
+    {
+      title: 'Nutritional Therapy: Anti-Inflammatory Diet',
+      desc: 'Customizing your food intake to manage endometriosis symptoms and reduce stress.',
+      author: 'Dr. Hana Patel',
+      role: 'Nutrition & Behavioral Lead',
+      duration: '22:10',
+      bgGradient: 'from-amber-50 to-rose-50 dark:from-zinc-900 dark:to-zinc-800'
+    }
+  ];
+
   return (
-    <div className="flex flex-col gap-24">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-tr from-pink-50/70 via-purple-50/50 to-indigo-50/70 dark:from-zinc-900/50 dark:via-zinc-950 dark:to-zinc-900/50 border border-white/50 dark:border-white/5 px-8 py-16 sm:px-12 md:py-24">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-        <div className="relative mx-auto max-w-4xl text-center flex flex-col items-center gap-6">
-          <motion.span 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-1.5 rounded-full bg-feminine-pink/10 px-4 py-1.5 text-xs font-bold text-feminine-pink"
-          >
-            <Sparkles size={12} className="animate-spin" /> Startup level FemTech Platform
-          </motion.span>
+    <div className="flex flex-col gap-20">
+      
+      {/* 1. HERO SECTION (Photo 1 Banner) */}
+      <section className="relative overflow-hidden rounded-3xl bg-zinc-950 text-white min-h-[500px] flex items-center">
+        {/* Background Image of Dr. Ananya Sharma */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-60 mix-blend-overlay"
+          style={{ backgroundImage: `url('/hero_doctor.png')` }}
+        ></div>
+        
+        {/* Soft dark-gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+        
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-2xl px-8 py-16 sm:px-12 flex flex-col gap-6 items-start text-left">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-feminine-pink/20 border border-feminine-pink/40 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-widest text-pink-300">
+            ★ Featured Topic
+          </span>
           
-          <motion.h1 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight"
-          >
-            Your Personal AI <br className="hidden sm:block" />
-            <span className="bg-gradient-to-r from-feminine-pink to-feminine-purple bg-clip-text text-transparent">
-              Women's Health Companion
-            </span>
-          </motion.h1>
+          <h1 className="font-display text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            Understanding PCOS: A 360° Precision Care Guide
+          </h1>
           
-          <motion.p 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-base sm:text-lg text-gray-500 dark:text-zinc-400 max-w-2xl leading-relaxed"
-          >
-            Track periods, understand biological color indicators, receive budget diet programs, practice recovery yoga, and consult expert board-certified doctors securely.
-          </motion.p>
+          <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-xl">
+            Deep dive into the science of hormone regulation with Dr. Ananya Sharma. Learn about tailored nutrition, lifestyle pivots, and clinical management.
+          </p>
           
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap gap-4 mt-4"
-          >
+          <div className="flex flex-wrap gap-4 mt-2">
             <button 
               onClick={handleAutoLogin}
-              className="rounded-full bg-gradient-to-r from-feminine-pink to-feminine-purple px-8 py-4 text-sm font-bold text-white shadow-xl shadow-pink-500/25 hover:shadow-2xl hover:shadow-pink-500/45 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center gap-2"
+              className="rounded-full bg-feminine-pink hover:bg-feminine-pink/90 px-6 py-3 text-xs font-bold text-white shadow-lg active:scale-95 transition-all duration-300 flex items-center gap-2 cursor-pointer"
             >
-              Get Started <ArrowRight size={16} />
+              ▶ Start Reading
             </button>
             <button 
-              onClick={() => setPage('login')}
-              className="rounded-full border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 backdrop-blur-md px-8 py-4 text-sm font-bold text-gray-700 dark:text-zinc-200 hover:bg-gray-50 dark:hover:bg-zinc-800/80 active:scale-95 transition-all duration-300"
+              onClick={handleAutoLogin}
+              className="rounded-full border border-white/30 bg-white/10 hover:bg-white/20 backdrop-blur-md px-6 py-3 text-xs font-bold text-white active:scale-95 transition-all duration-300 flex items-center gap-2 cursor-pointer"
             >
-              Demo Admin Portal
+              ↺ More Topics
             </button>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="flex flex-col gap-12">
-        <div className="text-center flex flex-col items-center gap-3">
-          <h2 className="font-display text-3xl font-bold dark:text-white">Complete Digital Care Services</h2>
-          <p className="text-gray-500 dark:text-zinc-400 max-w-lg">Everything you need to track cycle speeds, analyze symptoms, and align healthy wellness daily.</p>
+      {/* 2. YOUR HEALTH CONDITIONS SECTION */}
+      <section className="flex flex-col gap-6 animate-fade-in">
+        <div className="flex justify-between items-end border-b border-gray-100 dark:border-zinc-900 pb-4">
+          <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[var(--text-primary)]">
+            Your Health Conditions
+          </h2>
+          <button 
+            onClick={handleAutoLogin}
+            className="text-xs font-bold text-feminine-pink hover:underline flex items-center gap-1 cursor-pointer"
+          >
+            Explore all &gt;
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feat, index) => {
-            const Icon = feat.icon;
-            return (
-              <div 
-                key={index}
-                className={`glass-panel p-6 rounded-2xl border ${feat.border} bg-gradient-to-tr ${feat.color} flex flex-col gap-4 group cursor-pointer hover:-translate-y-1`}
-                onClick={handleAutoLogin}
-              >
-                <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-feminine-pink shadow-md group-hover:scale-105 transition-transform">
-                  <Icon size={20} />
-                </div>
-                <div>
-                  <h3 className="font-display font-bold text-gray-900 dark:text-white mb-1 group-hover:text-feminine-pink transition-colors">{feat.title}</h3>
-                  <p className="text-xs text-gray-500 dark:text-zinc-400 leading-normal">{feat.desc}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Pricing Module */}
-      <section className="flex flex-col gap-12">
-        <div className="text-center flex flex-col items-center gap-3">
-          <h2 className="font-display text-3xl font-bold dark:text-white">Choose Your Care Pass</h2>
-          <p className="text-gray-500 dark:text-zinc-400 max-w-lg">Flexible startup plans incorporating chat, video consults, and custom diet formulations.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto w-full">
-          {pricing.map((plan, idx) => (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {conditions.map((cond, index) => (
             <div 
-              key={idx}
-              className={`glass-panel p-8 rounded-3xl border flex flex-col gap-6 relative ${plan.highlight ? 'border-feminine-pink scale-105 shadow-pink-500/5' : 'border-gray-200/50 dark:border-zinc-800'}`}
+              key={index}
+              onClick={handleAutoLogin}
+              className="group cursor-pointer flex flex-col gap-3"
             >
-              {plan.highlight && (
-                <span className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-feminine-pink text-white font-display text-[10px] font-extrabold uppercase tracking-widest px-4.5 py-1.5 rounded-full shadow-lg shadow-pink-500/30">
-                  Most Popular
-                </span>
-              )}
-              
-              <div className="text-center">
-                <h3 className="font-display font-bold text-xl mb-1 dark:text-white">{plan.name}</h3>
-                <span className="text-xs text-gray-400 dark:text-zinc-500">{plan.desc}</span>
-                <div className="flex items-baseline justify-center gap-1 mt-4">
-                  <span className="text-4xl font-extrabold tracking-tight dark:text-white">{plan.price}</span>
-                  <span className="text-sm text-gray-400">/{plan.period}</span>
-                </div>
+              {/* Photo Area */}
+              <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 dark:border-zinc-900 dark:bg-zinc-900 shadow-sm relative">
+                <img 
+                  src={cond.image} 
+                  alt={cond.title} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
+              {/* Title Area */}
+              <h3 className="font-display font-extrabold text-sm text-[var(--text-primary)] text-left px-1 group-hover:text-feminine-pink transition-colors">
+                {cond.title}
+              </h3>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 2.5 CORE PLATFORM FEATURES SHOWCASE */}
+      <section className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1 text-left border-b border-gray-100 dark:border-zinc-900 pb-4">
+          <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[var(--text-primary)]">
+            Core Interactive Offerings
+          </h2>
+          <p className="text-xs text-[var(--text-secondary)] font-extrabold">
+            Democratizing clinical women's healthcare through personalized analytics, security, and guidance.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {appFeatures.map((feat, idx) => (
+            <div 
+              key={idx} 
+              onClick={handleAutoLogin}
+              className="glass-panel p-6 rounded-2xl flex flex-col items-start text-left gap-4 group cursor-pointer hover:-translate-y-1 transition-all border border-gray-100 dark:border-zinc-900"
+            >
+              {/* Feature Icon Container */}
+              <div 
+                className="h-12 w-12 rounded-xl flex items-center justify-center text-2xl shadow-sm group-hover:scale-110 transition-transform duration-300"
+                style={{ backgroundColor: feat.bg, color: feat.color }}
+              >
+                {feat.icon}
               </div>
 
-              <ul className="flex flex-col gap-3.5 border-t border-b border-gray-100 dark:border-zinc-850 py-6 my-2 text-sm text-gray-600 dark:text-zinc-300">
-                {plan.features.map((feat, fIdx) => (
-                  <li key={fIdx} className="flex items-center gap-2.5">
-                    <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
-                    {feat}
-                  </li>
-                ))}
-              </ul>
+              {/* Header Title & Pill */}
+              <div className="flex flex-col gap-1.5 w-full">
+                <div className="flex justify-between items-center w-full">
+                  <h3 className="font-display font-extrabold text-sm text-[var(--text-primary)] group-hover:text-feminine-pink transition-colors">
+                    {feat.title}
+                  </h3>
+                  <span 
+                    className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: feat.bg, color: feat.color }}
+                  >
+                    {feat.badge}
+                  </span>
+                </div>
+                <p className="text-[11px] text-[var(--text-secondary)] leading-normal">
+                  {feat.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
+      {/* 3. EXPERT MASTERCLASSES SECTION */}
+      <section className="flex flex-col gap-6">
+        <div className="flex justify-between items-center border-b border-gray-100 dark:border-zinc-900 pb-4">
+          <div>
+            <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[var(--text-primary)]">
+              Expert Masterclasses
+            </h2>
+            <p className="text-xs text-[var(--text-secondary)] font-extrabold mt-1">
+              Premium video series from India's leading gynecologists.
+            </p>
+          </div>
+          <button 
+            onClick={handleAutoLogin}
+            className="rounded-full border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 text-[10px] font-extrabold tracking-wider text-[var(--text-primary)] px-5 py-2.5 shadow-xs cursor-pointer uppercase"
+          >
+            View All Series
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {masterclasses.map((cls, index) => (
+            <div 
+              key={index}
+              onClick={handleAutoLogin}
+              className="glass-panel rounded-2xl border border-gray-100 dark:border-zinc-900 overflow-hidden flex flex-col group cursor-pointer hover:-translate-y-1"
+            >
+              {/* Video Preview Mockup with duration badge */}
+              <div className={`w-full aspect-[16/10] bg-gradient-to-tr ${cls.bgGradient} relative flex items-center justify-center p-4`}>
+                {/* Abstract graphic represent diagram/data */}
+                <div className="h-full w-full rounded-xl border border-white/40 dark:border-zinc-800/40 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-xs flex items-center justify-center relative overflow-hidden shadow-inner">
+                  <div className="h-8 w-8 rounded-full bg-feminine-pink text-white flex items-center justify-center shadow-md">
+                    ▶
+                  </div>
+                </div>
+                {/* Duration Badge at Bottom Right */}
+                <span className="absolute bottom-2.5 right-2.5 bg-black/75 text-white font-mono text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm">
+                  {cls.duration}
+                </span>
+              </div>
+              
+              {/* Masterclass details */}
+              <div className="p-5 flex flex-col gap-3 text-left">
+                {/* Doctor Avatar / Author Profile Row */}
+                <div className="flex items-center gap-2">
+                  <div className="h-6 w-6 rounded-full bg-feminine-pink/10 flex items-center justify-center text-[10px] font-extrabold text-feminine-pink border border-feminine-pink/20 shadow-xs">
+                    {cls.author[4]}
+                  </div>
+                  <div>
+                    <h4 className="text-[11px] font-bold text-[var(--text-primary)] leading-none">{cls.author}</h4>
+                    <span className="text-[9px] text-[var(--text-secondary)]">{cls.role}</span>
+                  </div>
+                </div>
+                
+                {/* Class Title and Description */}
+                <div>
+                  <h3 className="font-display font-extrabold text-sm text-[var(--text-primary)] group-hover:text-feminine-pink transition-colors leading-snug mb-1.5">
+                    {cls.title}
+                  </h3>
+                  <p className="text-[11px] text-[var(--text-secondary)] leading-normal line-clamp-2">
+                    {cls.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. DEEP DIVES & RESEARCH SECTION (Two Column Layout) */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left">
+        
+        {/* Left Column - Reading Hub Filters */}
+        <div className="lg:col-span-3 flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            <span className="text-[10px] font-extrabold tracking-widest text-[var(--text-secondary)] uppercase">
+              Reading Hub
+            </span>
+            <ul className="flex flex-col gap-3 text-xs font-bold">
+              <li className="flex items-center gap-2 text-feminine-pink font-extrabold cursor-pointer">
+                <span className="h-1.5 w-1.5 rounded-full bg-feminine-pink"></span>
+                Recent Publications
+              </li>
+              <li onClick={handleAutoLogin} className="text-[var(--text-secondary)] hover:text-feminine-pink transition-colors cursor-pointer pl-3.5">
+                Trending Research
+              </li>
+              <li onClick={handleAutoLogin} className="text-[var(--text-secondary)] hover:text-feminine-pink transition-colors cursor-pointer pl-3.5">
+                Expert Opinions
+              </li>
+              <li onClick={handleAutoLogin} className="text-[var(--text-secondary)] hover:text-feminine-pink transition-colors cursor-pointer pl-3.5">
+                Community Stories
+              </li>
+              <li onClick={handleAutoLogin} className="text-[var(--text-secondary)] hover:text-feminine-pink transition-colors cursor-pointer pl-3.5">
+                Clinical Guidelines
+              </li>
+            </ul>
+          </div>
+
+          {/* Recommendations Card */}
+          <div className="bg-pink-50/50 dark:bg-zinc-900/40 border border-pink-100 dark:border-zinc-900 rounded-2xl p-5 flex flex-col gap-4">
+            <div className="flex items-start gap-2.5">
+              <div className="h-5 w-5 rounded-full bg-feminine-pink/15 text-feminine-pink flex items-center justify-center text-xs shrink-0 mt-0.5">
+                ✦
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-[var(--text-primary)]">Personalized for you</h4>
+                <p className="text-[10px] text-[var(--text-secondary)] leading-normal mt-1">
+                  Based on your reading, we recommend these insights.
+                </p>
+              </div>
+            </div>
+            <button 
+              onClick={handleAutoLogin}
+              className="w-full rounded-full bg-feminine-pink hover:bg-feminine-pink/90 text-[10px] font-bold text-white py-2.5 shadow-sm active:scale-95 transition-all cursor-pointer"
+            >
+              View Recommendations
+            </button>
+          </div>
+        </div>
+
+        {/* Right Column - Deep Dives Content (Two article rows) */}
+        <div className="lg:col-span-9 flex flex-col gap-6">
+          <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[var(--text-primary)] border-b border-gray-100 dark:border-zinc-900 pb-3">
+            Deep Dives & Research
+          </h2>
+
+          <div className="flex flex-col gap-6">
+            {/* Article 1 - Towels Image */}
+            <div 
+              onClick={handleAutoLogin}
+              className="glass-panel rounded-2xl border border-gray-100 dark:border-zinc-900 p-5 flex flex-col sm:flex-row gap-5 items-center cursor-pointer group hover:border-feminine-pink/30"
+            >
+              {/* Image */}
+              <div className="w-full sm:w-44 aspect-video sm:aspect-square rounded-xl overflow-hidden shrink-0 bg-gray-50 dark:bg-zinc-900 border border-gray-50 dark:border-zinc-900 shadow-xs relative">
+                <img 
+                  src="/rolled_towels.png" 
+                  alt="Towel research" 
+                  className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" 
+                />
+              </div>
+              
+              {/* Body */}
+              <div className="flex-grow flex flex-col gap-2 items-start">
+                {/* Meta details */}
+                <div className="flex flex-wrap gap-2 items-center text-[9px] font-extrabold tracking-wider uppercase text-feminine-pink">
+                  <span className="bg-feminine-pink/10 border border-feminine-pink/15 rounded-md px-2 py-0.5">Research</span>
+                  <span className="text-[var(--text-secondary)]">•</span>
+                  <span className="text-[var(--text-secondary)]">8 Min Read</span>
+                  <span className="text-[var(--text-secondary)]">•</span>
+                  <span className="text-[var(--text-secondary)]">Oct 28, 2024</span>
+                </div>
+                
+                {/* Title */}
+                <h3 className="font-display font-extrabold text-base text-[var(--text-primary)] group-hover:text-feminine-pink transition-colors leading-snug">
+                  The Impact of Gut Health on Hormonal Equilibrium
+                </h3>
+                
+                {/* Desc */}
+                <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed line-clamp-3">
+                  Recent clinical trials suggest a profound link between the gut microbiome and estrogen metabolism. We explore how dietary interventions can mitigate symptoms of hormonal imbalance...
+                </p>
+                
+                {/* Footer stats */}
+                <div className="w-full flex justify-between items-center border-t border-gray-100 dark:border-zinc-900 pt-3 mt-1.5 text-[10px] text-[var(--text-secondary)]">
+                  <div className="flex items-center gap-1">
+                    <span>❤️</span>
+                    <span className="font-semibold text-[var(--text-primary)]">1.2k</span>
+                  </div>
+                  <span>🔗 Share</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Article 2 - Smartwatch Image */}
+            <div 
+              onClick={handleAutoLogin}
+              className="glass-panel rounded-2xl border border-gray-100 dark:border-zinc-900 p-5 flex flex-col sm:flex-row gap-5 items-center cursor-pointer group hover:border-feminine-pink/30"
+            >
+              {/* Image */}
+              <div className="w-full sm:w-44 aspect-video sm:aspect-square rounded-xl overflow-hidden shrink-0 bg-gray-50 dark:bg-zinc-900 border border-gray-50 dark:border-zinc-900 shadow-xs relative">
+                <img 
+                  src="/smartwatch_health.png" 
+                  alt="Fertility data tracking" 
+                  className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" 
+                />
+              </div>
+              
+              {/* Body */}
+              <div className="flex-grow flex flex-col gap-2 items-start">
+                {/* Meta details */}
+                <div className="flex flex-wrap gap-2 items-center text-[9px] font-extrabold tracking-wider uppercase text-feminine-pink">
+                  <span className="bg-feminine-pink/10 border border-feminine-pink/15 rounded-md px-2 py-0.5">Guide</span>
+                  <span className="text-[var(--text-secondary)]">•</span>
+                  <span className="text-[var(--text-secondary)]">12 Min Read</span>
+                  <span className="text-[var(--text-secondary)]">•</span>
+                  <span className="text-[var(--text-secondary)]">Oct 23, 2024</span>
+                </div>
+                
+                {/* Title */}
+                <h3 className="font-display font-extrabold text-base text-[var(--text-primary)] group-hover:text-feminine-pink transition-colors leading-snug">
+                  Beyond Tracking: Interpreting Your Fertility Data
+                </h3>
+                
+                {/* Desc */}
+                <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed line-clamp-3">
+                  Data is only as good as the insights you draw from it. This guide breaks down basal body temperature and cervical mucus patterns for precision health monitoring...
+                </p>
+                
+                {/* Footer stats */}
+                <div className="w-full flex justify-between items-center border-t border-gray-100 dark:border-zinc-900 pt-3 mt-1.5 text-[10px] text-[var(--text-secondary)]">
+                  <div className="flex items-center gap-1">
+                    <span>❤️</span>
+                    <span className="font-semibold text-gray-600 dark:text-zinc-300">850</span>
+                  </div>
+                  <span>🔗 Share</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. BRAND NEWSLETTER FOOTER */}
+      <footer className="border-t border-gray-150/40 dark:border-zinc-900 pt-16 pb-8 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+          {/* Brand Info */}
+          <div className="md:col-span-5 flex flex-col gap-4">
+            <span className="font-display text-xl font-extrabold text-feminine-pink">
+              SAKHI
+            </span>
+            <p className="text-xs text-gray-500 dark:text-zinc-400 leading-relaxed max-w-sm">
+              Empowering women with precision care, clinically-backed insights, and a community of experts dedicated to your holistic well-being.
+            </p>
+            {/* Social icons */}
+            <div className="flex gap-3 text-gray-400">
+              <span className="h-7 w-7 rounded-full bg-gray-50 dark:bg-zinc-900 border border-gray-200/50 dark:border-zinc-800 flex items-center justify-center text-xs hover:text-feminine-pink cursor-pointer">
+                🔗
+              </span>
+              <span className="h-7 w-7 rounded-full bg-gray-50 dark:bg-zinc-900 border border-gray-200/50 dark:border-zinc-800 flex items-center justify-center text-xs hover:text-feminine-pink cursor-pointer">
+                ✉️
+              </span>
+              <span className="h-7 w-7 rounded-full bg-gray-50 dark:bg-zinc-900 border border-gray-200/50 dark:border-zinc-800 flex items-center justify-center text-xs hover:text-feminine-pink cursor-pointer">
+                🌐
+              </span>
+            </div>
+          </div>
+          
+          {/* Quick links */}
+          <div className="md:col-span-3 flex flex-col gap-3.5">
+            <h4 className="text-[10px] font-extrabold tracking-widest text-gray-400 dark:text-zinc-500 uppercase">
+              Resources
+            </h4>
+            <ul className="flex flex-col gap-2.5 text-xs font-bold text-gray-550 dark:text-zinc-400">
+              <li onClick={handleAutoLogin} className="hover:text-feminine-pink cursor-pointer transition-colors">Privacy Policy</li>
+              <li onClick={handleAutoLogin} className="hover:text-feminine-pink cursor-pointer transition-colors">Terms of Service</li>
+              <li onClick={handleAutoLogin} className="hover:text-feminine-pink cursor-pointer transition-colors">Clinical Standards</li>
+              <li onClick={handleAutoLogin} className="hover:text-feminine-pink cursor-pointer transition-colors">Contact Us</li>
+            </ul>
+          </div>
+          
+          {/* Newsletter Input Box */}
+          <div className="md:col-span-4 flex flex-col gap-3.5">
+            <h4 className="text-[10px] font-extrabold tracking-widest text-gray-400 dark:text-zinc-500 uppercase">
+              Newsletter
+            </h4>
+            <p className="text-xs text-gray-500 dark:text-zinc-400 leading-normal max-w-xs">
+              Stay updated with the latest clinical research.
+            </p>
+            <div className="flex gap-2 w-full max-w-sm mt-1">
+              <input 
+                type="email" 
+                placeholder="Email address"
+                className="flex-grow pl-4 pr-3 py-2.5 rounded-full border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 text-xs outline-none focus:border-feminine-pink transition-colors"
+              />
               <button 
                 onClick={handleAutoLogin}
-                className={`w-full rounded-full py-3.5 text-xs font-bold transition-all duration-300 ${plan.highlight ? 'bg-gradient-to-r from-feminine-pink to-feminine-purple text-white shadow-lg shadow-pink-500/25' : 'bg-gray-100 dark:bg-zinc-800 hover:bg-feminine-pink hover:text-white dark:hover:bg-feminine-pink'}`}
+                className="rounded-full bg-feminine-pink hover:bg-feminine-pink/90 text-xs font-bold text-white px-5 py-2.5 shadow-sm active:scale-95 transition-all cursor-pointer shrink-0"
               >
-                Activate Subscription
+                Join
               </button>
             </div>
-          ))}
+          </div>
         </div>
-      </section>
 
-      {/* Testimonials */}
-      <section className="bg-white/40 dark:bg-zinc-900/30 rounded-3xl p-8 sm:p-12 border border-gray-200/40 dark:border-zinc-800/40 flex flex-col gap-10">
-        <h2 className="font-display text-2xl font-bold text-center dark:text-white">Trusted by Women Globally</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {testimonials.map((test, idx) => (
-            <div key={idx} className="flex flex-col gap-4 p-6 bg-white/60 dark:bg-zinc-950/60 rounded-2xl border border-gray-150/40 dark:border-zinc-800/40 shadow-sm">
-              <p className="text-sm italic text-gray-600 dark:text-zinc-300 leading-relaxed">"{test.text}"</p>
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-feminine-lavender flex items-center justify-center font-bold text-xs text-feminine-purple">
-                  {test.author[0]}
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold dark:text-white">{test.author}</h4>
-                  <span className="text-[10px] text-gray-400">{test.role}</span>
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* Bottom copyright segment */}
+        <div className="border-t border-gray-100 dark:border-zinc-900 pt-6 flex justify-between items-center text-[10px] text-gray-400">
+          <span>© 2024 SAKHI. Precision in Care.</span>
         </div>
-      </section>
+      </footer>
 
-      {/* FAQs */}
-      <section className="glass-panel p-8 sm:p-12 rounded-3xl flex flex-col gap-8">
-        <h2 className="font-display text-2xl font-bold text-center dark:text-white">Platform FAQ</h2>
-        <div className="flex flex-col gap-4 max-w-3xl mx-auto w-full">
-          {faqs.map((faq, index) => {
-            const isOpen = activeFaq === index;
-            return (
-              <div key={index} className="border-b border-gray-100 dark:border-zinc-800 pb-4">
-                <button
-                  onClick={() => setActiveFaq(isOpen ? null : index)}
-                  className="w-full flex justify-between items-center py-2 text-left font-display font-semibold text-gray-900 dark:text-white hover:text-feminine-pink transition-colors"
-                >
-                  <span className="flex items-center gap-2.5">
-                    <HelpCircle size={18} className="text-feminine-pink shrink-0" />
-                    {faq.q}
-                  </span>
-                  <ChevronRight size={16} className={`transform transition-transform ${isOpen ? 'rotate-90' : ''}`} />
-                </button>
-                {isOpen && (
-                  <p className="pl-7 mt-2 text-xs text-gray-500 dark:text-zinc-400 leading-relaxed animate-fade-in">
-                    {faq.a}
-                  </p>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </section>
     </div>
   );
 }
@@ -263,16 +554,16 @@ export function AboutPage() {
       <div className="glass-panel p-12 rounded-3xl bg-gradient-to-tr from-purple-50/50 to-pink-50/50 dark:from-zinc-900/40 dark:to-zinc-950/40 text-center flex flex-col items-center gap-4">
         <h1 className="font-display text-4xl font-extrabold tracking-tight dark:text-white">Our Intimate Vision</h1>
         <p className="text-gray-500 dark:text-zinc-400 max-w-2xl leading-relaxed text-sm">
-          HerCare AI operates to digitize intimate biological tracking variables and clinical access, enabling comprehensive healthcare awareness for girls and women globally.
+          SAKHI operates to digitize intimate biological tracking variables and clinical access, enabling comprehensive healthcare awareness for girls and women globally.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div className="flex flex-col gap-6">
           <span className="text-[10px] uppercase font-bold text-feminine-pink tracking-widest bg-feminine-pink/10 px-3 py-1 rounded-full w-fit">Company Story</span>
-          <h2 className="font-display text-2xl font-bold dark:text-white">How HerCare Began</h2>
+          <h2 className="font-display text-2xl font-bold dark:text-white">How SAKHI Began</h2>
           <p className="text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
-            Founded in 2026, HerCare AI emerged from a shared biological vision: clinical period cycle logging and customized nutritional programs should be easily accessible to everyone. We compiled modern OpenAI prompt diagnostics with HIPAA security blueprints to construct a comprehensive wellness ecosystem.
+            Founded in 2026, SAKHI emerged from a shared biological vision: clinical period cycle logging and customized nutritional programs should be easily accessible to everyone. We compiled modern OpenAI prompt diagnostics with HIPAA security blueprints to construct a comprehensive wellness ecosystem.
           </p>
         </div>
         <div className="glass-panel p-8 rounded-2xl flex flex-col gap-6 bg-feminine-lavender/30 dark:bg-zinc-900/30">
@@ -415,7 +706,7 @@ export function ContactPage() {
               </div>
               <div>
                 <strong className="block dark:text-white">Email Address</strong>
-                <span className="text-xs text-gray-500 dark:text-zinc-400">support@hercare.ai</span>
+                <span className="text-xs text-gray-500 dark:text-zinc-400">support@sakhi.ai</span>
               </div>
             </div>
 
@@ -503,7 +794,7 @@ export function AuthPage({ view, setPage, setUser }) {
   const [firstName, setFirstName] = useState('Ananya');
 
   const handleLogin = (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     if (!email || !password) return;
     
     // Simulate JWT authentication callback
@@ -511,141 +802,339 @@ export function AuthPage({ view, setPage, setUser }) {
       firstName: firstName || 'Ananya',
       lastName: 'Sharma',
       email: email,
-      isAdmin: email === 'admin@hercare.ai' || email === 'ananya@example.com',
+      isAdmin: email === 'admin@sakhi.ai' || email === 'ananya@example.com',
       subscriptionPlan: 'standard'
     });
     setPage('dashboard');
   };
 
   return (
-    <div className="slide-in flex items-center justify-center min-h-[500px]">
-      <div className="glass-panel p-8 sm:p-10 rounded-3xl w-full max-w-[420px] flex flex-col gap-6 border border-gray-200/50 dark:border-zinc-800">
+    <div className="slide-in flex items-center justify-center min-h-[600px] w-full max-w-5xl mx-auto rounded-3xl overflow-hidden glass-panel border border-gray-150/30 bg-white/70 dark:bg-zinc-950/20 shadow-xs">
+      <div className="grid grid-cols-1 md:grid-cols-12 w-full min-h-[600px]">
         
-        {/* Brand */}
-        <div className="text-center flex flex-col items-center gap-2">
-          <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white flex items-center justify-center font-extrabold text-lg">
-            H
+        {/* Left Side: Gradient Promo Block */}
+        <div className="hidden md:flex md:col-span-5 bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white p-10 flex-col justify-between text-left relative overflow-hidden">
+          {/* Abstract circles */}
+          <div className="absolute -top-10 -left-10 h-40 w-40 rounded-full bg-white/10 blur-xl"></div>
+          <div className="absolute -bottom-20 -right-20 h-60 w-60 rounded-full bg-white/10 blur-2xl"></div>
+
+          <div className="flex flex-col gap-2 relative z-10">
+            <span className="font-display font-extrabold tracking-tight text-2xl">SAKHI</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest bg-white/25 px-2.5 py-0.5 rounded-full w-fit">Care & Precision</span>
           </div>
-          <h2 className="font-display font-extrabold text-xl dark:text-white">
-            {view === 'login' ? 'Welcome Back' : view === 'signup' ? 'Create Account' : 'Reset Password'}
-          </h2>
-          <span className="text-xs text-gray-400 dark:text-zinc-500">
-            {view === 'login' ? 'Sign in to access your health logs.' : 'Initialize your intimate dashboard.'}
-          </span>
+
+          <div className="flex flex-col gap-4 relative z-10">
+            <h3 className="font-display text-2xl font-extrabold leading-tight">
+              Empowering your wellness with scientific clinical logs.
+            </h3>
+            <p className="text-xs text-white/80 leading-relaxed">
+              Join thousands of women who securely track period cycles, consult top gynecologists, analyze biological variables, and access AI-driven nutritional strategies daily.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-1 relative z-10">
+            <span className="text-[10px] text-white/60 font-bold uppercase tracking-wider">Clinical Standards</span>
+            <span className="text-xs font-semibold">100% HIPAA & GDPR Compliant</span>
+          </div>
         </div>
 
-        {/* Forms */}
-        {view === 'forgot' ? (
-          <form onSubmit={() => alert('Verification reset link queued. Check your inbox.')} className="flex flex-col gap-4 text-xs">
-            <div className="flex flex-col gap-1.5">
-              <span className="font-semibold text-gray-650 dark:text-zinc-400">Email Address</span>
-              <div className="relative">
-                <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input 
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200" 
-                  required 
-                />
-              </div>
-            </div>
-            <button type="submit" className="rounded-full bg-feminine-pink text-white py-3.5 font-bold shadow-lg shadow-pink-500/20">
-              Send Reset Link
-            </button>
-            <button type="button" onClick={() => setPage('login')} className="text-center font-bold text-feminine-purple hover:underline mt-2">
-              Back to Login
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleLogin} className="flex flex-col gap-4 text-xs">
-            
-            {view === 'signup' && (
-              <div className="flex flex-col gap-1.5 animate-fade-in">
-                <span className="font-semibold text-gray-650 dark:text-zinc-400">First Name</span>
+        {/* Right Side: Auth Form */}
+        <div className="col-span-1 md:col-span-7 p-8 sm:p-12 flex flex-col justify-center gap-6 bg-white/40 dark:bg-zinc-900/10 text-left animate-fade-in">
+          <div className="flex flex-col gap-1.5">
+            <h2 className="font-display font-extrabold text-2xl text-[var(--text-primary)]">
+              {view === 'login' ? 'Welcome Back' : view === 'signup' ? 'Create Account' : 'Reset Password'}
+            </h2>
+            <span className="text-xs text-[var(--text-secondary)] font-extrabold">
+              {view === 'login' ? 'Sign in to access your private health dashboard.' : 'Initialize your secure, personalized care logs.'}
+            </span>
+          </div>
+
+          {/* Forms */}
+          {view === 'forgot' ? (
+            <form onSubmit={() => alert('Verification reset link queued. Check your inbox.')} className="flex flex-col gap-4 text-xs">
+              <div className="flex flex-col gap-1.5">
+                <span className="font-semibold text-gray-600 dark:text-zinc-405">Email Address</span>
                 <div className="relative">
-                  <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input 
-                    type="text" 
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200" 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/50 outline-none text-gray-700 dark:text-zinc-200 focus:border-feminine-pink transition-colors font-semibold" 
                     required 
                   />
                 </div>
               </div>
+              <button type="submit" className="rounded-full bg-feminine-pink hover:bg-feminine-pink/90 text-white py-3.5 font-bold shadow-lg shadow-pink-500/20 transition-all duration-300">
+                Send Reset Link
+              </button>
+              <button type="button" onClick={() => setPage('login')} className="text-center font-bold text-feminine-purple hover:underline mt-2">
+                Back to Login
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleLogin} className="flex flex-col gap-4 text-xs">
+              
+              {view === 'signup' && (
+                <div className="flex flex-col gap-1.5 animate-fade-in">
+                  <span className="font-semibold text-gray-600 dark:text-zinc-405">First Name</span>
+                  <div className="relative">
+                    <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input 
+                      type="text" 
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/50 outline-none text-gray-700 dark:text-zinc-200 focus:border-feminine-pink transition-colors font-semibold" 
+                      required 
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-1.5">
+                <span className="font-semibold text-gray-600 dark:text-zinc-405">Email Address</span>
+                <div className="relative">
+                  <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/50 outline-none text-gray-750 dark:text-zinc-200 focus:border-feminine-pink transition-colors font-semibold" 
+                    required 
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-gray-600 dark:text-zinc-405">Password</span>
+                  {view === 'login' && (
+                    <button type="button" onClick={() => setPage('forgot')} className="font-bold text-[10px] text-feminine-purple hover:underline">
+                      Forgot Password?
+                    </button>
+                  )}
+                </div>
+                <div className="relative">
+                  <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input 
+                    type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/50 outline-none text-gray-700 dark:text-zinc-200 focus:border-feminine-pink transition-colors" 
+                    required 
+                  />
+                </div>
+              </div>
+
+              <button 
+                type="submit" 
+                onClick={handleLogin}
+                className="rounded-full bg-gradient-to-r from-feminine-pink to-feminine-purple py-3.5 font-bold text-white shadow-xl shadow-pink-500/20 active:scale-98 transition-all duration-300 cursor-pointer"
+              >
+                {view === 'login' ? 'Authenticate Sign In' : 'Register Account'}
+              </button>
+
+              <div className="relative flex py-1 items-center">
+                <div className="flex-grow border-t border-gray-200/60 dark:border-zinc-800"></div>
+                <span className="flex-shrink mx-4 text-[9px] text-gray-400 font-bold uppercase tracking-wider">or authenticate with</span>
+                <div className="flex-grow border-t border-gray-200/60 dark:border-zinc-800"></div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setUser({ firstName: 'Ananya', lastName: 'Sharma', email: 'ananya@example.com', subscriptionPlan: 'standard' });
+                  setPage('dashboard');
+                }}
+                className="w-full flex items-center justify-center gap-2 rounded-full border border-gray-200 bg-white dark:bg-zinc-900 py-3 font-bold text-xs text-gray-700 dark:text-zinc-205 hover:bg-gray-50/50 transition-colors"
+              >
+                <Globe size={14} className="text-red-500 animate-pulse" /> Google Authentication
+              </button>
+
+              <span className="text-center text-[11px] text-gray-450 mt-1">
+                {view === 'login' ? 'Need an account? ' : 'Have an account already? '}
+                <button 
+                  type="button"
+                  onClick={() => setPage(view === 'login' ? 'signup' : 'login')}
+                  className="font-bold text-feminine-purple hover:underline"
+                >
+                  {view === 'login' ? 'Register here' : 'Login here'}
+                </button>
+              </span>
+
+            </form>
+          )}
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+// =================== 6. USER PROFILE VIEW ===================
+export function ProfilePage({ user, setUser }) {
+  const [firstName, setFirstName] = useState(user?.firstName || 'Ananya');
+  const [lastName, setLastName] = useState(user?.lastName || 'Sharma');
+  const [email, setEmail] = useState(user?.email || 'ananya@example.com');
+  const [age, setAge] = useState('25');
+  const [cycleLength, setCycleLength] = useState('28');
+  const [sleepTarget, setSleepTarget] = useState('8');
+  const [waterTarget, setWaterTarget] = useState('2.5');
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    setUser(prev => ({
+      ...prev,
+      firstName,
+      lastName,
+      email
+    }));
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  return (
+    <div className="slide-in flex flex-col gap-8 text-left max-w-4xl mx-auto animate-fade-in">
+      <div>
+        <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)]">
+          My Health Profile
+        </h1>
+        <p className="text-xs text-[var(--text-secondary)] font-extrabold uppercase tracking-wider mt-1">
+          Manage your biological details, tracking parameters, and active care plan.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        {/* Left Column: Summary Card */}
+        <div className="md:col-span-1 flex flex-col gap-6">
+          <div className="glass-panel p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-gray-150/30 flex flex-col items-center text-center gap-4 shadow-xs">
+            {/* Circular Avatar */}
+            <div className="h-24 w-24 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white flex items-center justify-center font-extrabold text-3xl shadow-xl border-4 border-white dark:border-zinc-800 relative">
+              {firstName[0]}
+              <span className="absolute bottom-1 right-1 h-4.5 w-4.5 rounded-full bg-emerald-500 border-2 border-white dark:border-zinc-800" title="Online Session"></span>
+            </div>
+            
+            <div>
+              <h3 className="font-display font-extrabold text-base text-[var(--text-primary)]">
+                {firstName} {lastName}
+              </h3>
+              <span className="text-xs text-[var(--text-secondary)] font-bold block mt-0.5">{email}</span>
+            </div>
+
+            {/* Active Subscription badge */}
+            <div className="w-full bg-feminine-pink/10 border border-feminine-pink/20 rounded-2xl py-3 px-4 flex flex-col gap-1 mt-2">
+              <span className="text-[9px] font-extrabold uppercase tracking-widest text-feminine-pink">Care Subscription</span>
+              <strong className="text-xs text-[var(--text-primary)]">{view === 'premium' ? 'Premium Pass' : 'SAKHI Premium Pass'}</strong>
+              <span className="text-[10px] text-[var(--text-secondary)]">Renews on Nov 24, 2026</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Editing Form */}
+        <div className="md:col-span-2 flex flex-col gap-6">
+          <form onSubmit={handleSave} className="glass-panel p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-gray-150/30 flex flex-col gap-6">
+            <h3 className="font-display font-extrabold text-lg border-b border-gray-100 dark:border-zinc-800 pb-3 dark:text-white">
+              Personal Information
+            </h3>
+
+            {saved && (
+              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-250 text-emerald-600 font-bold text-xs flex items-center gap-2 animate-fade-in">
+                ✓ Clinical records updated successfully.
+              </div>
             )}
 
-            <div className="flex flex-col gap-1.5">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5 text-xs">
+                <span className="font-semibold text-gray-650 dark:text-zinc-400">First Name</span>
+                <input 
+                  type="text" 
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="p-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200 font-semibold"
+                  required
+                />
+              </div>
+              <div className="flex flex-col gap-1.5 text-xs">
+                <span className="font-semibold text-gray-650 dark:text-zinc-400">Last Name</span>
+                <input 
+                  type="text" 
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="p-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200 font-semibold"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5 text-xs">
               <span className="font-semibold text-gray-650 dark:text-zinc-400">Email Address</span>
-              <div className="relative">
-                <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="p-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200 font-semibold"
+                required
+              />
+            </div>
+
+            <h3 className="font-display font-extrabold text-lg border-b border-gray-100 dark:border-zinc-800 pt-2 pb-3 dark:text-white">
+              Biological & Health Parameters
+            </h3>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5 text-xs">
+                <span className="font-semibold text-gray-650 dark:text-zinc-400">Biological Age</span>
                 <input 
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200" 
-                  required 
+                  type="number" 
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  className="p-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200"
+                  required
+                />
+              </div>
+              <div className="flex flex-col gap-1.5 text-xs">
+                <span className="font-semibold text-gray-650 dark:text-zinc-400">Cycle Duration (Days)</span>
+                <input 
+                  type="number" 
+                  value={cycleLength}
+                  onChange={(e) => setCycleLength(e.target.value)}
+                  className="p-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200"
+                  required
                 />
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <div className="flex justify-between items-center">
-                <span className="font-semibold text-gray-655 dark:text-zinc-400">Password</span>
-                {view === 'login' && (
-                  <button type="button" onClick={() => setPage('forgot')} className="font-bold text-[10px] text-feminine-purple hover:underline">
-                    Forgot Password?
-                  </button>
-                )}
-              </div>
-              <div className="relative">
-                <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5 text-xs">
+                <span className="font-semibold text-gray-650 dark:text-zinc-400">Daily Sleep Target (Hours)</span>
                 <input 
-                  type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200" 
-                  required 
+                  type="number" 
+                  value={sleepTarget}
+                  onChange={(e) => setSleepTarget(e.target.value)}
+                  className="p-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200"
+                  required
+                />
+              </div>
+              <div className="flex flex-col gap-1.5 text-xs">
+                <span className="font-semibold text-gray-650 dark:text-zinc-400">Hydration Target (Liters)</span>
+                <input 
+                  type="number" 
+                  step="0.1"
+                  value={waterTarget}
+                  onChange={(e) => setWaterTarget(e.target.value)}
+                  className="p-3 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 outline-none text-gray-700 dark:text-zinc-200"
+                  required
                 />
               </div>
             </div>
 
-            <button type="submit" className="rounded-full bg-gradient-to-r from-feminine-pink to-feminine-purple py-3.5 font-bold text-white shadow-xl shadow-pink-500/25">
-              {view === 'login' ? 'Authenticate Login' : 'Register Account'}
+            <button type="submit" className="rounded-full bg-gradient-to-r from-feminine-pink to-feminine-purple py-3.5 text-xs font-bold text-white shadow-lg active:scale-95 transition-all">
+              Save Parameters
             </button>
-
-            {/* Google Sign-In */}
-            <div className="relative flex py-2 items-center">
-              <div className="flex-grow border-t border-gray-200 dark:border-zinc-800"></div>
-              <span className="flex-shrink mx-4 text-[10px] text-gray-400 font-bold uppercase tracking-wider">or sign in with</span>
-              <div className="flex-grow border-t border-gray-200 dark:border-zinc-800"></div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                setUser({ firstName: 'Ananya', email: 'ananya@example.com', subscriptionPlan: 'standard' });
-                setPage('dashboard');
-              }}
-              className="w-full flex items-center justify-center gap-2 rounded-full border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-3 font-semibold text-gray-700 dark:text-zinc-200 hover:bg-gray-50"
-            >
-              <Globe size={14} className="text-red-500" /> Google Authentication
-            </button>
-
-            <span className="text-center text-[11px] text-gray-400 mt-2">
-              {view === 'login' ? 'Need an account? ' : 'Have an account already? '}
-              <button 
-                type="button"
-                onClick={() => setPage(view === 'login' ? 'signup' : 'login')}
-                className="font-bold text-feminine-purple hover:underline"
-              >
-                {view === 'login' ? 'Register here' : 'Login here'}
-              </button>
-            </span>
-
           </form>
-        )}
+        </div>
 
       </div>
     </div>

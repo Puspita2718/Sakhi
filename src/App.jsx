@@ -6,7 +6,8 @@ import {
   AboutPage, 
   BlogPage, 
   ContactPage, 
-  AuthPage 
+  AuthPage,
+  ProfilePage 
 } from './components/PublicPages';
 import Dashboard from './components/Dashboard';
 import BloodAnalysis from './components/BloodAnalysis';
@@ -18,10 +19,19 @@ import EmergencySystem from './components/EmergencySystem';
 import AdminPanel from './components/AdminPanel';
 import ServerBlueprints from './components/ServerBlueprints';
 
-import { Menu, ShieldAlert, Heart, Info, ArrowRight } from 'lucide-react';
+import { Menu, ShieldAlert, Heart, Info, ArrowRight, Globe, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function App() {
+  const languages = [
+    { code: 'en', name: 'EN' },
+    { code: 'hi', name: 'HI' },
+    { code: 'bn', name: 'BN' },
+    { code: 'ta', name: 'TA' },
+    { code: 'te', name: 'TE' },
+    { code: 'mr', name: 'MR' }
+  ];
+
   // Navigation & Page State
   // Public pages: 'home', 'about', 'blog', 'contact', 'login', 'signup', 'forgot', 'verification', 'server-blueprints'
   // Private dashboard: 'dashboard', 'calendar', 'blood-analysis', 'ai-chat', 'diet-fitness', 'zen', 'community', 'admin'
@@ -65,7 +75,7 @@ export default function App() {
   const isPublicPage = ['home', 'about', 'blog', 'contact', 'login', 'signup', 'forgot', 'verification', 'server-blueprints'].includes(page);
 
   return (
-    <div className="min-h-screen flex flex-col bg-feminine-light dark:bg-feminine-dark text-gray-900 dark:text-zinc-100 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
       
       {/* 1. PUBLIC PAGES CONTAINER (Header + Footer + Page viewport) */}
       {!user || isPublicPage ? (
@@ -117,11 +127,11 @@ export default function App() {
             <div className="mx-auto max-w-7xl px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
               <div className="flex items-center gap-2">
                 <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white flex items-center justify-center font-bold text-xs">
-                  H
+                  S
                 </div>
-                <span className="font-display font-extrabold tracking-tight dark:text-white text-sm">HerCare AI</span>
+                <span className="font-display font-extrabold tracking-tight dark:text-white text-sm">SAKHI</span>
               </div>
-              <span>© 2026 HerCare AI Inc. All rights reserved. HIPAA & GDPR Certified.</span>
+              <span>© 2026 SAKHI Inc. All rights reserved. HIPAA & GDPR Certified.</span>
             </div>
           </footer>
         </div>
@@ -143,25 +153,54 @@ export default function App() {
           </div>
 
           {/* Mobile Top Header */}
-          <div className="lg:hidden fixed top-0 left-0 w-full h-14 bg-white/70 dark:bg-zinc-950/80 backdrop-blur-md border-b border-gray-200/50 dark:border-zinc-800 flex items-center justify-between px-6 z-50">
+          <div className="lg:hidden fixed top-0 left-0 w-full h-14 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-gray-200/50 dark:border-zinc-800/80 flex items-center justify-between px-6 z-50 transition-colors duration-300">
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gray-700 dark:text-zinc-200 cursor-pointer"
+                className="text-gray-800 dark:text-zinc-200 cursor-pointer"
               >
                 <Menu size={22} />
               </button>
               <h2 className="font-display font-extrabold text-lg bg-gradient-to-r from-feminine-pink to-feminine-purple bg-clip-text text-transparent">
-                HerCare AI
+                SAKHI
               </h2>
             </div>
             
-            <button 
-              onClick={() => setEmergencyActive(true)}
-              className="h-8 w-8 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center cursor-pointer"
-            >
-              <ShieldAlert size={18} />
-            </button>
+            <div className="flex items-center gap-2">
+              {/* Language Selector */}
+              <div className="flex items-center gap-1 bg-gray-100/90 dark:bg-zinc-900/90 rounded-full px-2 py-0.5 border border-gray-200 dark:border-zinc-800">
+                <Globe size={11} className="text-feminine-pink" />
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="bg-transparent text-[9px] font-extrabold text-gray-850 dark:text-zinc-200 outline-none cursor-pointer"
+                >
+                  {languages.map((lang) => (
+                    <option key={lang.code} value={lang.code} className="dark:bg-zinc-950">
+                      {lang.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Theme Toggle */}
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
+                title="Toggle Theme"
+              >
+                {darkMode ? <Sun size={12} className="text-amber-400" /> : <Moon size={12} className="text-gray-700 dark:text-zinc-350" />}
+              </button>
+
+              {/* SOS Emergency Button */}
+              <button 
+                onClick={() => setEmergencyActive(true)}
+                className="h-8 w-8 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center cursor-pointer hover:bg-red-500/20 active:scale-95 transition-all"
+                title="SOS Emergency"
+              >
+                <ShieldAlert size={18} />
+              </button>
+            </div>
           </div>
 
           {/* Mobile Drawer Overlay */}
@@ -171,7 +210,7 @@ export default function App() {
                 className="fixed inset-0 bg-black/40 backdrop-blur-xs" 
                 onClick={() => setMobileMenuOpen(false)}
               ></div>
-              <div className="relative w-64 bg-white dark:bg-zinc-950 h-full shadow-2xl flex flex-col pt-14">
+              <div className="relative w-64 bg-white dark:bg-zinc-950 h-full shadow-2xl flex flex-col pt-14 animate-slide-in">
                 <Sidebar 
                   activeTab={page} 
                   setActiveTab={handleSidebarTabShift}
@@ -189,10 +228,10 @@ export default function App() {
           <div className="flex-grow flex flex-col lg:pl-0 pt-14 lg:pt-0">
             
             {/* Top Private header */}
-            <div className="hidden lg:flex h-16 border-b border-gray-250/20 dark:border-zinc-800 bg-white/30 dark:bg-zinc-950/20 items-center justify-between px-10">
+            <div className="hidden lg:flex h-16 border-b border-gray-200 dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-950/50 items-center justify-between px-10 backdrop-blur-md transition-colors duration-300">
               <div className="flex items-center gap-2">
                 <Info size={14} className="text-feminine-pink animate-bounce" />
-                <span className="text-xs text-gray-500 dark:text-zinc-400 font-semibold">
+                <span className="text-xs text-gray-800 dark:text-zinc-200 font-bold">
                   Intimate Health tracking is online. JWT Verification Session: active.
                 </span>
               </div>
@@ -201,20 +240,49 @@ export default function App() {
                 {user.isAdmin && (
                   <button
                     onClick={() => setPage(page === 'admin' ? 'dashboard' : 'admin')}
-                    className="flex items-center gap-1 bg-indigo-100 dark:bg-indigo-950/30 border border-indigo-200/50 text-indigo-600 dark:text-indigo-400 rounded-full px-3 py-1 text-xs font-bold"
+                    className="flex items-center gap-1 bg-indigo-100 dark:bg-indigo-950/30 border border-indigo-200/50 text-indigo-700 dark:text-indigo-400 rounded-full px-3 py-1 text-xs font-extrabold hover:bg-indigo-200 dark:hover:bg-indigo-900 transition-colors"
                   >
                     {page === 'admin' ? 'View Dashboard' : 'Admin Panel'}
                   </button>
                 )}
+
+                {/* Global Controls: Language & Theme */}
+                <div className="flex items-center gap-3 mr-1.5 border-r border-gray-200 dark:border-zinc-800 pr-3">
+                  {/* Language Selector */}
+                  <div className="flex items-center gap-1.5 bg-gray-100/90 dark:bg-zinc-900/95 rounded-full px-2.5 py-1 border border-gray-200 dark:border-zinc-800/80 shadow-xs hover:border-feminine-pink/30 transition-all duration-300">
+                    <Globe size={13} className="text-feminine-pink" />
+                    <select
+                      value={language}
+                      onChange={(e) => setLanguage(e.target.value)}
+                      className="bg-transparent text-[11px] font-extrabold text-gray-850 dark:text-zinc-200 outline-none cursor-pointer"
+                    >
+                      {languages.map((lang) => (
+                        <option key={lang.code} value={lang.code} className="dark:bg-zinc-950 font-semibold">
+                          {lang.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Theme Toggle */}
+                  <button
+                    onClick={() => setDarkMode(!darkMode)}
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-900 transition-all duration-300 cursor-pointer shadow-xs"
+                    title="Toggle Theme"
+                  >
+                    {darkMode ? <Sun size={14} className="text-amber-400" /> : <Moon size={14} className="text-gray-700 dark:text-zinc-300" />}
+                  </button>
+                </div>
                 
                 <div 
-                  className="flex items-center gap-2.5 cursor-pointer"
-                  onClick={() => setPage('dashboard')}
+                  className="flex items-center gap-2.5 cursor-pointer group"
+                  onClick={() => setPage('profile')}
+                  title="View Profile Settings"
                 >
-                  <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white flex items-center justify-center font-bold text-xs shadow-md border border-white">
+                  <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white flex items-center justify-center font-bold text-xs shadow-md border border-white group-hover:scale-105 transition-transform duration-300">
                     {user.firstName[0]}
                   </div>
-                  <span className="text-xs font-bold dark:text-zinc-200">{user.firstName}</span>
+                  <span className="text-xs font-extrabold text-gray-850 dark:text-zinc-200">{user.firstName}</span>
                 </div>
                 
                 <button 
@@ -222,7 +290,7 @@ export default function App() {
                     setUser(null);
                     setPage('home');
                   }}
-                  className="text-xs font-bold text-gray-400 hover:text-feminine-pink transition-colors ml-2"
+                  className="text-xs font-extrabold text-gray-500 hover:text-feminine-pink transition-colors ml-2 cursor-pointer"
                 >
                   Logout
                 </button>
@@ -241,6 +309,12 @@ export default function App() {
                 >
                   {page === 'admin' && user.isAdmin && (
                     <AdminPanel language={language} />
+                  )}
+                  {page === 'landing' && (
+                    <HomePage setPage={setPage} language={language} setUser={setUser} />
+                  )}
+                  {page === 'profile' && (
+                    <ProfilePage user={user} setUser={setUser} />
                   )}
                   {(page === 'dashboard' || page === 'calendar') && (
                     <Dashboard 

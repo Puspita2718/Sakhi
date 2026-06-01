@@ -24,7 +24,6 @@ export default function Sidebar({
   triggerEmergency
 }) {
   const menuItems = [
-    { id: 'landing', label: { en: 'Home', hi: 'मुख्य पृष्ठ', bn: 'হোম', ta: 'முகப்பு', te: 'హోమ్', mr: 'होम' }, icon: Heart },
     { id: 'dashboard', label: { en: 'Dashboard', hi: 'डैशबोर्ड', bn: 'ড্যাশবোর্ড', ta: 'டாஷ்போர்டு', te: 'డాష్‌బోర్డ్', mr: 'डॅशबोर्ड' }, icon: Activity },
     { id: 'calendar', label: { en: 'Cycle Tracker', hi: 'चक्र ट्रैकर', bn: 'পিরিয়ড ট্র্যাকার', ta: 'மாதவிடாய் காட்டி', te: 'ఋతు చక్రం', mr: 'सायकल ट्रॅकर' }, icon: Calendar },
     { id: 'blood-analysis', label: { en: 'Blood Analysis', hi: 'रक्त विश्लेषण', bn: 'রক্ত বিশ্লেষণ', ta: 'இரத்த பகுப்பாய்வு', te: 'రక్త విశ్లేషణ', mr: 'रक्त विश्लेषण' }, icon: Droplet },
@@ -47,13 +46,13 @@ export default function Sidebar({
     <nav className="sidebar-nav glass-panel" style={{ borderRadius: '0', borderLeft: 'none', borderTop: 'none', borderBottom: 'none' }}>
       <div style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid var(--border-color)' }} className="sidebar-header-desktop">
         <div style={{ background: 'linear-gradient(135deg, var(--primary), var(--secondary))', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
-          H
+          S
         </div>
         <div>
           <h2 style={{ fontSize: '18px', fontWeight: '800', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            HerCare AI
+            SAKHI
           </h2>
-          <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '500' }}>Swasthya Mitra Engine</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '500' }}>SAKHI Engine</span>
         </div>
       </div>
 
@@ -119,58 +118,6 @@ export default function Sidebar({
         </button>
       </div>
 
-      <div style={{ padding: '20px', borderTop: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '12px' }} className="sidebar-footer-desktop">
-        {/* Language Selection */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Globe size={16} style={{ color: 'var(--text-secondary)' }} />
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            style={{
-              flexGrow: 1,
-              padding: '6px 10px',
-              borderRadius: 'var(--radius-sm)',
-              border: '1px solid var(--border-color)',
-              background: 'var(--bg-secondary)',
-              color: 'var(--text-primary)',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '13px',
-              outline: 'none',
-              cursor: pointerStyle
-            }}
-          >
-            {languages.map((lang) => (
-              <option key={lang.code} value={lang.code}>
-                {lang.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Theme Toggle */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-            {darkMode ? (language === 'en' ? 'Dark Mode' : 'डार्क मोड') : (language === 'en' ? 'Light Mode' : 'लाइट मोड')}
-          </span>
-          <button
-            onClick={toggleDarkMode}
-            style={{
-              background: 'var(--bg-primary)',
-              border: '1px solid var(--border-color)',
-              color: varColorTextPrimary,
-              cursor: pointerStyle,
-              padding: '8px',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'var(--transition)'
-            }}
-          >
-            {darkMode ? <Sun size={16} style={{ color: 'hsl(45, 100%, 50%)' }} /> : <Moon size={16} />}
-          </button>
-        </div>
-      </div>
     </nav>
   );
 }

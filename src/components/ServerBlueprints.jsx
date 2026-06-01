@@ -78,7 +78,7 @@ exports.logDailyMetrics = async (req, res) => {
         <h1 className="font-display text-3xl font-extrabold tracking-tight dark:text-white flex items-center gap-2.5">
           <Cpu size={28} className="text-feminine-purple" /> Scalable Node.js & MongoDB Blueprints
         </h1>
-        <p className="text-xs text-gray-500 dark:text-zinc-400 mt-1">Review the production-ready Mongoose database schemas and Express.js REST controllers compiled for HerCare AI.</p>
+        <p className="text-xs text-gray-500 dark:text-zinc-400 mt-1">Review the production-ready Mongoose database schemas and Express.js REST controllers compiled for SAKHI.</p>
       </div>
 
       {/* Selector */}

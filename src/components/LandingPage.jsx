@@ -18,7 +18,7 @@ export default function LandingPage({ language, setTab }) {
   const t = {
     en: {
       heroTitle: 'AI-Powered Precision Women\'s Health Platform',
-      heroSub: 'HerCare AI serves as your clinical Swasthya Mitra. Predict cycles, analyze symptoms, consult top doctors, and manage holistic wellness through end-to-end secure technology.',
+      heroSub: 'SAKHI serves as your clinical health companion. Predict cycles, analyze symptoms, consult top doctors, and manage holistic wellness through end-to-end secure technology.',
       explore: 'Explore Dashboard',
       download: 'Mobile App Mockup',
       daysCountdown: 'Next Period in',
@@ -38,7 +38,7 @@ export default function LandingPage({ language, setTab }) {
     },
     hi: {
       heroTitle: 'एआई-संचालित सटीक महिला स्वास्थ्य मंच',
-      heroSub: 'HerCare AI आपकी क्लिनिकल स्वास्थ्य मित्र के रूप में कार्य करता है। चक्रों की भविष्यवाणी करें, लक्षणों का विश्लेषण करें, शीर्ष डॉक्टरों से परामर्श करें और समग्र कल्याण का प्रबंधन करें।',
+      heroSub: 'SAKHI आपकी क्लिनिकल स्वास्थ्य सखी के रूप में कार्य करता है। चक्रों की भविष्यवाणी करें, लक्षणों का विश्लेषण करें, शीर्ष डॉक्टरों से परामर्श करें और समग्र कल्याण का प्रबंधन करें।',
       explore: 'डैशबोर्ड देखें',
       download: 'मोबाइल ऐप मॉकअप',
       daysCountdown: 'अगली अवधि',

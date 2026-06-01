@@ -3,45 +3,82 @@
 @import "tailwindcss";
 
 @theme {
-  --color-feminine-light: hsl(280, 40%, 98%);
-  --color-feminine-pink: hsl(330, 70%, 48%);
-  --color-feminine-purple: hsl(265, 60%, 55%);
-  --color-feminine-lavender: hsl(275, 65%, 92%);
+  --color-feminine-light: hsl(340, 50%, 98.5%);
+  --color-feminine-pink: hsl(340, 75%, 45%);
+  --color-feminine-purple: hsl(285, 20%, 30%);
+  --color-feminine-lavender: hsl(340, 75%, 93%);
   --color-feminine-dark: hsl(285, 20%, 8%);
   
   --font-display: 'Outfit', 'Inter', sans-serif;
   --font-sans: 'Inter', sans-serif;
 }
+:root {
+  --primary: hsl(340, 75%, 45%);
+  --primary-light: hsl(340, 75%, 97.5%);
+  --secondary: hsl(285, 20%, 30%);
+  --secondary-light: hsl(340, 75%, 93%);
+  --bg-primary: hsl(340, 50%, 98.5%); /* Premium warm cream/pinkish white matching Photo 1 & 2 */
+  --bg-secondary: #ffffff;
+  --text-primary: hsl(215, 28%, 10%); /* Highly polished dark carbon-charcoal */
+  --text-secondary: hsl(215, 20%, 28%); /* Professional deep Slate-gray for superb legibility */
+  --border-color: rgba(200, 30, 86, 0.08); /* Soft crimson border */
+  --accent-pink: hsl(340, 75%, 95%);
+  --accent-lavender: hsl(275, 65%, 92%);
+  --danger: hsl(350, 75%, 50%);
+  --danger-light: hsl(350, 75%, 97%);
+  --success: hsl(150, 60%, 45%);
+  --success-light: hsl(150, 60%, 97%);
+  --radius-md: 16px;
+  --radius-sm: 8px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark {
+  --primary: hsl(340, 75%, 52%);
+  --primary-light: hsl(340, 60%, 15%);
+  --secondary: hsl(285, 25%, 45%);
+  --secondary-light: hsl(285, 30%, 18%);
+  --bg-primary: hsl(285, 20%, 6%);
+  --bg-secondary: hsl(285, 20%, 10%);
+  --text-primary: hsl(280, 20%, 92%);
+  --text-secondary: hsl(280, 10%, 65%);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --accent-pink: hsl(340, 60%, 15%);
+  --accent-lavender: hsl(275, 50%, 18%);
+  --danger: hsl(350, 70%, 55%);
+  --danger-light: hsl(350, 60%, 15%);
+  --success: hsl(150, 65%, 45%);
+  --success-light: hsl(150, 60%, 15%);
+}
 
 @utility glass-panel {
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: var(--bg-secondary);
   border-width: 1px;
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 32px 0 rgba(210, 180, 220, 0.15);
+  border-color: var(--border-color);
+  box-shadow: 0 10px 30px -5px rgba(210, 180, 220, 0.12), 0 1px 3px rgba(0, 0, 0, 0.01);
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
 }
 
 .dark .glass-panel {
-  background-color: rgba(20, 10, 30, 0.7);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
 }
 
 .glass-panel:hover {
-  box-shadow: 0 12px 40px 0 rgba(210, 180, 220, 0.25);
+  box-shadow: 0 15px 35px -5px rgba(210, 180, 220, 0.18), 0 2px 5px rgba(0, 0, 0, 0.02);
+  transform: translateY(-2px);
 }
 
 .dark .glass-panel:hover {
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
 }
 
 body {
-  background-color: var(--color-feminine-light);
-  color: hsl(285, 30%, 15%);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.6;
@@ -51,8 +88,8 @@ body {
 }
 
 .dark body {
-  background-color: var(--color-feminine-dark);
-  color: hsl(280, 20%, 92%);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 /* Custom premium scrollbar */

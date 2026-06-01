@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Sun, Moon, Globe, LogIn, UserCheck, Shield, BookOpen } from 'lucide-react';
+import { Heart, Sun, Moon, Globe, LogIn, UserCheck, Shield, BookOpen, Bell } from 'lucide-react';
 
 export default function Navbar({ 
   page, 
@@ -22,77 +22,82 @@ export default function Navbar({
     { code: 'mr', name: 'MR' }
   ];
 
+  const handleGetStarted = () => {
+    // Automatically log in Ananya to show the dashboard
+    setUser({
+      firstName: 'Ananya',
+      lastName: 'Sharma',
+      email: 'ananya@example.com',
+      isAdmin: true,
+      subscriptionPlan: 'standard'
+    });
+    setPage('dashboard');
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/20 dark:border-zinc-800 bg-white/70 dark:bg-zinc-950/80 backdrop-blur-md transition-colors duration-300">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-150 dark:border-zinc-900 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md transition-colors duration-300">
       <div className="mx-auto flex max-w-7xl h-16 items-center justify-between px-6">
         
-        {/* Brand Logo */}
+        {/* Brand Logo - SAKHI */}
         <div 
-          className="flex items-center gap-2.5 cursor-pointer group"
-          onClick={() => setPage('home')}
+          className="flex items-center gap-2 cursor-pointer group animate-fade-in"
+          onClick={() => {
+            setUser(null);
+            setPage('home');
+          }}
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white shadow-md shadow-pink-500/20 group-hover:scale-105 transition-transform duration-300">
-            <Heart size={20} fill="white" className="animate-pulse-slow" />
-          </div>
-          <div>
-            <span className="font-display text-xl font-extrabold tracking-tight bg-gradient-to-r from-feminine-pink to-feminine-purple bg-clip-text text-transparent">
-              HerCare AI
-            </span>
-            <span className="hidden sm:block text-[10px] text-gray-500 font-semibold uppercase tracking-wider -mt-1 dark:text-zinc-400">
-              Swasthya Mitra
-            </span>
-          </div>
+          <span className="font-display text-xl font-extrabold tracking-tight bg-gradient-to-r from-feminine-pink to-feminine-purple bg-clip-text text-transparent transition-transform duration-300 group-hover:scale-105">
+            SAKHI
+          </span>
         </div>
 
-        {/* Desktop Public Navigation Links */}
-        {!user && (
-          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-600 dark:text-zinc-300">
-            <button 
-              onClick={() => setPage('home')} 
-              className={`hover:text-feminine-pink transition-colors ${page === 'home' ? 'text-feminine-pink' : ''}`}
-            >
-              Home
-            </button>
-            <button 
-              onClick={() => setPage('about')} 
-              className={`hover:text-feminine-pink transition-colors ${page === 'about' ? 'text-feminine-pink' : ''}`}
-            >
-              About Us
-            </button>
-            <button 
-              onClick={() => setPage('blog')} 
-              className={`hover:text-feminine-pink transition-colors ${page === 'blog' ? 'text-feminine-pink' : ''}`}
-            >
-              Health Blog
-            </button>
-            <button 
-              onClick={() => setPage('contact')} 
-              className={`hover:text-feminine-pink transition-colors ${page === 'contact' ? 'text-feminine-pink' : ''}`}
-            >
-              Contact
-            </button>
-            <button 
-              onClick={() => setPage('server-blueprints')} 
-              className={`hover:text-feminine-pink transition-colors flex items-center gap-1.5 ${page === 'server-blueprints' ? 'text-feminine-pink' : ''}`}
-            >
-              <BookOpen size={14} /> Backend Blueprint
-            </button>
-          </nav>
-        )}
+        {/* Navigation Links (Both states match mockups) */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-gray-800 dark:text-zinc-200">
+          <button 
+            onClick={() => setPage('home')} 
+            className={`hover:text-feminine-pink transition-colors cursor-pointer ${page === 'home' ? 'text-feminine-pink' : ''}`}
+          >
+            Features
+          </button>
+          <button 
+            onClick={() => setPage('home')} 
+            className="hover:text-feminine-pink transition-colors cursor-pointer"
+          >
+            Knowledge Hub
+          </button>
+          <button 
+            onClick={() => setPage('home')} 
+            className="hover:text-feminine-pink transition-colors cursor-pointer"
+          >
+            Experts
+          </button>
+          <button 
+            onClick={() => {
+              if (user) {
+                setPage('community');
+              } else {
+                handleGetStarted();
+              }
+            }} 
+            className={`hover:text-feminine-pink transition-colors cursor-pointer ${page === 'community' ? 'text-feminine-pink' : ''}`}
+          >
+            Community
+          </button>
+        </nav>
 
         {/* Global Controls & Auth actions */}
         <div className="flex items-center gap-4">
           
           {/* Language Selector */}
-          <div className="flex items-center gap-1.5 bg-gray-100 dark:bg-zinc-800 rounded-full px-2.5 py-1">
-            <Globe size={13} className="text-gray-400" />
+          <div className="flex items-center gap-1.5 bg-gray-100/80 dark:bg-zinc-900/85 rounded-full px-2.5 py-1 border border-gray-200 dark:border-zinc-800/80 shadow-xs hover:border-feminine-pink/30 transition-all duration-300">
+            <Globe size={13} className="text-feminine-pink" />
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="bg-transparent text-[11px] font-bold text-gray-600 dark:text-zinc-300 outline-none cursor-pointer"
+              className="bg-transparent text-[11px] font-extrabold text-gray-850 dark:text-zinc-200 outline-none cursor-pointer"
             >
               {languages.map((lang) => (
-                <option key={lang.code} value={lang.code} className="dark:bg-zinc-900">
+                <option key={lang.code} value={lang.code} className="dark:bg-zinc-950">
                   {lang.name}
                 </option>
               ))}
@@ -102,56 +107,61 @@ export default function Navbar({
           {/* Theme Toggle */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-900 transition-all duration-300 cursor-pointer shadow-xs"
             title="Toggle Theme"
           >
-            {darkMode ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} className="text-gray-500" />}
+            {darkMode ? <Sun size={14} className="text-amber-400" /> : <Moon size={14} className="text-gray-700 dark:text-zinc-300" />}
           </button>
 
-          {/* Auth buttons */}
+          {/* Auth buttons / User Profile Info */}
           {user ? (
-            <div className="flex items-center gap-3">
-              {/* If Admin, enable toggling admin view */}
-              {user.isAdmin && (
-                <button
-                  onClick={() => setPage(page === 'admin' ? 'dashboard' : 'admin')}
-                  className="hidden sm:flex items-center gap-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-3.5 py-1.5 text-xs font-semibold hover:opacity-90 transition-all border border-indigo-100 dark:border-indigo-900/50"
-                >
-                  <Shield size={13} /> {page === 'admin' ? 'User Dashboard' : 'Admin Panel'}
-                </button>
-              )}
-              <div 
-                className="flex items-center gap-2 cursor-pointer"
+            <div className="flex items-center gap-4 animate-fade-in">
+              {/* Notification Bell */}
+              <button className="text-gray-800 dark:text-zinc-200 hover:text-feminine-pink relative cursor-pointer">
+                <Bell size={20} />
+                <span className="absolute top-0 right-0 h-1.5 w-1.5 bg-feminine-pink rounded-full"></span>
+              </button>
+
+              {/* Dashboard Button */}
+              <button
                 onClick={() => setPage('dashboard')}
+                className="hidden sm:inline-flex rounded-full border border-feminine-pink/30 hover:bg-feminine-pink/5 text-[11px] font-extrabold text-feminine-pink px-4 py-2 cursor-pointer transition-all duration-300"
               >
-                <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white font-extrabold flex items-center justify-center text-sm shadow-md border border-white">
-                  {user.firstName[0]}
+                Dashboard
+              </button>
+
+              {/* User Avatar & Name */}
+              <div 
+                className="flex items-center gap-2 cursor-pointer group"
+                onClick={() => setPage('profile')}
+                title="View Profile Settings"
+              >
+                <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple overflow-hidden border border-white dark:border-zinc-800 shadow-md flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                  <span className="font-extrabold text-sm text-white">{user.firstName[0]}</span>
                 </div>
-                <span className="hidden md:block text-sm font-semibold text-gray-700 dark:text-zinc-200">
-                  {user.firstName}
-                </span>
               </div>
+              
               <button
                 onClick={() => {
                   setUser(null);
                   setPage('home');
                 }}
-                className="text-xs font-bold text-gray-500 dark:text-zinc-400 hover:text-feminine-pink transition-colors"
+                className="text-xs font-bold text-gray-500 hover:text-feminine-pink transition-colors cursor-pointer"
               >
                 Logout
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
               <button
                 onClick={() => setPage('login')}
-                className="hidden sm:flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-900 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-zinc-200 transition-colors"
+                className="text-xs font-extrabold text-gray-800 dark:text-zinc-200 hover:text-feminine-pink transition-colors cursor-pointer mr-1"
               >
-                <LogIn size={13} /> Login
+                Sign In
               </button>
               <button
                 onClick={() => setPage('signup')}
-                className="rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple px-4 py-2 text-xs font-semibold text-white shadow-md shadow-pink-500/10 hover:opacity-95 hover:shadow-lg hover:shadow-pink-500/20 active:scale-95 transition-all duration-300"
+                className="rounded-full bg-feminine-pink hover:bg-feminine-pink/95 px-5 py-2.5 text-xs font-extrabold text-white shadow-md shadow-pink-500/10 hover:shadow-lg active:scale-95 transition-all duration-300 cursor-pointer"
               >
                 Get Started
               </button>

@@ -144,7 +144,7 @@ export default function AIChatbot({ language, setTab }) {
           'Conduct 10-15 minutes of gentle yoga or stretches.',
           'Consume a well-balanced low-glycemic meal.'
         ],
-        expertRecommendation: 'Log symptoms in your HerCare Tracker. If issues persist past 5 consecutive days, seek physician review.',
+        expertRecommendation: 'Log symptoms in your SAKHI Tracker. If issues persist past 5 consecutive days, seek physician review.',
         ctaActions: [
           { action: 'track', label: 'Log in Tracker' }
         ]
@@ -301,7 +301,7 @@ export default function AIChatbot({ language, setTab }) {
               {currentSession.messages.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-secondary)' }}>
                   <Sparkles size={32} style={{ color: 'var(--primary)', marginBottom: '12px', animation: 'pulse 2s infinite' }} />
-                  <h4 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>Ask HerCare AI Assistant</h4>
+                  <h4 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>Ask SAKHI AI Assistant</h4>
                   <p style={{ fontSize: '13px' }}>Describe symptoms, upload reports, or ask cycle health questions.</p>
                 </div>
               ) : (

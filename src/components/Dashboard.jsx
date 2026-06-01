@@ -20,7 +20,7 @@ export default function Dashboard({
   waterIntake, 
   setWaterIntake 
 }) {
-  const [selectedDate, setSelectedDate] = useState('2026-10-23');
+  const [selectedDate, setSelectedDate] = useState('2024-10-23');
   const [showLogModal, setShowLogModal] = useState(false);
   
   // Local Log State Form
@@ -29,88 +29,37 @@ export default function Dashboard({
   const [formSymptoms, setFormSymptoms] = useState([]);
   const [formMood, setFormMood] = useState('calm');
 
-  const t = {
-    en: {
-      greet: 'Good morning, Ananya',
-      sub: 'Here\'s your health landscape for Wednesday, October 23.',
-      ovulation: 'Ovulation Window',
-      ovulationDesc: 'High chance of conception. Flow predicted in 12 days.',
-      fatigue: 'Mild Fatigue',
-      fatigueDesc: 'Logged today: Bloating, mild cramps. Fitness suggestion: Stretch.',
-      mood: 'Balanced Mood',
-      moodDesc: 'Your mood scores are 12% higher than last cycle\'s follicular phase.',
-      calendarTitle: 'Cycle Calendar',
-      aiInsights: 'AI Insights',
-      mealTitle: 'Today\'s Meal Plan',
-      trendsTitle: 'Symptom Trends',
-      crampsLabel: 'Cramps Intensity',
-      energyLabel: 'Energy Levels',
-      logBtn: 'Log Daily Health Metrics'
-    },
-    hi: {
-      greet: 'शुभ प्रभात, अनन्या',
-      sub: 'बुधवार, 23 अक्टूबर के लिए आपका स्वास्थ्य परिदृश्य यहां है।',
-      ovulation: 'अंडोत्सर्ग विंडो',
-      ovulationDesc: 'गर्भधारण की उच्च संभावना। 12 दिनों में मासिक धर्म की भविष्यवाणी।',
-      fatigue: 'हल्की थकान',
-      fatigueDesc: 'आज लॉग किया गया: सूजन, हल्की ऐंठन। फिटनेस सुझाव: स्ट्रेच।',
-      mood: 'संतुलित मूड',
-      moodDesc: ' follicular चरण की तुलना में आपके मूड स्कोर 12% अधिक हैं।',
-      calendarTitle: 'मासिक चक्र कैलेंडर',
-      aiInsights: 'एआई अंतर्दृष्टि',
-      mealTitle: 'आज का आहार योजना',
-      trendsTitle: 'लक्षण प्रवृत्तियां',
-      crampsLabel: 'ऐंठन की तीव्रता',
-      energyLabel: 'ऊर्जा स्तर',
-      logBtn: 'दैनिक स्वास्थ्य लॉग दर्ज करें'
-    }
-  };
-
-  const currentLang = t[language] || t['en'];
-
-  // Handle calendar cells logic
-  // Period dates: Oct 7-11
-  // Ovulation date: Oct 23
-  // Fertile window: Oct 18-24
+  // October 2024 calendar configuration to match Photo 2
   const calendarDays = [];
   const daysInOctober = 31;
-  const startOffset = 3; // October 2026 starts on Thursday (offset 3 days for Mon-Wed empty cells)
+  const startOffset = 1; // October 2024 starts on Tuesday (offset 1 day for Monday)
 
+  // Empty cells for padding
   for (let i = 1; i <= startOffset; i++) {
     calendarDays.push({ day: null, dateStr: null, type: 'empty' });
   }
 
+  // Days in October
   for (let d = 1; d <= daysInOctober; d++) {
-    const dateStr = `2026-10-${d < 10 ? '0' + d : d}`;
+    const dateStr = `2024-10-${d < 10 ? '0' + d : d}`;
     let type = 'normal';
     
-    // Hardcoded initial design matching the screenshots
     if (d >= 7 && d <= 11) {
-      type = 'period';
+      type = 'period'; // Days 7-11 shaded pink
     } else if (d === 23) {
-      type = 'ovulation';
-    } else if (d >= 18 && d <= 24) {
-      type = 'fertile';
+      type = 'active'; // Current active day October 23
     }
 
-    // Check if custom user logs exist for this date
-    const customLog = cycleLogs[dateStr];
-    if (customLog) {
-      if (customLog.isPeriodDay) type = 'period';
-      else if (customLog.flowIntensity !== 'none') type = 'period';
-    }
-
-    calendarDays.push({ day: d, dateStr, type, logged: !!customLog });
+    calendarDays.push({ day: d, dateStr, type });
   }
 
-  const handleDayClick = (dayObj) => {
-    if (!dayObj.day) return;
-    setSelectedDate(dayObj.dateStr);
+  const handleDayClick = (cell) => {
+    if (!cell.day) return;
+    setSelectedDate(cell.dateStr);
     
-    // Pre-populate modal form
-    const existingLog = cycleLogs[dayObj.dateStr] || {};
-    setFormIsPeriod(existingLog.isPeriodDay || dayObj.type === 'period');
-    setFormFlow(existingLog.flowIntensity || (dayObj.type === 'period' ? 'medium' : 'none'));
+    const existingLog = cycleLogs[cell.dateStr] || {};
+    setFormIsPeriod(existingLog.isPeriodDay || cell.type === 'period');
+    setFormFlow(existingLog.flowIntensity || (cell.type === 'period' ? 'medium' : 'none'));
     setFormSymptoms(existingLog.symptoms || []);
     setFormMood(existingLog.mood || 'calm');
     
@@ -137,189 +86,230 @@ export default function Dashboard({
   };
 
   return (
-    <div className="slide-in" style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+    <div className="slide-in flex flex-col gap-8 text-left animate-fade-in">
       
       {/* 1. GREETING HEADER */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-        <div>
-          <h1 style={{ fontSize: '32px', fontWeight: '800', background: 'linear-gradient(135deg, var(--text-primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            {currentLang.greet}
-          </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>{currentLang.sub}</p>
-        </div>
-        <button className="btn btn-primary" onClick={() => handleDayClick({ day: 23, dateStr: '2026-10-23', type: 'ovulation' })}>
-          <Plus size={16} /> {currentLang.logBtn}
-        </button>
+      <div className="flex flex-col gap-1.5 pb-2">
+        <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)]">
+          Good morning, Ananya
+        </h1>
+        <p className="text-xs text-[var(--text-secondary)] font-extrabold uppercase tracking-wider">
+          Here's your health landscape for Wednesday, October 23.
+        </p>
       </div>
 
-      {/* 2. THREE METRICS CARDS ROW */}
-      <div className="grid-3">
-        {/* Ovulation card */}
-        <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700', color: 'var(--secondary)' }}>
-              {currentLang.ovulation}
-            </span>
-            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--secondary-light)', color: 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CalendarIcon size={16} />
+      {/* 2. THREE METRICS CARDS ROW (Grid-3) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        {/* Ovulation Window */}
+        <div className="glass-panel p-6 rounded-2xl border border-gray-100 dark:border-zinc-900 flex flex-col gap-4 relative">
+          <span className="absolute top-4 right-4 bg-pink-50 dark:bg-pink-950/20 text-feminine-pink font-display text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+            Day 14
+          </span>
+          <div className="flex justify-between items-start">
+            <div className="h-9 w-9 rounded-full bg-pink-100/60 dark:bg-pink-950/30 text-feminine-pink flex items-center justify-center">
+              📅
             </div>
           </div>
-          <h2 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--secondary)' }}>Day 16</h2>
-          <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
-            {currentLang.ovulationDesc}
-          </p>
-          <div style={{ width: '100%', height: '4px', background: 'var(--border-color)', borderRadius: '2px', marginTop: '6px' }}>
-            <div style={{ width: '65%', height: '100%', background: 'var(--secondary)', borderRadius: '2px' }}></div>
+          <div>
+            <h3 className="font-display font-extrabold text-base text-[var(--text-primary)] leading-snug mb-1">
+              Ovulation Window
+            </h3>
+            <p className="text-[11px] text-[var(--text-secondary)] leading-normal mb-3">
+              High chance of conception. Flow predicted in 12 days.
+            </p>
+            {/* Pink Progress Bar */}
+            <div className="w-full h-1.5 bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-full bg-feminine-pink rounded-full" style={{ width: '60%' }}></div>
+            </div>
           </div>
         </div>
 
-        {/* Fatigue card */}
-        <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700', color: 'var(--primary)' }}>
-              {currentLang.fatigue}
-            </span>
-            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary-light)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Activity size={16} />
+        {/* Mild Fatigue */}
+        <div className="glass-panel p-6 rounded-2xl border border-gray-100 dark:border-zinc-900 flex flex-col gap-4 relative">
+          <span className="absolute top-4 right-4 bg-pink-50 dark:bg-pink-950/20 text-feminine-pink font-display text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+            Updated 2h ago
+          </span>
+          <div className="flex justify-between items-start">
+            <div className="h-9 w-9 rounded-full bg-pink-100/60 dark:bg-pink-950/30 text-feminine-pink flex items-center justify-center">
+              🔴
             </div>
           </div>
-          <h2 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--primary)' }}>Mild Status</h2>
-          <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
-            {currentLang.fatigueDesc}
-          </p>
-          <div style={{ display: 'flex', gap: '6px', marginTop: '6px' }}>
-            <span style={{ background: 'var(--accent-pink)', color: 'var(--primary)', padding: '2px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '600' }}>Cramps: Mild</span>
-            <span style={{ background: 'var(--accent-lavender)', color: 'var(--secondary)', padding: '2px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '600' }}>Energy: 70%</span>
+          <div>
+            <h3 className="font-display font-extrabold text-base text-[var(--text-primary)] leading-snug mb-1">
+              Mild Fatigue
+            </h3>
+            <p className="text-[11px] text-[var(--text-secondary)] leading-normal mb-3">
+              Logged today: Bloating, Breast tenderness. Trends stable.
+            </p>
+            {/* Three bars */}
+            <div className="flex gap-1.5">
+              <div className="h-1 flex-grow bg-feminine-pink rounded-full"></div>
+              <div className="h-1 flex-grow bg-feminine-pink rounded-full"></div>
+              <div className="h-1 flex-grow bg-pink-100 dark:bg-zinc-800 rounded-full"></div>
+            </div>
           </div>
         </div>
 
-        {/* Mood card */}
-        <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700', color: 'var(--success)' }}>
-              {currentLang.mood}
-            </span>
-            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--success-light)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Smile size={16} />
+        {/* Balanced Mood */}
+        <div className="glass-panel p-6 rounded-2xl border border-gray-100 dark:border-zinc-900 flex flex-col gap-4 relative">
+          <span className="absolute top-4 right-4 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 font-display text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+            Calm
+          </span>
+          <div className="flex justify-between items-start">
+            <div className="h-9 w-9 rounded-full bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 flex items-center justify-center">
+              🟢
             </div>
           </div>
-          <h2 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--success)' }}>Calm & Balanced</h2>
-          <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
-            {currentLang.moodDesc}
-          </p>
-          <div style={{ width: '100%', height: '4px', background: 'var(--border-color)', borderRadius: '2px', marginTop: '6px' }}>
-            <div style={{ width: '85%', height: '100%', background: 'var(--success)', borderRadius: '2px' }}></div>
+          <div>
+            <h3 className="font-display font-extrabold text-base text-[var(--text-primary)] leading-snug mb-1">
+              Balanced Mood
+            </h3>
+            <p className="text-[11px] text-[var(--text-secondary)] leading-normal mb-3">
+              Your mood scores are 12% higher than last cycle's follicular phase.
+            </p>
+            {/* Log emotion link */}
+            <button 
+              onClick={() => handleDayClick({ day: 23, dateStr: '2024-10-23', type: 'active' })}
+              className="text-[11px] font-bold text-feminine-pink hover:underline cursor-pointer flex items-center gap-1"
+            >
+              Log Emotion &gt;
+            </button>
           </div>
         </div>
+
       </div>
 
       {/* 3. MAIN DASHBOARD CONTENT GRID (CALENDAR & AI INSIGHTS) */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '30px', flexWrap: 'wrap' }} className="grid-2">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left Side: Calendar Log & Graphs */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+        {/* Left Column (Wider, Calendar & Graphs) */}
+        <div className="lg:col-span-8 flex flex-col gap-8">
           
-          {/* Calendar Widget */}
-          <div className="glass-panel" style={{ padding: '30px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '18px' }}>{currentLang.calendarTitle}</h3>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <button className="btn-icon"><ChevronLeft size={16} /></button>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: '600' }}>October 2026</span>
-                <button className="btn-icon"><ChevronRight size={16} /></button>
+           {/* Calendar Widget */}
+          <div className="glass-panel p-6 rounded-2xl border border-gray-100 dark:border-zinc-900">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-display font-extrabold text-base text-[var(--text-primary)]">
+                Cycle Calendar
+              </h3>
+              <div className="flex items-center gap-4 text-xs font-extrabold text-[var(--text-secondary)]">
+                <button className="h-6 w-6 border border-gray-200 dark:border-zinc-800 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer">
+                  &lt;
+                </button>
+                <span>October 2024</span>
+                <button className="h-6 w-6 border border-gray-200 dark:border-zinc-800 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer">
+                  &gt;
+                </button>
               </div>
             </div>
 
-            {/* Weekday labels */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', textAlign: 'center', marginBottom: '10px', fontSize: '12px', fontWeight: '700', color: 'var(--text-secondary)' }}>
+            {/* Weekdays */}
+            <div className="grid grid-cols-7 gap-2.5 text-center text-[10px] font-extrabold text-[var(--text-secondary)] tracking-wider mb-3">
               <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
             </div>
 
             {/* Days grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', justifyItems: 'center' }}>
+            <div className="grid grid-cols-7 gap-2.5 justify-items-center">
               {calendarDays.map((cell, idx) => {
-                if (cell.type === 'empty') return <div key={idx} style={{ width: '42px', height: '42px' }}></div>;
+                if (cell.type === 'empty') {
+                  return <div key={idx} className="w-9 h-9"></div>;
+                }
+
+                // Render day styling matching Photo 2
+                let dayClass = "w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold font-display cursor-pointer transition-all duration-300 relative ";
+                
+                if (cell.type === 'period') {
+                  // Period Flow days (7-11)
+                  dayClass += "bg-pink-100/60 dark:bg-pink-950/20 text-feminine-pink border border-pink-200/50 dark:border-pink-950/30";
+                } else if (cell.type === 'active') {
+                  // Current active day (23)
+                  dayClass += "bg-feminine-pink text-white shadow-lg shadow-pink-500/20 ring-4 ring-pink-100 dark:ring-pink-950/50 scale-105";
+                } else {
+                  // Normal day
+                  dayClass += "hover:bg-gray-50 dark:hover:bg-zinc-900 text-gray-700 dark:text-zinc-250";
+                }
+
                 return (
                   <div 
                     key={idx} 
-                    className={`day-dot ${cell.type} ${cell.logged ? 'logged' : ''}`}
+                    className={dayClass}
                     onClick={() => handleDayClick(cell)}
-                    title={cell.dateStr}
-                    style={{
-                      border: selectedDate === cell.dateStr ? '2px solid var(--text-primary)' : ''
-                    }}
                   >
                     {cell.day}
+                    {/* Flow dots for period days */}
+                    {cell.type === 'period' && (
+                      <span className="absolute bottom-1 h-1 w-1 bg-feminine-pink rounded-full"></span>
+                    )}
+                    {/* Active day dot at top right */}
+                    {cell.type === 'active' && (
+                      <span className="absolute top-0 right-0 h-1.5 w-1.5 bg-white border border-feminine-pink rounded-full"></span>
+                    )}
                   </div>
                 );
               })}
             </div>
-
-            {/* Calendar Legend */}
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '24px', fontSize: '12px', color: 'var(--text-secondary)' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'var(--primary)' }}></span> Period Flow
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'var(--secondary)' }}></span> Ovulation Day
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'var(--accent-pink)', border: '1px dashed var(--primary)' }}></span> Fertile Window
-              </span>
-            </div>
           </div>
 
-          {/* Symptom Trends Graph */}
-          <div className="glass-panel" style={{ padding: '30px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          {/* Symptom Trends */}
+          <div className="glass-panel p-6 rounded-2xl border border-gray-100 dark:border-zinc-900">
+            <div className="flex justify-between items-start mb-6 flex-wrap gap-4">
               <div>
-                <h3 style={{ fontSize: '18px', marginBottom: '4px' }}>{currentLang.trendsTitle}</h3>
-                <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Intensity patterns over the last 6 months</span>
+                <h3 className="font-display font-extrabold text-base text-[var(--text-primary)]">
+                  Symptom Trends
+                </h3>
+                <p className="text-[10px] text-[var(--text-secondary)] mt-0.5 font-bold">
+                  Tracking intensity over the last 6 months
+                </p>
               </div>
-              <div style={{ display: 'flex', gap: '16px', fontSize: '12px' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--primary)', fontWeight: '600' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--primary)' }}></span> {currentLang.crampsLabel}
+              <div className="flex gap-4 text-[10px] font-extrabold">
+                <span className="flex items-center gap-1.5 text-feminine-pink">
+                  <span className="h-2 w-2 rounded-full bg-feminine-pink"></span>
+                  Cramps
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--secondary)', fontWeight: '600' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--secondary)' }}></span> {currentLang.energyLabel}
+                <span className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+                  <span className="h-2 w-2 rounded-full bg-[var(--text-secondary)]"></span>
+                  Energy
                 </span>
               </div>
             </div>
 
-            {/* Custom SVG line chart plotting trends */}
-            <div style={{ width: '100%', height: '200px', position: 'relative' }}>
-              <svg viewBox="0 0 500 180" width="100%" height="100%" style={{ overflow: 'visible' }}>
-                {/* Grid Lines */}
-                <line x1="0" y1="30" x2="500" y2="30" stroke="var(--border-color)" strokeWidth="0.5" strokeDasharray="4 4" />
-                <line x1="0" y1="80" x2="500" y2="80" stroke="var(--border-color)" strokeWidth="0.5" strokeDasharray="4 4" />
-                <line x1="0" y1="130" x2="500" y2="130" stroke="var(--border-color)" strokeWidth="0.5" strokeDasharray="4 4" />
+            {/* Custom Line Chart */}
+            <div className="w-full h-44 relative">
+              <svg viewBox="0 0 500 150" width="100%" height="100%" style={{ overflow: 'visible' }}>
+                {/* Horizontal Guide Lines */}
+                <line x1="0" y1="25" x2="500" y2="25" stroke="rgba(220, 220, 220, 0.2)" strokeWidth="1" strokeDasharray="3 3" />
+                <line x1="0" y1="75" x2="500" y2="75" stroke="rgba(220, 220, 220, 0.2)" strokeWidth="1" strokeDasharray="3 3" />
+                <line x1="0" y1="125" x2="500" y2="125" stroke="rgba(220, 220, 220, 0.2)" strokeWidth="1" strokeDasharray="3 3" />
                 
-                {/* Cramps line (Pink) */}
+                {/* Cramps Curve (Pink) */}
                 <path 
-                  d="M 10 130 Q 100 60 200 110 T 350 40 T 490 140" 
+                  d="M 10 115 Q 100 130 190 90 T 370 120 T 490 85" 
                   fill="none" 
-                  stroke="var(--primary)" 
+                  stroke="var(--color-feminine-pink)" 
                   strokeWidth="3.5" 
                   strokeLinecap="round" 
                 />
-                {/* Energy line (Lavender) */}
+                
+                {/* Energy Curve (Grey) */}
                 <path 
-                  d="M 10 60 Q 100 130 200 50 T 350 120 T 490 30" 
+                  d="M 10 70 Q 100 45 190 85 T 370 50 T 490 95" 
                   fill="none" 
-                  stroke="var(--secondary)" 
-                  strokeWidth="3.5" 
+                  stroke="var(--color-feminine-purple)" 
+                  strokeWidth="3" 
                   strokeLinecap="round" 
+                  opacity="0.8"
                 />
 
-                {/* Hotspot Dots */}
-                <circle cx="200" cy="110" r="6" fill="var(--primary)" stroke="white" strokeWidth="2" cursor="pointer" title="Cramps: Mod" />
-                <circle cx="200" cy="50" r="6" fill="var(--secondary)" stroke="white" strokeWidth="2" cursor="pointer" title="Energy: High" />
-                <circle cx="350" cy="40" r="6" fill="var(--primary)" stroke="white" strokeWidth="2" />
-                <circle cx="350" cy="120" r="6" fill="var(--secondary)" stroke="white" strokeWidth="2" />
+                {/* Interactive chart points */}
+                <circle cx="190" cy="90" r="5" fill="var(--color-feminine-pink)" stroke="white" strokeWidth="1.5" />
+                <circle cx="190" cy="85" r="5" fill="var(--color-feminine-purple)" stroke="white" strokeWidth="1.5" />
+                
+                <circle cx="430" cy="95" r="5" fill="var(--color-feminine-pink)" stroke="white" strokeWidth="1.5" />
+                <circle cx="430" cy="65" r="5" fill="var(--color-feminine-purple)" stroke="white" strokeWidth="1.5" />
               </svg>
               
-              {/* X-Axis labels */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '600' }}>
+              {/* X Axis Labels */}
+              <div className="flex justify-between mt-3 text-[9px] font-extrabold text-[var(--text-secondary)] px-1">
                 <span>MAY</span><span>JUN</span><span>JUL</span><span>AUG</span><span>SEP</span><span>OCT</span>
               </div>
             </div>
@@ -327,78 +317,128 @@ export default function Dashboard({
 
         </div>
 
-        {/* Right Side: AI Insights & Meal Plans */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+        {/* Right Column (Narrower, AI & Meal Plans) */}
+        <div className="lg:col-span-4 flex flex-col gap-8">
           
-          {/* AI Insights Card */}
-          <div className="glass-panel" style={{ padding: '30px', background: 'linear-gradient(135deg, hsl(330, 70%, 48%), hsl(265, 60%, 55%))', color: 'white', border: 'none' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-              <Sparkles size={20} />
-              <h3 style={{ fontSize: '18px', fontWeight: '700' }}>{currentLang.aiInsights}</h3>
+          {/* AI Insights (Glowing Solid Pink) */}
+          <div className="bg-feminine-pink text-white rounded-2xl p-6 shadow-xl shadow-pink-500/20 flex flex-col gap-5 border border-pink-400/20">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">✦</span>
+              <h3 className="font-display font-extrabold text-base">
+                AI Insights
+              </h3>
             </div>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '14px', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-                <span style={{ fontSize: '13px', fontWeight: '700', display: 'block', marginBottom: '4px' }}>🩸 Nutritional Alert</span>
-                <p style={{ fontSize: '12px', opacity: '0.9', lineHeight: '1.4' }}>
-                  Your logged fatigue matches the start of your luteal cycle phase. Increase spinach, lentils, or iron supplements to counter lower iron capacity.
+            <div className="flex flex-col gap-4 text-left">
+              <div className="flex flex-col gap-1 border-b border-white/20 pb-3">
+                <p className="text-[11px] font-semibold opacity-95 leading-normal">
+                  "Your iron levels might be lower than usual this week based on your logged fatigue and cycle stage."
                 </p>
+                <span className="text-[9px] font-extrabold uppercase tracking-wide opacity-80 mt-1">
+                  📍 Recommendation: Add spinach and lentils to dinner.
+                </span>
               </div>
 
-              <div style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '14px', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-                <span style={{ fontSize: '13px', fontWeight: '700', display: 'block', marginBottom: '4px' }}>🏃‍♀️ Workout Recommendation</span>
-                <p style={{ fontSize: '12px', opacity: '0.9', lineHeight: '1.4' }}>
-                  Today is perfect for low-impact yoga or walking rather than high-intensity cardiovascular training due to mild muscle soreness.
+              <div className="flex flex-col gap-1 pb-1">
+                <p className="text-[11px] font-semibold opacity-95 leading-normal">
+                  "Sync your workout: Today is perfect for high-intensity training (HIIT) due to your peak estrogen levels."
                 </p>
+                <span className="text-[9px] font-extrabold uppercase tracking-wide opacity-80 mt-1">
+                  🏃‍♀️ 45 min session suggested.
+                </span>
               </div>
 
-              <button className="btn btn-secondary" style={{ width: '100%', color: 'var(--primary)', fontWeight: '700', justifyContent: 'center' }} onClick={() => setTab('diet-fitness')}>
-                Open Zen Yoga Poses
+              <button 
+                onClick={() => setTab('diet-fitness')}
+                className="w-full rounded-full bg-white text-feminine-pink hover:bg-zinc-50 text-xs font-extrabold py-3 shadow-md active:scale-98 transition-all cursor-pointer text-center"
+              >
+                View Full Analysis
               </button>
             </div>
           </div>
 
-          {/* Today's Meal Plan Card */}
-          <div className="glass-panel" style={{ padding: '30px' }}>
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>{currentLang.mealTitle}</h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                { meal: 'Avocado & Egg Greens', type: 'Breakfast', cal: '320 kcal', checked: true },
-                { meal: 'Quinoa Power Bowl', type: 'Lunch', cal: '480 kcal', checked: false },
-                { meal: 'Lentil & Spinach Dal', type: 'Dinner', cal: '380 kcal', checked: false }
-              ].map((m, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--border-color)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div 
-                      style={{ 
-                        width: '20px', 
-                        height: '20px', 
-                        borderRadius: '50%', 
-                        border: '2px solid var(--border-color)', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                        background: m.checked ? 'var(--success)' : 'transparent',
-                        borderColor: m.checked ? 'var(--success)' : 'var(--border-color)',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {m.checked && <Check size={12} style={{ color: 'white' }} />}
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '13px', fontWeight: '600', display: 'block', color: 'var(--text-primary)' }}>{m.meal}</span>
-                      <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>{m.type}</span>
-                    </div>
+          {/* Today's Meal Plan */}
+          <div className="glass-panel p-6 rounded-2xl border border-gray-100 dark:border-zinc-900">
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="font-display font-extrabold text-base text-[var(--text-primary)] flex items-center gap-1.5">
+                🍽️ Today's Meal Plan
+              </h3>
+            </div>
+
+            <div className="flex flex-col gap-4 text-left">
+              {/* Meal Item 1 */}
+              <div className="flex items-center justify-between border-b border-gray-50 dark:border-zinc-900 pb-3">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-green-50 dark:bg-green-950/20 flex items-center justify-center text-sm shrink-0">
+                    🥗
                   </div>
-                  <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: '600' }}>{m.cal}</span>
+                  <div>
+                    <h4 className="text-xs font-extrabold text-[var(--text-primary)]">Avocado & Egg Greens</h4>
+                    <span className="text-[9px] text-[var(--text-secondary)] font-bold">Breakfast • 420 kcal</span>
+                  </div>
                 </div>
-              ))}
+                <span className="h-5 w-5 bg-emerald-500 text-white rounded-full flex items-center justify-center text-[10px] font-bold">
+                  ✓
+                </span>
+              </div>
+
+              {/* Meal Item 2 */}
+              <div className="flex items-center justify-between border-b border-gray-50 dark:border-zinc-900 pb-3">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-amber-50 dark:bg-amber-950/20 flex items-center justify-center text-sm shrink-0">
+                    🍲
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-extrabold text-[var(--text-primary)]">Quinoa Power Bowl</h4>
+                    <span className="text-[9px] text-[var(--text-secondary)] font-bold">Lunch • 580 kcal</span>
+                  </div>
+                </div>
+                <button className="h-5 w-5 border border-gray-200 dark:border-zinc-800 hover:border-feminine-pink rounded-full flex items-center justify-center text-xs font-bold cursor-pointer text-[var(--text-secondary)] hover:text-feminine-pink">
+                  +
+                </button>
+              </div>
+
+              {/* Meal Item 3 */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-pink-50 dark:bg-pink-950/20 flex items-center justify-center text-sm shrink-0">
+                    🥣
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-extrabold text-[var(--text-primary)]">Lentil & Spinach Dal</h4>
+                    <span className="text-[9px] text-[var(--text-secondary)] font-bold">Dinner • 340 kcal</span>
+                  </div>
+                </div>
+                <button className="h-5 w-5 border border-gray-200 dark:border-zinc-800 hover:border-feminine-pink rounded-full flex items-center justify-center text-xs font-bold cursor-pointer text-[var(--text-secondary)] hover:text-feminine-pink">
+                  +
+                </button>
+              </div>
             </div>
           </div>
 
+          {/* Friends Active Widget */}
+          <div className="border border-dashed border-gray-250 dark:border-zinc-850 p-5 rounded-2xl flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              {/* Stacked avatars */}
+              <div className="flex -space-x-2">
+                <div className="h-7 w-7 rounded-full bg-pink-100 border border-white flex items-center justify-center text-[10px] font-bold text-pink-700">R</div>
+                <div className="h-7 w-7 rounded-full bg-blue-100 border border-white flex items-center justify-center text-[10px] font-bold text-blue-700">P</div>
+                <div className="h-7 w-7 rounded-full bg-purple-100 border border-white flex items-center justify-center text-[10px] font-bold text-purple-700">S</div>
+              </div>
+              <div className="text-left">
+                <p className="text-[11px] font-extrabold text-[var(--text-primary)] leading-none mb-1">
+                  12 friends are active now
+                </p>
+                <button 
+                  onClick={() => setTab('community')}
+                  className="text-[10px] font-extrabold uppercase text-feminine-pink hover:underline cursor-pointer"
+                >
+                  Join the Hub
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-
       </div>
 
       {/* 4. HEALTH DIARY LOG MODAL */}
