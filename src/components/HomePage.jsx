@@ -104,7 +104,7 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
       <section className="relative overflow-hidden rounded-3xl bg-zinc-950 text-white min-h-[520px] flex items-center shadow-lg">
         {/* Fallback Background Image of Dr. Ananya Sharma */}
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay animate-fade-in"
+          className="absolute inset-0 bg-cover bg-center opacity-40 animate-fade-in"
           style={{ backgroundImage: `url('/hero_doctor.png')` }}
         ></div>
         
@@ -114,7 +114,7 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
           loop 
           muted 
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-overlay animate-fade-in transition-opacity duration-1000"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 animate-fade-in transition-opacity duration-1000"
           poster="/hero_doctor.png"
         >
           <source src="/hero_video.mp4" type="video/mp4" />
