@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import { 
-  HomePage, 
-  AboutPage, 
-  BlogPage, 
-  ContactPage, 
-  AuthPage,
-  ProfilePage 
-} from './components/PublicPages';
+import HomePage from './components/HomePage';
+import AboutPage from './components/AboutPage';
+import BlogPage from './components/BlogPage';
+import ContactPage from './components/ContactPage';
+import AuthPage from './components/AuthPage';
+import ProfilePage from './components/ProfilePage';
 import Dashboard from './components/Dashboard';
 import BloodAnalysis from './components/BloodAnalysis';
 import AIChatbot from './components/AIChatbot';
