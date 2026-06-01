@@ -16,6 +16,7 @@ import CommunityPlatform from './components/CommunityPlatform';
 import EmergencySystem from './components/EmergencySystem';
 import AdminPanel from './components/AdminPanel';
 import ServerBlueprints from './components/ServerBlueprints';
+import FloatingChatbot from './components/FloatingChatbot';
 
 import { Menu, ShieldAlert, Heart, Info, ArrowRight, Globe, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -426,6 +427,9 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* 3. GLOBAL FLOATING AI HEALTH ASSISTANT */}
+      <FloatingChatbot language={language} />
 
       {/* 4. EMERGENCY SOS ALERTS POPUP */}
       {emergencyActive && (
