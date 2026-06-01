@@ -30,6 +30,81 @@ export default function App() {
     { code: 'mr', name: 'MR' }
   ];
 
+  const pageTitles = {
+    dashboard: {
+      en: 'Health Dashboard',
+      hi: 'स्वास्थ्य डैशबोर्ड',
+      bn: 'স্বাস্থ্য ড্যাশবোর্ড',
+      ta: 'ஆரோக்கிய டாஷ்போர்டு',
+      te: 'ఆరోగ్య చాట్ డ్యాష్‌బోర్డ్',
+      mr: 'आरोग्य डॅशबोर्ड'
+    },
+    calendar: {
+      en: 'Cycle Tracker',
+      hi: 'चक्र ट्रैकर',
+      bn: 'পিরিয়ড ট্র্যাকার',
+      ta: 'மாதவிடாய் காட்டி',
+      te: 'ఋతు చక్రం',
+      mr: 'सायकल ट्रॅकर'
+    },
+    'blood-analysis': {
+      en: 'AI Blood Analysis',
+      hi: 'एआई रक्त विश्लेषण',
+      bn: 'এআই রক্ত বিশ্লেষণ',
+      ta: 'இரத்த பகுப்பாய்வு',
+      te: 'రక్త విశ్లేషణ',
+      mr: 'एआय रक्त विश्लेषण'
+    },
+    'ai-chat': {
+      en: 'Sakhi AI Companion',
+      hi: 'सखी एआई साथी',
+      bn: 'সখী এআই সঙ্গী',
+      ta: 'சகி ஏஐ தோழி',
+      te: 'సఖి ఏఐ స్నేహితురాలు',
+      mr: 'सखी एआय साथी'
+    },
+    'diet-fitness': {
+      en: 'Diet & Yoga Planner',
+      hi: 'आहार और योग योजनाकार',
+      bn: 'ডায়েট ও যোগব্যায়াম',
+      ta: 'உணவு & யோகா',
+      te: 'డైట్ & యోగా',
+      mr: 'आहार आणि योग'
+    },
+    zen: {
+      en: 'Zen Mind Sanctuary',
+      hi: 'ध्यान कक्ष',
+      bn: 'ধ্যান কক্ষ',
+      ta: 'தியான அறை',
+      te: 'ధ్యాన గది',
+      mr: 'ध्यान कक्ष'
+    },
+    community: {
+      en: 'Sisterhood Community',
+      hi: 'सखी समुदाय',
+      bn: 'বোনদের কমিউনিটি',
+      ta: 'சகோதரிகள் சமூகம்',
+      te: 'సహోదరి సంఘం',
+      mr: 'भगिनी समुदाय'
+    },
+    profile: {
+      en: 'My Profile & Settings',
+      hi: 'मेरी प्रोफाइल',
+      bn: 'আমার প্রোফাইল',
+      ta: 'என் சுயவிவரம்',
+      te: 'నా ప్రొఫైల్',
+      mr: 'माझी प्रोफाइल'
+    },
+    admin: {
+      en: 'Administrator Controls',
+      hi: 'प्रशासक नियंत्रण',
+      bn: 'অ্যাডমিন প্যানেল',
+      ta: 'நிர்வாக கட்டுப்பாடுகள்',
+      te: 'అడ్మినిస్ట్రేటర్ నియంత్రణలు',
+      mr: 'प्रशासक नियंत्रण'
+    }
+  };
+
   // Navigation & Page State
   // Public pages: 'home', 'about', 'blog', 'contact', 'login', 'signup', 'forgot', 'verification', 'server-blueprints'
   // Private dashboard: 'dashboard', 'calendar', 'blood-analysis', 'ai-chat', 'diet-fitness', 'zen', 'community', 'admin'
@@ -151,11 +226,11 @@ export default function App() {
           </div>
 
           {/* Mobile Top Header */}
-          <div className="lg:hidden fixed top-0 left-0 w-full h-14 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-gray-200/50 dark:border-zinc-800/80 flex items-center justify-between px-6 z-50 transition-colors duration-300">
+          <div className="lg:hidden fixed top-0 left-0 w-full h-14 bg-[var(--bg-secondary)] border-b border-[var(--border-color)] flex items-center justify-between px-6 z-50 transition-colors duration-300 shadow-xs">
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gray-800 dark:text-zinc-200 cursor-pointer"
+                className="text-[var(--text-primary)] hover:text-feminine-pink transition-colors cursor-pointer"
               >
                 <Menu size={22} />
               </button>
@@ -166,15 +241,15 @@ export default function App() {
             
             <div className="flex items-center gap-2">
               {/* Language Selector */}
-              <div className="flex items-center gap-1 bg-gray-100/90 dark:bg-zinc-900/90 rounded-full px-2 py-0.5 border border-gray-200 dark:border-zinc-800">
+              <div className="flex items-center gap-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full px-2 py-0.5 shadow-2xs hover:border-feminine-pink/30 transition-all duration-300">
                 <Globe size={11} className="text-feminine-pink" />
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="bg-transparent text-[9px] font-extrabold text-gray-850 dark:text-zinc-200 outline-none cursor-pointer"
+                  className="bg-transparent text-[9px] font-extrabold text-[var(--text-primary)] outline-none cursor-pointer"
                 >
                   {languages.map((lang) => (
-                    <option key={lang.code} value={lang.code} className="dark:bg-zinc-950">
+                    <option key={lang.code} value={lang.code} className="bg-[var(--bg-secondary)] text-[var(--text-primary)] font-semibold">
                       {lang.name}
                     </option>
                   ))}
@@ -184,10 +259,10 @@ export default function App() {
               {/* Theme Toggle */}
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
+                className="flex h-7.5 w-7.5 items-center justify-center rounded-full border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer shadow-2xs"
                 title="Toggle Theme"
               >
-                {darkMode ? <Sun size={12} className="text-amber-400" /> : <Moon size={12} className="text-gray-700 dark:text-zinc-350" />}
+                {darkMode ? <Sun size={12} className="text-amber-400" /> : <Moon size={12} className="text-[var(--text-primary)]" />}
               </button>
 
               {/* SOS Emergency Button */}
@@ -226,36 +301,41 @@ export default function App() {
           <div className="flex-grow flex flex-col lg:pl-0 pt-14 lg:pt-0">
             
             {/* Top Private header */}
-            <div className="hidden lg:flex h-16 border-b border-gray-200 dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-950/50 items-center justify-between px-10 backdrop-blur-md transition-colors duration-300">
-              <div className="flex items-center gap-2">
-                <Info size={14} className="text-feminine-pink animate-bounce" />
-                <span className="text-xs text-gray-800 dark:text-zinc-200 font-bold">
-                  Intimate Health tracking is online. JWT Verification Session: active.
-                </span>
+            <div className="hidden lg:flex h-16 border-b border-[var(--border-color)] bg-[var(--bg-secondary)] items-center justify-between px-10 transition-colors duration-300 shadow-sm">
+              <div className="flex items-center gap-4 animate-fade-in">
+                <h1 className="font-display font-extrabold text-lg text-[var(--text-primary)] tracking-tight">
+                  {pageTitles[page] ? pageTitles[page][language] || pageTitles[page]['en'] : 'SAKHI Workspace'}
+                </h1>
+                
+                {/* HIPAA Secure Pill Badge */}
+                <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200/50 dark:border-emerald-800/30 rounded-full px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 shadow-2xs select-none">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span className="uppercase tracking-wider">HIPAA SECURE</span>
+                </div>
               </div>
               
               <div className="flex items-center gap-3">
                 {user.isAdmin && (
                   <button
                     onClick={() => setPage(page === 'admin' ? 'dashboard' : 'admin')}
-                    className="flex items-center gap-1 bg-indigo-100 dark:bg-indigo-950/30 border border-indigo-200/50 text-indigo-700 dark:text-indigo-400 rounded-full px-3 py-1 text-xs font-extrabold hover:bg-indigo-200 dark:hover:bg-indigo-900 transition-colors"
+                    className="flex items-center gap-1 bg-indigo-100 dark:bg-indigo-950/30 border border-indigo-200/50 text-indigo-700 dark:text-indigo-400 rounded-full px-3 py-1.5 text-xs font-extrabold hover:bg-indigo-200 dark:hover:bg-indigo-900 transition-colors cursor-pointer shadow-2xs"
                   >
                     {page === 'admin' ? 'View Dashboard' : 'Admin Panel'}
                   </button>
                 )}
 
                 {/* Global Controls: Language & Theme */}
-                <div className="flex items-center gap-3 mr-1.5 border-r border-gray-200 dark:border-zinc-800 pr-3">
+                <div className="flex items-center gap-3 mr-1 border-r border-[var(--border-color)] pr-3.5">
                   {/* Language Selector */}
-                  <div className="flex items-center gap-1.5 bg-gray-100/90 dark:bg-zinc-900/95 rounded-full px-2.5 py-1 border border-gray-200 dark:border-zinc-800/80 shadow-xs hover:border-feminine-pink/30 transition-all duration-300">
+                  <div className="flex items-center gap-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full px-2.5 py-1 shadow-2xs hover:border-feminine-pink/30 transition-all duration-300">
                     <Globe size={13} className="text-feminine-pink" />
                     <select
                       value={language}
                       onChange={(e) => setLanguage(e.target.value)}
-                      className="bg-transparent text-[11px] font-extrabold text-gray-850 dark:text-zinc-200 outline-none cursor-pointer"
+                      className="bg-transparent text-[11px] font-extrabold text-[var(--text-primary)] outline-none cursor-pointer"
                     >
                       {languages.map((lang) => (
-                        <option key={lang.code} value={lang.code} className="dark:bg-zinc-950 font-semibold">
+                        <option key={lang.code} value={lang.code} className="bg-[var(--bg-secondary)] text-[var(--text-primary)] font-semibold">
                           {lang.name}
                         </option>
                       ))}
@@ -265,10 +345,10 @@ export default function App() {
                   {/* Theme Toggle */}
                   <button
                     onClick={() => setDarkMode(!darkMode)}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-900 transition-all duration-300 cursor-pointer shadow-xs"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] hover:border-feminine-pink/30 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer shadow-2xs"
                     title="Toggle Theme"
                   >
-                    {darkMode ? <Sun size={14} className="text-amber-400" /> : <Moon size={14} className="text-gray-700 dark:text-zinc-300" />}
+                    {darkMode ? <Sun size={14} className="text-amber-400" /> : <Moon size={14} className="text-[var(--text-primary)]" />}
                   </button>
                 </div>
                 
@@ -277,10 +357,10 @@ export default function App() {
                   onClick={() => setPage('profile')}
                   title="View Profile Settings"
                 >
-                  <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white flex items-center justify-center font-bold text-xs shadow-md border border-white group-hover:scale-105 transition-transform duration-300">
+                  <div className="h-8.5 w-8.5 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white flex items-center justify-center font-bold text-xs shadow-sm border border-white dark:border-zinc-800 group-hover:scale-105 transition-transform duration-300">
                     {user.firstName[0]}
                   </div>
-                  <span className="text-xs font-extrabold text-gray-850 dark:text-zinc-200">{user.firstName}</span>
+                  <span className="text-xs font-extrabold text-[var(--text-primary)] group-hover:text-feminine-pink transition-colors">{user.firstName}</span>
                 </div>
                 
                 <button 
@@ -288,7 +368,7 @@ export default function App() {
                     setUser(null);
                     setPage('home');
                   }}
-                  className="text-xs font-extrabold text-gray-500 hover:text-feminine-pink transition-colors ml-2 cursor-pointer"
+                  className="text-xs font-extrabold text-[var(--text-secondary)] hover:text-feminine-pink transition-colors ml-2.5 cursor-pointer"
                 >
                   Logout
                 </button>

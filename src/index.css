@@ -2,6 +2,8 @@
 
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-feminine-light: hsl(340, 50%, 98.5%);
   --color-feminine-pink: hsl(340, 75%, 45%);
