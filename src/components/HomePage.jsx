@@ -100,16 +100,29 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
   return (
     <div className="flex flex-col gap-20">
       
-      {/* 1. HERO SECTION (Photo 1 Banner) */}
-      <section className="relative overflow-hidden rounded-3xl bg-zinc-955 text-white min-h-[500px] flex items-center">
-        {/* Background Image of Dr. Ananya Sharma */}
+      {/* 1. HERO SECTION (Premium Video Background Banner) */}
+      <section className="relative overflow-hidden rounded-3xl bg-zinc-950 text-white min-h-[520px] flex items-center shadow-lg">
+        {/* Fallback Background Image of Dr. Ananya Sharma */}
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-60 mix-blend-overlay animate-fade-in"
+          className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay animate-fade-in"
           style={{ backgroundImage: `url('/hero_doctor.png')` }}
         ></div>
         
-        {/* Soft dark-gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent"></div>
+        {/* Dynamic Premium Background Video */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-overlay animate-fade-in transition-opacity duration-1000"
+          poster="/hero_doctor.png"
+        >
+          <source src="/hero_video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Soft dark-gradient overlay to guarantee high-contrast readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 to-black/10"></div>
         
         {/* Hero Content */}
         <div className="relative z-10 max-w-2xl px-8 py-16 sm:px-12 flex flex-col gap-6 items-start text-left">
