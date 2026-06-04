@@ -142,6 +142,13 @@ export default function App() {
               isAdmin: u.email === 'admin@sakhi.ai' || u.email === 'ananya@example.com',
               subscriptionPlan: 'standard'
             });
+            // Auto-redirect to dashboard on refresh if logged in
+            setPage((prevPage) => {
+              if (['home', 'login', 'signup', 'forgot'].includes(prevPage)) {
+                return 'dashboard';
+              }
+              return prevPage;
+            });
           }
         } catch (error) {
           console.error('Error checking initial session:', error);
@@ -162,8 +169,22 @@ export default function App() {
           isAdmin: u.email === 'admin@sakhi.ai' || u.email === 'ananya@example.com',
           subscriptionPlan: 'standard'
         });
-      } else if (event === 'SIGNED_OUT') {
+        // Auto-redirect to dashboard when logged in from auth pages
+        setPage((prevPage) => {
+          if (['home', 'login', 'signup', 'forgot'].includes(prevPage)) {
+            return 'dashboard';
+          }
+          return prevPage;
+        });
+      } else {
         setUser(null);
+        // Kick out of private pages if logged out
+        setPage((prevPage) => {
+          if (!['home', 'about', 'blog', 'contact', 'login', 'signup', 'forgot', 'server-blueprints'].includes(prevPage)) {
+            return 'home';
+          }
+          return prevPage;
+        });
       }
     });
 
