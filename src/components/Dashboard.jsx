@@ -5,17 +5,17 @@ import {
   Users, TrendingUp, ChevronRight, Zap
 } from 'lucide-react';
 
-export default function Dashboard({ language = 'en', setTab }) {
+export default function Dashboard({ language = 'en', setTab, triggerEmergency }) {
   const userName = "Ananya";
 
   // SECTION 2: Quick Actions Data
   const quickActions = [
-    { icon: <HeartPulse className="w-5 h-5" />, label: 'Log Symptoms', color: 'bg-pink-100 text-pink-600 dark:bg-pink-900/40 dark:text-pink-400', action: () => setTab && setTab('health-log') },
+    { icon: <HeartPulse className="w-5 h-5" />, label: 'Log Symptoms', color: 'bg-pink-100 text-pink-600 dark:bg-pink-900/40 dark:text-pink-400', action: () => setTab && setTab('calendar') },
     { icon: <TestTube className="w-5 h-5" />, label: 'Analyze Blood', color: 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-400', action: () => setTab && setTab('blood-analysis') },
     { icon: <MessageSquare className="w-5 h-5" />, label: 'Ask Sakhi AI', color: 'bg-purple-100 text-purple-600 dark:bg-purple-900/40 dark:text-purple-400', action: () => setTab && setTab('ai-chat') },
     { icon: <Apple className="w-5 h-5" />, label: 'Update Diet', color: 'bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-400', action: () => setTab && setTab('diet-fitness') },
-    { icon: <Smile className="w-5 h-5" />, label: 'Start Meditation', color: 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400', action: () => setTab && setTab('mental-wellness') },
-    { icon: <Phone className="w-5 h-5" />, label: 'Emergency SOS', color: 'bg-red-500 text-white shadow-md shadow-red-200 dark:shadow-red-900/50', action: () => setTab && setTab('emergency') }
+    { icon: <Smile className="w-5 h-5" />, label: 'Start Meditation', color: 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400', action: () => setTab && setTab('zen') },
+    { icon: <Phone className="w-5 h-5" />, label: 'Emergency SOS', color: 'bg-red-500 text-white shadow-md shadow-red-200 dark:shadow-red-900/50', action: () => triggerEmergency && triggerEmergency() }
   ];
 
   return (
