@@ -18,6 +18,7 @@ import AdminPanel from './components/AdminPanel';
 import ServerBlueprints from './components/ServerBlueprints';
 import FloatingChatbot from './components/FloatingChatbot';
 import Footer from './components/Footer';
+import SubscriptionPage from './components/SubscriptionPage';
 import { supabase } from './supabaseClient';
 
 import { Menu, ShieldAlert, Heart, Info, ArrowRight, Globe, Sun, Moon } from 'lucide-react';
@@ -272,6 +273,9 @@ export default function App() {
                 )}
                 {page === 'profile' && (
                   <ProfilePage user={user} setUser={setUser} />
+                )}
+                {page === 'subscription' && (
+                  <SubscriptionPage user={user} setUser={setUser} language={language} />
                 )}
                 {page === 'dashboard' && (
                   <Dashboard 

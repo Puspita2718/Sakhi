@@ -265,6 +265,29 @@ export default function Dashboard({ language = 'en', setTab, triggerEmergency })
         {/* RIGHT COLUMN: 4 cols */}
         <div className="xl:col-span-4 flex flex-col gap-6">
           
+          {/* SECTION: SAKHI Care Pass */}
+          <div className="glass-panel p-6 rounded-3xl border border-pink-100 dark:border-pink-900/30 bg-gradient-to-r from-pink-500/10 to-purple-500/10 flex flex-col gap-4">
+             <div className="flex justify-between items-center">
+               <h3 className="font-display font-extrabold text-base flex items-center gap-2">
+                  <Zap className="text-pink-500 w-5 h-5 animate-pulse" /> SAKHI Health Pass
+               </h3>
+               <span className="text-[10px] font-black text-pink-600 bg-pink-100/60 dark:bg-pink-900/30 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  Active
+               </span>
+             </div>
+             
+             <div className="text-xs text-[var(--text-secondary)] font-medium leading-relaxed">
+               Upgrade your SAKHI Care Pass to unlock unlimited clinical consults, personalized meal programs, and comprehensive health monitoring.
+             </div>
+
+             <button 
+               onClick={() => setTab && setTab('subscription')} 
+               className="w-full py-2.5 rounded-xl bg-gradient-to-r from-feminine-pink to-feminine-purple text-white text-xs font-bold hover:opacity-95 transition-all shadow-md shadow-pink-500/15 cursor-pointer text-center"
+             >
+               Manage Subscription
+             </button>
+          </div>
+
           {/* SECTION 7: AI Risk Monitoring */}
           <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
             <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-5">
