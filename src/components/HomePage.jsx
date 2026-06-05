@@ -13,10 +13,10 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
   };
 
   const conditions = [
-    { title: 'PCOS Management', image: '/pcos_flowers.png' },
-    { title: 'Endometriosis Care', image: '/endometriosis_vases.png' },
-    { title: 'UTI & Pelvic Health', image: '/pelvic_spiral.png' },
-    { title: 'Pregnancy Journey', image: '/pregnancy_belly.png' }
+    { title: 'PCOS Management', image: '/PCOS.png' },
+    { title: 'Endometriosis Care', image: '/Endom.png' },
+    { title: 'UTI & Pelvic Health', image: '/pelvic.png' },
+    { title: 'Pregnancy Journey', image: '/pregnancy.png' }
   ];
 
   const appFeatures = [

@@ -44,16 +44,12 @@ export default function Sidebar({
 
   return (
     <nav className="sidebar-nav glass-panel" style={{ borderRadius: '0', borderLeft: 'none', borderTop: 'none', borderBottom: 'none' }}>
-      <div style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid var(--border-color)' }} className="sidebar-header-desktop">
-        <div style={{ background: 'linear-gradient(135deg, var(--primary), var(--secondary))', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
-          S
-        </div>
-        <div>
-          <h2 style={{ fontSize: '18px', fontWeight: '800', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            SAKHI
-          </h2>
-          <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '500' }}>SAKHI Engine</span>
-        </div>
+      <div style={{ padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid var(--border-color)' }} className="sidebar-header-desktop">
+        <img 
+          src="/logo.png" 
+          alt="SAKHI Logo" 
+          style={{ height: '48px', width: 'auto', objectFit: 'contain' }} 
+        />
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '20px 12px', flexGrow: '1', overflowY: 'auto' }} className="sidebar-menu">

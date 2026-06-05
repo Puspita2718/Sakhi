@@ -46,9 +46,11 @@ export default function Navbar({
             setPage('home');
           }}
         >
-          <span className="font-display text-xl font-extrabold tracking-tight bg-gradient-to-r from-feminine-pink to-feminine-purple bg-clip-text text-transparent transition-transform duration-300 group-hover:scale-105">
-            SAKHI
-          </span>
+          <img 
+            src="/logo.png" 
+            alt="SAKHI Logo" 
+            className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+          />
         </div>
 
         {/* Navigation Links (Both states match mockups) */}
