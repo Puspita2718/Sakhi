@@ -1,118 +1,396 @@
-import React from 'react';
-import { AlertTriangle, Phone, MapPin, ShieldAlert, Award } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  AlertTriangle, Phone, MapPin, Ambulance, ShieldAlert, HeartPulse, 
+  BellRing, Flashlight, Plus, Edit2, Info, Building2, Map, ShieldCheck, 
+  Sparkles, Clock, CheckCircle2, Navigation, MessageSquare, Star, X
+} from 'lucide-react';
 
-export default function EmergencySystem({ language, closeEmergency }) {
-  const strings = {
-    flags: [
-      { 
-        title: { en: 'Excessive Flow Bleeding', hi: 'अत्यधिक प्रवाह रक्तस्राव', bn: 'অতিরিক্ত প্রবাহ রক্তপাত', ta: 'அதிகப்படியான இரத்தப்போக்கு', te: 'అధిక ప్రవాహ రక్తస్రావం', mr: 'अत्यधिक प्रवाह रक्तस्त्राव' }, 
-        desc: { en: 'Soaking through one or more sanitary pads/tampons completely every hour for two or more consecutive hours.', hi: 'लगातार दो या अधिक घंटों तक हर घंटे एक या अधिक सैनिटरी पैड/टैम्पोन को पूरी तरह से भिगोना।', bn: 'পরপর দুই বা ততোধিক ঘন্টা প্রতি ঘন্টায় এক বা একাধিক স্যানিটারি প্যাড/ট্যাম্পন সম্পূর্ণরূপে ভিজিয়ে রাখা।', ta: 'தொடர்ச்சியாக இரண்டு அல்லது அதற்கு மேற்பட்ட மணிநேரங்களுக்கு ஒவ்வொரு மணி நேரமும் ஒன்று அல்லது அதற்கு மேற்பட்ட நாப்கின்களை நனைப்பது.', te: 'రెండు లేదా అంతకంటే ఎక్కువ వరుస గంటల పాటు ప్రతి గంటకు ఒకటి లేదా అంతకంటే ఎక్కువ ప్యాడ్‌లను పూర్తిగా నానబెట్టడం.', mr: 'सलग दोन किंवा अधिक तास दर तासाला एक किंवा अधिक सॅनिटरी पॅड पूर्णपणे भिजवणे.' }
-      },
-      { 
-        title: { en: 'Acute Pelvic Pain', hi: 'तीव्र पेल्विक दर्द', bn: 'তীব্র শ্রোণী ব্যথা', ta: 'கடுமையான இடுப்பு வலி', te: 'తీవ్రమైన పెల్విక్ నొప్పి', mr: 'तीव्र पेल्विक वेदना' }, 
-        desc: { en: 'Severe, sharp pain inside the lower abdomen that is sudden and restricts you from standing or breathing normally.', hi: 'निचले पेट के अंदर गंभीर, तेज दर्द जो अचानक होता है और आपको सामान्य रूप से खड़े होने या सांस लेने से रोकता है।', bn: 'তলপেটের অভ্যন্তরে গুরুতর, তীক্ষ্ণ ব্যথা যা হঠাৎ হয় এবং আপনাকে স্বাভাবিকভাবে দাঁড়াতে বা শ্বাস নিতে বাধা দেয়।', ta: 'கீழ் அடிவயிற்றின் உள்ளே கடுமையான வலி, இது உங்களை சாதாரணமாக நிற்பதையோ அல்லது சுவாசிப்பதையோ கட்டுப்படுத்துகிறது.', te: 'దిగువ ఉదరం లోపల తీవ్రమైన, పదునైన నొప్పి, ఇది అకస్మాత్తుగా వస్తుంది మరియు మిమ్మల్ని నిలబడకుండా చేస్తుంది.', mr: 'खालच्या ओटीपोटात तीव्र वेदना जी अचानक होते आणि आपल्याला सामान्यपणे उभे राहण्यापासून किंवा श्वास घेण्यापासून रोखते.' }
-      },
-      { 
-        title: { en: 'Fainting & Dizziness', hi: 'बेहोशी और चक्कर आना', bn: 'মూర్ছা যাওয়া এবং মাথা ঘোরা', ta: 'மயக்கம் & தலைசுற்றல்', te: 'మూర్ఛ & మైకం', mr: 'मूर्च्छा आणि चक्कर' }, 
-        desc: { en: 'Losing consciousness, extreme lightheadedness, or persistent severe vomiting during your period.', hi: 'मासिक धर्म के दौरान चेतना खोना, अत्यधिक हल्कापन, या लगातार गंभीर उल्टी।', bn: 'আপনার পিরিয়ডের সময় জ্ঞান হারানো, চরম হালকা মাথাব্যথা বা অবিরাম তীব্র বমি হওয়া।', ta: 'உங்கள் மாதவிடாயின் போது சுயநினைவை இழப்பது, தீவிர மயக்கம் அல்லது தொடர்ந்து கடுமையான வாந்தி.', te: 'మీ పీరియడ్ సమయంలో స్పృహ కోల్పోవడం, తీవ్రమైన తలతిరగడం లేదా నిరంతర తీవ్రమైన వాంతులు.', mr: 'तुमच्या मासिक पाळीच्या दरम्यान शुद्ध हरपणे, अतिशय हलके वाटणे किंवा सतत उलट्या होणे.' }
-      },
-      { 
-        title: { en: 'High Infection Fever', hi: 'उच्च संक्रमण बुखार', bn: 'উচ্চ সংক্রমণ জ্বর', ta: 'அதிக தொற்று காய்ச்சல்', te: 'అధిక ఇన్ఫెక్షన్ జ్వరం', mr: 'उच्च संसर्ग ताप' }, 
-        desc: { en: 'Temperature above 101°F (38.3°C) accompanied by foul-smelling vaginal discharge.', hi: 'दुर्गंधयुक्त योनि स्राव के साथ 101°F (38.3°C) से ऊपर का तापमान।', bn: 'দুর্গন্ধযুক্ত যোনি স্রাবের সাথে ১০১° ফারেনহাইট (৩৮.৩° সেন্টিগ্রেড) এর উপরে তাপমাত্রা।', ta: '101°F (38.3°C) க்கு மேல் வெப்பநிலை துர்நாற்றத்துடன் கூடிய யோனி வெளியேற்றத்துடன்.', te: 'దుర్వాసనతో కూడిన యోని ఉత్సర్గతో పాటు 101°F (38.3°C) కంటే ఎక్కువ ఉష్ణోగ్రత.', mr: 'दुर्गंधीयुक्त योनि स्रावासह १०१°F (३८.३°C) च्या वर तापमान.' }
-      }
-    ],
-    alertTitle: { en: '⚠️ SOS Clinical Emergency Alert', hi: '⚠️ SOS नैदानिक आपातकालीन चेतावनी', bn: '⚠️ SOS ক্লিনিকাল ইমার্জেন্সি অ্যালার্ট', ta: '⚠️ SOS மருத்துவ அவசர எச்சரிக்கை', te: '⚠️ SOS క్లినికల్ ఎమర్జెన్సీ అలర్ట్', mr: '⚠️ SOS क्लिनिकल इमर्जन्सी अलर्ट' },
-    alertDesc: { en: 'Potential High-Risk Menstrual Symptoms Identified', hi: 'संभावित उच्च-जोखिम वाले मासिक धर्म के लक्षणों की पहचान की गई', bn: 'সম্ভাব্য উচ্চ-ঝুঁকিপূর্ণ মাসিকের লক্ষণ চিহ্নিত করা হয়েছে', ta: 'அடையாளம் காணப்பட்ட சாத்தியமான அதிக ஆபத்து மாதவிடாய் அறிகுறிகள்', te: 'సంభావ్య అధిక-ప్రమాద రుతుక్రమ లక్షణాలు గుర్తించబడ్డాయి', mr: 'संभाव्य उच्च-जोखमीची मासिक पाळीची लक्षणे ओळखली गेली' },
-    triggers: { en: 'Immediate ER Action Triggers:', hi: 'तत्काल ईआर कार्रवाई ट्रिगर:', bn: 'তাত্ক্ষণিক ইআর অ্যাকশন ট্রিগার:', ta: 'உடனடி ஈஆர் அதிரடி தூண்டுதல்கள்:', te: 'తక్షణ ఈఆర్ చర్య ట్రిగ్గర్లు:', mr: 'तात्काळ ईआर कृती ट्रिगर्स:' },
-    hotlines: { en: 'National Care Hotlines', hi: 'राष्ट्रीय देखभाल हेल्पलाइन', bn: 'জাতীয় কেয়ার হটলাইন', ta: 'தேசிய பராமரிப்பு ஹாட்லைன்கள்', te: 'జాతీయ సంరక్షణ హెల్ప్‌లైన్‌లు', mr: 'राष्ट्रीय केअर हॉटलाइन' },
-    ambulance: { en: 'Ambulance:', hi: 'एम्बुलेंस:', bn: 'অ্যাম্বুলেন্স:', ta: 'ஆம்புலன்ஸ்:', te: 'అంబులెన్స్:', mr: 'रुग्णवाहिका:' },
-    careLine: { en: 'Intimate Care Line:', hi: 'अंतरंग देखभाल लाइन:', bn: 'ইন্টিমেট কেয়ার লাইন:', ta: 'நெருக்கமான பராமரிப்பு வரி:', te: 'ఇంటిమేట్ కేర్ లైన్:', mr: 'इंटिमेट केअर लाईन:' },
-    localClinic: { en: 'Local Gynecological Emergency', hi: 'स्थानीय स्त्री रोग संबंधी आपातकाल', bn: 'স্থানীয় গাইনোকোলজিক্যাল ইমার্জেন্সি', ta: 'உள்ளூர் மகளிர் மருத்துவ அவசரநிலை', te: 'స్థానిక గైనకోలాజికల్ ఎమర్జెన్సీ', mr: 'स्थानिक स्त्रीरोगविषयक आणीबाणी' },
-    nearest: { en: 'Nearest:', hi: 'निकटतम:', bn: 'নিকটতম:', ta: 'அருகிலுள்ள:', te: 'సమీప:', mr: 'सर्वांत जवळचे:' },
-    travel: { en: 'Estimated Travel:', hi: 'अनुमानित यात्रा:', bn: 'আনুমানিক ভ্রমণ:', ta: 'மதிப்பிடப்பட்ட பயணம்:', te: 'అంచనా ప్రయాణం:', mr: 'अंदाजे प्रवास:' },
-    minsAway: { en: '8 Mins Away', hi: '8 मिनट दूर', bn: '8 মিনিট দূরে', ta: '8 நிமிடங்கள் தொலைவில்', te: '8 నిమిషాల దూరం', mr: '8 मिनिटे दूर' },
-    disclaimer: { en: '"Do not delay professional clinical care based on system predictions. Call ambulance immediately."', hi: '"सिस्टम भविष्यवाणियों के आधार पर पेशेवर नैदानिक देखभाल में देरी न करें। तुरंत एम्बुलेंस बुलाएं।"', bn: '"সিস্টেমের পূর্বাভাসের উপর ভিত্তি করে পেশাদার ক্লিনিকাল যত্নে দেরি করবেন না। অবিলম্বে অ্যাম্বুলেন্স কল করুন।"', ta: '"அமைப்பின் கணிப்புகளின் அடிப்படையில் தொழில்முறை மருத்துவ பராமரிப்பை தாமதப்படுத்த வேண்டாம். ஆம்புலன்ஸை உடனடியாக அழைக்கவும்."', te: '"సిస్టమ్ అంచనాల ఆధారంగా వృత్తిపరమైన క్లినికల్ సంరక్షణను ఆలస్యం చేయవద్దు. వెంటనే అంబులెన్స్‌కు కాల్ చేయండి."', mr: '"सिस्टमच्या अंदाजांवर आधारित व्यावसायिक क्लिनिकल काळजी घेण्यास उशीर करू नका. त्वरित रुग्णवाहिका कॉल करा."' },
-    dismiss: { en: 'Dismiss Warning', hi: 'चेतावनी खारिज करें', bn: 'সতর্কতা বাতিল করুন', ta: 'எச்சரிக்கையை நிராகரி', te: 'హెచ్చరికను తీసివేయండి', mr: 'इशारा डिसमिस करा' },
-    callNow: { en: 'Call Ambulance Now', hi: 'अभी एम्बुलेंस बुलाएं', bn: 'এখন অ্যাম্বুলেন্সে কল করুন', ta: 'இப்போது ஆம்புலன்ஸை அழைக்கவும்', te: 'ఇప్పుడే అంబులెన్స్‌కు కాల్ చేయండి', mr: 'आता रुग्णवाहिका कॉल करा' }
-  };
+export default function EmergencySystem({ language = 'en', closeEmergency }) {
+  const [isSOSActive, setIsSOSActive] = useState(false);
+
+  const contacts = [
+    { name: 'Mother', phone: '+91 98765 43210', relation: 'Primary', initial: 'M' },
+    { name: 'Sister', phone: '+91 98765 43211', relation: 'Family', initial: 'S' },
+    { name: 'Dr. Sharma', phone: '+91 98765 43212', relation: 'Doctor', initial: 'D' }
+  ];
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(20, 5, 10, 0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: '9999', padding: '20px' }}>
-      <div className="glass-panel slide-in" style={{ maxWidth: '650px', background: 'var(--bg-secondary)', padding: '40px', display: 'flex', flexDirection: 'column', gap: '24px', border: '2px solid var(--danger)', boxShadow: '0 0 40px rgba(250, 50, 50, 0.4)' }}>
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm overflow-y-auto pt-10 pb-12 flex justify-center">
+      <div className="w-full max-w-5xl px-6 relative">
         
-        {/* Header Warning */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', borderBottom: '2px solid var(--danger)', paddingBottom: '16px' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--danger-light)', color: 'var(--danger)', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center' }}>
-            <AlertTriangle size={24} style={{ animation: 'pulse 1.5s infinite' }} />
-          </div>
-          <div>
-            <h2 style={{ fontSize: '22px', color: 'var(--danger)', fontWeight: '800' }}>{strings.alertTitle[language] || strings.alertTitle['en']}</h2>
-            <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{strings.alertDesc[language] || strings.alertDesc['en']}</span>
-          </div>
-        </div>
+        {/* Close Button */}
+        {closeEmergency && (
+          <button 
+            onClick={closeEmergency}
+            className="absolute -top-4 right-6 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 backdrop-blur-md border border-white/20 transition-all z-50 cursor-pointer"
+          >
+            <X size={24} />
+          </button>
+        )}
 
-        {/* Clinical Red-Flags List */}
-        <div>
-          <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '700', textTransform: 'uppercase', display: 'block', marginBottom: '10px' }}>
-            {strings.triggers[language] || strings.triggers['en']}
-          </span>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="grid-2">
-            {strings.flags.map((flag, idx) => (
-              <div key={idx} style={{ background: 'var(--danger-light)', padding: '12px 14px', borderRadius: '8px', borderLeft: '4px solid var(--danger)' }}>
-                <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-primary)', display: 'block', marginBottom: '2px' }}>{flag.title[language] || flag.title['en']}</span>
-                <span style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: '1.4', display: 'block' }}>{flag.desc[language] || flag.desc['en']}</span>
+        <div className="flex flex-col gap-6 w-full animate-fade-in pb-12 mt-8">
+
+          {/* SECTION 1: Emergency Action Center (Hero Section) & SECTION 3: One-Tap Actions */}
+          <div className={`p-8 rounded-3xl border transition-colors duration-500 flex flex-col md:flex-row justify-between items-center gap-8 shadow-xl relative overflow-hidden ${isSOSActive ? 'bg-red-600 border-red-700 shadow-red-500/30' : 'bg-gradient-to-br from-zinc-900 to-zinc-800 dark:from-zinc-950 dark:to-black border-zinc-800'}`}>
+            
+            {/* Background Pulse Effect when Active */}
+            {isSOSActive && <div className="absolute inset-0 bg-red-500 animate-pulse opacity-20 pointer-events-none"></div>}
+
+            <div className="z-10 flex-1 w-full text-center md:text-left">
+               <h1 className="font-display text-2xl font-extrabold text-white mb-2 flex items-center justify-center md:justify-start gap-2">
+                 <AlertTriangle className={isSOSActive ? "animate-bounce" : ""} /> 
+                 {isSOSActive ? "EMERGENCY MODE ACTIVE" : "Emergency Assistance"}
+               </h1>
+               <p className="text-sm font-medium text-gray-300 mb-6 max-w-xl mx-auto md:mx-0">
+                 {isSOSActive ? "Your live location is being shared. Emergency contacts have been notified." : "Need immediate help? Press the SOS button to activate emergency protocols instantly."}
+               </p>
+
+               {/* SECTION 3: One-Tap Emergency Actions */}
+               <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                 <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors border border-white/20 backdrop-blur-sm cursor-pointer">
+                   <MapPin size={16} className={isSOSActive ? "text-red-400" : "text-blue-400"} /> Share Live Location
+                 </button>
+                 <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors border border-white/20 backdrop-blur-sm cursor-pointer">
+                   <Phone size={16} className="text-emerald-400" /> Call Contacts
+                 </button>
+                 <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors border border-white/20 backdrop-blur-sm cursor-pointer">
+                   <Ambulance size={16} className="text-rose-400" /> Call Ambulance
+                 </button>
+                 <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors border border-white/20 backdrop-blur-sm cursor-pointer">
+                   <ShieldAlert size={16} className="text-indigo-400" /> Call Police
+                 </button>
+               </div>
+            </div>
+
+            {/* The SOS Button */}
+            <div className="z-10 shrink-0">
+              <button 
+                onClick={() => setIsSOSActive(!isSOSActive)}
+                className={`w-40 h-40 rounded-full flex flex-col items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer border-8 ${isSOSActive ? 'bg-white text-red-600 border-red-200 shadow-red-500/50' : 'bg-red-600 text-white border-red-900/50 hover:bg-red-500 shadow-red-900/50'}`}
+              >
+                 <div className={!isSOSActive ? 'animate-pulse' : ''}>
+                   <ShieldAlert size={48} className="mb-1" />
+                 </div>
+                 <span className="font-display font-black text-2xl tracking-widest">{isSOSActive ? 'STOP' : 'SOS'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* SECTION 9: Safety Toolkit */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all cursor-pointer group">
+              <BellRing className="w-8 h-8 text-zinc-600 dark:text-zinc-400 group-hover:text-red-500 transition-colors" />
+              <span className="text-xs font-bold text-[var(--text-primary)]">Loud Alarm</span>
+            </button>
+            <button className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:border-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-950/30 transition-all cursor-pointer group">
+              <Flashlight className="w-8 h-8 text-zinc-600 dark:text-zinc-400 group-hover:text-yellow-500 transition-colors" />
+              <span className="text-xs font-bold text-[var(--text-primary)]">Flashlight</span>
+            </button>
+            <button className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all cursor-pointer group">
+              <MapPin className="w-8 h-8 text-zinc-600 dark:text-zinc-400 group-hover:text-blue-500 transition-colors" />
+              <span className="text-xs font-bold text-[var(--text-primary)]">Share Location</span>
+            </button>
+            <button className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all cursor-pointer group">
+              <Phone className="w-8 h-8 text-zinc-600 dark:text-zinc-400 group-hover:text-emerald-500 transition-colors" />
+              <span className="text-xs font-bold text-[var(--text-primary)]">Emergency Call</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            {/* LEFT COLUMN: Readiness, Contacts, Medical Info */}
+            <div className="lg:col-span-3 flex flex-col gap-6">
+              
+              {/* SECTION 14: Emergency Readiness Score */}
+              <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col items-center text-center">
+                 <h3 className="font-display font-extrabold text-sm mb-4 text-[var(--text-primary)] uppercase tracking-wider flex items-center gap-2 w-full text-left">
+                   <ShieldCheck className="w-4 h-4 text-emerald-500" /> Preparedness
+                 </h3>
+                 <div className="relative w-24 h-24 flex items-center justify-center mb-4">
+                    <svg className="w-full h-full transform -rotate-90 absolute top-0 left-0">
+                      <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-100 dark:text-zinc-800" />
+                      <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 92) / 100} className="text-emerald-500 transition-all duration-1000 ease-out" />
+                    </svg>
+                    <div className="flex flex-col items-center z-10">
+                      <span className="font-display font-black text-xl text-[var(--text-primary)]">92<span className="text-xs text-[var(--text-secondary)]">/100</span></span>
+                    </div>
+                 </div>
+                 <div className="flex flex-col gap-1.5 w-full text-left">
+                   <div className="flex items-start gap-2 bg-gray-50 dark:bg-zinc-950 p-2 rounded-lg">
+                     <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 shrink-0" />
+                     <span className="text-[10px] font-bold text-[var(--text-primary)]">Contacts Added</span>
+                   </div>
+                   <div className="flex items-start gap-2 bg-gray-50 dark:bg-zinc-950 p-2 rounded-lg">
+                     <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 shrink-0" />
+                     <span className="text-[10px] font-bold text-[var(--text-primary)]">Medical Info Updated</span>
+                   </div>
+                   <div className="flex items-start gap-2 bg-gray-50 dark:bg-zinc-950 p-2 rounded-lg">
+                     <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 shrink-0" />
+                     <span className="text-[10px] font-bold text-[var(--text-primary)]">Location Services On</span>
+                   </div>
+                 </div>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Local Emergency Hotlines */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="grid-2">
-          
-          {/* Contacts */}
-          <div style={{ background: 'var(--bg-primary)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Phone size={14} style={{ color: 'var(--secondary)' }} /> {strings.hotlines[language] || strings.hotlines['en']}
-            </span>
-            <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-              <div>📞 {strings.ambulance[language] || strings.ambulance['en']} <strong>102</strong></div>
-              <div>📞 {strings.careLine[language] || strings.careLine['en']} <strong>1800-419-1020</strong></div>
+              {/* SECTION 2: Emergency Contacts */}
+              <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                 <div className="flex justify-between items-center mb-4">
+                   <h3 className="font-display font-extrabold text-sm text-[var(--text-primary)] uppercase tracking-wider flex items-center gap-2">
+                     <Phone className="w-4 h-4 text-blue-500" /> Contacts
+                   </h3>
+                   <button className="text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 p-1 rounded-md transition-colors cursor-pointer"><Plus size={16}/></button>
+                 </div>
+                 <div className="flex flex-col gap-3">
+                   {contacts.map((c, i) => (
+                     <div key={i} className="flex justify-between items-center bg-gray-50 dark:bg-zinc-950 p-2.5 rounded-xl border border-gray-100 dark:border-zinc-800">
+                       <div className="flex items-center gap-3">
+                         <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">
+                           {c.initial}
+                         </div>
+                         <div>
+                           <span className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1.5">
+                             {c.name} {c.relation === 'Primary' && <Star size={10} className="fill-yellow-400 text-yellow-400" />}
+                           </span>
+                           <p className="text-[10px] font-medium text-[var(--text-secondary)]">{c.phone}</p>
+                         </div>
+                       </div>
+                     </div>
+                   ))}
+                 </div>
+              </div>
+
+              {/* SECTION 6: Medical Information Card */}
+              <div className="glass-panel p-5 rounded-3xl border border-rose-100 dark:border-rose-900/30 bg-rose-50/30 dark:bg-rose-950/10">
+                 <div className="flex justify-between items-center mb-4">
+                   <h3 className="font-display font-extrabold text-sm text-rose-600 dark:text-rose-400 uppercase tracking-wider flex items-center gap-2">
+                     <HeartPulse className="w-4 h-4" /> Medical Info
+                   </h3>
+                   <button className="text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 p-1 rounded-md transition-colors cursor-pointer"><Edit2 size={14}/></button>
+                 </div>
+                 <div className="grid grid-cols-2 gap-3 mb-3">
+                   <div className="bg-white/60 dark:bg-zinc-900/60 p-2 rounded-xl border border-rose-100 dark:border-rose-900/30">
+                     <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase block">Blood Group</span>
+                     <p className="text-sm font-black text-rose-600 dark:text-rose-400">O Positive</p>
+                   </div>
+                   <div className="bg-white/60 dark:bg-zinc-900/60 p-2 rounded-xl border border-rose-100 dark:border-rose-900/30">
+                     <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase block">Allergies</span>
+                     <p className="text-xs font-bold text-[var(--text-primary)]">Penicillin</p>
+                   </div>
+                 </div>
+                 <div className="bg-white/60 dark:bg-zinc-900/60 p-2.5 rounded-xl border border-rose-100 dark:border-rose-900/30 mb-3">
+                   <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase block mb-1">Current Medications</span>
+                   <p className="text-xs font-bold text-[var(--text-primary)]">Iron Supplements, Multivitamins</p>
+                 </div>
+                 <div className="bg-white/60 dark:bg-zinc-900/60 p-2.5 rounded-xl border border-rose-100 dark:border-rose-900/30 flex gap-2">
+                   <Info size={14} className="text-rose-500 shrink-0 mt-0.5" />
+                   <p className="text-[10px] font-medium text-[var(--text-secondary)] leading-tight">No known chronic conditions. Cleared for general emergency treatments.</p>
+                 </div>
+              </div>
+
             </div>
-          </div>
 
-          {/* Local Clinic Helper */}
-          <div style={{ background: 'var(--bg-primary)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <MapPin size={14} style={{ color: 'var(--secondary)' }} /> {strings.localClinic[language] || strings.localClinic['en']}
-            </span>
-            <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-              <div>📍 {strings.nearest[language] || strings.nearest['en']} <strong>Max Speciality Hospital ER</strong></div>
-              <div>🚗 {strings.travel[language] || strings.travel['en']} <strong>{strings.minsAway[language] || strings.minsAway['en']}</strong></div>
+            {/* CENTER COLUMN: Live Location, Messages, Trusted Places */}
+            <div className="lg:col-span-6 flex flex-col gap-6">
+              
+              {/* SECTION 4: Live Location Sharing */}
+              <div className={`glass-panel p-2 rounded-3xl border transition-colors duration-500 ${isSOSActive ? 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-900' : 'bg-white dark:bg-zinc-900 border-gray-100 dark:border-zinc-800'}`}>
+                 <div className="p-4 flex justify-between items-center">
+                   <h3 className="font-display font-extrabold text-sm flex items-center gap-2 text-[var(--text-primary)] uppercase tracking-wider">
+                     <Map className="w-4 h-4 text-indigo-500" /> Current Location
+                   </h3>
+                   {isSOSActive && (
+                     <span className="text-[10px] font-bold bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 px-3 py-1 rounded-full animate-pulse flex items-center gap-1.5">
+                       <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div> Live Sharing Active
+                     </span>
+                   )}
+                 </div>
+                 
+                 {/* Mock Map Preview */}
+                 <div className="relative w-full h-48 bg-zinc-200 dark:bg-zinc-800 rounded-2xl overflow-hidden flex items-center justify-center">
+                   {/* Abstract Map Background */}
+                   <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#444 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10">
+                     <div className="relative">
+                       <div className="w-12 h-12 bg-blue-500/20 rounded-full animate-ping absolute -inset-2"></div>
+                       <div className="w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center relative z-10">
+                         <div className="w-2 h-2 bg-white rounded-full"></div>
+                       </div>
+                     </div>
+                   </div>
+                   
+                   {isSOSActive && (
+                     <div className="absolute bottom-3 left-3 right-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-red-100 dark:border-red-900/30 flex justify-between items-center">
+                       <p className="text-xs font-bold text-[var(--text-primary)] truncate max-w-[70%]">Sector 4, Main Road, City Center</p>
+                       <button className="text-[10px] font-extrabold text-red-600 bg-red-100 dark:bg-red-900/30 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-red-200 transition-colors">Stop Sharing</button>
+                     </div>
+                   )}
+                 </div>
+              </div>
+
+              {/* SECTION 5: Emergency Message Generator */}
+              <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                 <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-[var(--text-primary)] uppercase tracking-wider">
+                   <MessageSquare className="w-4 h-4 text-emerald-500" /> Send Emergency Alert
+                 </h3>
+                 <div className="bg-gray-50 dark:bg-zinc-950 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 mb-4 shadow-inner">
+                   <p className="text-sm font-semibold text-[var(--text-primary)] whitespace-pre-line leading-relaxed">
+                     🚨 Emergency Alert{'\n\n'}
+                     I need immediate assistance.{'\n'}
+                     My current location has been shared.{'\n'}
+                     Please contact me as soon as possible.
+                   </p>
+                 </div>
+                 <div className="flex gap-3">
+                   <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl text-xs font-bold transition-colors shadow-sm cursor-pointer">
+                     Send WhatsApp
+                   </button>
+                   <button className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl text-xs font-bold transition-colors shadow-sm cursor-pointer">
+                     Send SMS
+                   </button>
+                 </div>
+              </div>
+
+              {/* SECTION 7: Trusted Places */}
+              <div className="glass-panel p-6 rounded-3xl border border-indigo-100 dark:border-indigo-900/30 bg-indigo-50/30 dark:bg-indigo-950/10">
+                 <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">
+                   <Building2 className="w-4 h-4" /> Nearby Safe Locations
+                 </h3>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                   <div className="bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white dark:border-zinc-800 flex justify-between items-center group cursor-pointer hover:border-indigo-300 transition-colors">
+                     <div>
+                       <span className="text-[10px] font-extrabold text-indigo-600 block">Hospital</span>
+                       <p className="text-xs font-bold text-[var(--text-primary)]">City Care Hospital</p>
+                     </div>
+                     <div className="flex flex-col items-end">
+                       <span className="text-[10px] font-black text-[var(--text-secondary)]">0.8 km</span>
+                       <Navigation size={12} className="text-indigo-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                     </div>
+                   </div>
+                   <div className="bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white dark:border-zinc-800 flex justify-between items-center group cursor-pointer hover:border-indigo-300 transition-colors">
+                     <div>
+                       <span className="text-[10px] font-extrabold text-indigo-600 block">Police Station</span>
+                       <p className="text-xs font-bold text-[var(--text-primary)]">Central Police Dept.</p>
+                     </div>
+                     <div className="flex flex-col items-end">
+                       <span className="text-[10px] font-black text-[var(--text-secondary)]">1.2 km</span>
+                       <Navigation size={12} className="text-indigo-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                     </div>
+                   </div>
+                   <div className="bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white dark:border-zinc-800 flex justify-between items-center group cursor-pointer hover:border-indigo-300 transition-colors">
+                     <div>
+                       <span className="text-[10px] font-extrabold text-indigo-600 block">Pharmacy</span>
+                       <p className="text-xs font-bold text-[var(--text-primary)]">Apollo Pharmacy</p>
+                     </div>
+                     <div className="flex flex-col items-end">
+                       <span className="text-[10px] font-black text-[var(--text-secondary)]">0.3 km</span>
+                       <Navigation size={12} className="text-indigo-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                     </div>
+                   </div>
+                   <div className="bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white dark:border-zinc-800 flex justify-between items-center group cursor-pointer hover:border-indigo-300 transition-colors">
+                     <div>
+                       <span className="text-[10px] font-extrabold text-indigo-600 block">Women's Help</span>
+                       <p className="text-xs font-bold text-[var(--text-primary)]">Sakhi Shelter Center</p>
+                     </div>
+                     <div className="flex flex-col items-end">
+                       <span className="text-[10px] font-black text-[var(--text-secondary)]">2.5 km</span>
+                       <Navigation size={12} className="text-indigo-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                     </div>
+                   </div>
+                 </div>
+              </div>
+
             </div>
+
+            {/* RIGHT COLUMN: Hidden SOS Info, Tips, Assistant */}
+            <div className="lg:col-span-3 flex flex-col gap-6">
+              
+              {/* SECTION 8: Emergency Health Information (CONDITIONAL) */}
+              {isSOSActive && (
+                <div className="bg-red-600 text-white p-5 rounded-3xl border border-red-500 shadow-xl shadow-red-500/20 animate-fade-in">
+                  <h3 className="font-display font-extrabold text-sm mb-4 uppercase tracking-wider flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-white" /> Active Health Data
+                  </h3>
+                  <p className="text-[10px] font-medium text-red-100 mb-3 leading-tight">
+                    This information is surfaced for paramedics and emergency contacts:
+                  </p>
+                  <div className="flex flex-col gap-2">
+                     <div className="bg-red-700/50 p-2.5 rounded-xl border border-red-500/50">
+                       <span className="text-[9px] font-extrabold text-red-200 uppercase">Cycle Phase</span>
+                       <p className="text-xs font-bold">Ovulation</p>
+                     </div>
+                     <div className="bg-red-700/50 p-2.5 rounded-xl border border-red-500/50">
+                       <span className="text-[9px] font-extrabold text-red-200 uppercase">Recent Symptoms</span>
+                       <p className="text-xs font-bold">Fatigue, Mild Cramps</p>
+                     </div>
+                     <div className="bg-red-700/50 p-2.5 rounded-xl border border-red-500/50">
+                       <span className="text-[9px] font-extrabold text-red-200 uppercase">Last Blood Analysis</span>
+                       <p className="text-xs font-bold">Bright Red (Normal) - 2 days ago</p>
+                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* SECTION 12: Quick Safety Tips */}
+              <div className="glass-panel p-5 rounded-3xl border border-orange-100 dark:border-orange-900/30 bg-gradient-to-br from-orange-50 to-white dark:from-orange-900/20 dark:to-zinc-900 text-center relative overflow-hidden group">
+                 <Sparkles className="absolute -top-2 -left-2 w-12 h-12 text-orange-200 dark:text-orange-900/50 opacity-50 group-hover:rotate-12 transition-transform" />
+                 <h3 className="font-display font-extrabold text-[10px] text-orange-600 dark:text-orange-400 uppercase tracking-wider mb-3 relative z-10">
+                   🌸 Safety Tip of the Day
+                 </h3>
+                 <p className="font-display font-bold text-sm text-[var(--text-primary)] leading-snug italic relative z-10 mb-2">
+                   "Always share your travel plans and cab details with at least one trusted primary contact."
+                 </p>
+              </div>
+
+              {/* SECTION 11: Emergency History */}
+              <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                 <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-[var(--text-primary)] uppercase tracking-wider">
+                   <Clock className="w-4 h-4 text-purple-500" /> Recent Activity
+                 </h3>
+                 <div className="flex flex-col gap-4 relative before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100 dark:before:bg-zinc-800">
+                   <div className="flex items-start gap-3 relative z-10">
+                     <div className="w-4 h-4 rounded-full bg-blue-500 border-2 border-white dark:border-zinc-900 shrink-0 mt-0.5"></div>
+                     <div>
+                       <p className="text-xs font-bold text-[var(--text-primary)]">Location Shared</p>
+                       <span className="text-[9px] font-semibold text-[var(--text-secondary)]">Yesterday, 9:45 PM</span>
+                     </div>
+                   </div>
+                   <div className="flex items-start gap-3 relative z-10">
+                     <div className="w-4 h-4 rounded-full bg-red-500 border-2 border-white dark:border-zinc-900 shrink-0 mt-0.5"></div>
+                     <div>
+                       <p className="text-xs font-bold text-[var(--text-primary)]">SOS Activated (Test)</p>
+                       <span className="text-[9px] font-semibold text-[var(--text-secondary)]">Oct 12, 4:20 PM</span>
+                     </div>
+                   </div>
+                 </div>
+              </div>
+
+              {/* SECTION 13: AI Safety Assistant & SECTION 10: Resources */}
+              <div className="glass-panel p-5 rounded-3xl border border-emerald-100 dark:border-emerald-900/30 bg-emerald-50/30 dark:bg-emerald-950/10">
+                 <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-3 text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
+                   🤖 Sakhi Safety Assistant
+                 </h3>
+                 <div className="flex flex-col gap-2 mb-4">
+                   <button className="text-left text-[11px] font-bold text-[var(--text-primary)] bg-white/60 dark:bg-zinc-900/60 p-2 rounded-lg border border-white dark:border-zinc-800 hover:border-emerald-300 transition-colors">
+                     💬 What should I do in an emergency?
+                   </button>
+                   <button className="text-left text-[11px] font-bold text-[var(--text-primary)] bg-white/60 dark:bg-zinc-900/60 p-2 rounded-lg border border-white dark:border-zinc-800 hover:border-emerald-300 transition-colors">
+                     💬 Safety guidance for traveling alone?
+                   </button>
+                 </div>
+                 
+                 <div className="pt-4 border-t border-emerald-200 dark:border-emerald-900/50">
+                   <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase block mb-2">Women's Safety Resources</span>
+                   <div className="flex flex-wrap gap-2">
+                     <span className="text-[9px] font-bold bg-white dark:bg-zinc-800 px-2 py-1 rounded shadow-sm cursor-pointer hover:text-emerald-600 transition-colors">Helplines</span>
+                     <span className="text-[9px] font-bold bg-white dark:bg-zinc-800 px-2 py-1 rounded shadow-sm cursor-pointer hover:text-emerald-600 transition-colors">Mental Health</span>
+                     <span className="text-[9px] font-bold bg-white dark:bg-zinc-800 px-2 py-1 rounded shadow-sm cursor-pointer hover:text-emerald-600 transition-colors">Legal Aid</span>
+                   </div>
+                 </div>
+              </div>
+
+            </div>
+
           </div>
-
         </div>
-
-        {/* Disclaimers & Action buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
-          <span style={{ fontSize: '11px', color: 'var(--danger)', fontWeight: '600', display: 'block', textAlign: 'center', fontStyle: 'italic' }}>
-            {strings.disclaimer[language] || strings.disclaimer['en']}
-          </span>
-          
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-            <button className="btn btn-secondary" onClick={closeEmergency} style={{ padding: '8px 16px' }}>
-              {strings.dismiss[language] || strings.dismiss['en']}
-            </button>
-            <button 
-              className="btn btn-primary" 
-              style={{ background: 'var(--danger)', border: 'none', color: 'white', padding: '8px 16px' }}
-              onClick={() => alert('Dialing ambulance... Simulating direct VoIP dial.')}
-            >
-              {strings.callNow[language] || strings.callNow['en']}
-            </button>
-          </div>
-        </div>
-
       </div>
     </div>
   );

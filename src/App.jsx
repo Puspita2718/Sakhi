@@ -8,6 +8,7 @@ import ContactPage from './components/ContactPage';
 import AuthPage from './components/AuthPage';
 import ProfilePage from './components/ProfilePage';
 import Dashboard from './components/Dashboard';
+import CycleTracker from './components/CycleTracker';
 import BloodAnalysis from './components/BloodAnalysis';
 import AIChatbot from './components/AIChatbot';
 import DietGenerator from './components/DietGenerator';
@@ -435,7 +436,7 @@ export default function App() {
                   {page === 'profile' && (
                     <ProfilePage user={user} setUser={setUser} />
                   )}
-                  {(page === 'dashboard' || page === 'calendar') && (
+                  {page === 'dashboard' && (
                     <Dashboard 
                       language={language}
                       cycleLogs={cycleLogs}
@@ -443,6 +444,14 @@ export default function App() {
                       setTab={setPage}
                       waterIntake={waterIntake}
                       setWaterIntake={setWaterIntake}
+                    />
+                  )}
+                  {page === 'calendar' && (
+                    <CycleTracker 
+                      language={language}
+                      cycleLogs={cycleLogs}
+                      setCycleLogs={setCycleLogs}
+                      setTab={setPage}
                     />
                   )}
                   {page === 'blood-analysis' && (

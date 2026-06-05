@@ -1,361 +1,516 @@
 import React, { useState } from 'react';
-import { Sparkles, Heart, AlertTriangle, HelpCircle } from 'lucide-react';
+import { 
+  Droplet, Upload, Camera, Activity, AlertTriangle, 
+  HelpCircle, Heart, Download, CheckCircle2, ChevronDown, ChevronRight, Apple, TrendingUp, Info
+} from 'lucide-react';
 
-export default function BloodAnalysis({ language }) {
-  const [filterType, setFilterType] = useState('all');
+export default function BloodAnalysis({ language = 'en' }) {
+  const [isUploading, setIsUploading] = useState(false);
+  const [hasUploaded, setHasUploaded] = useState(false);
+  
+  const [selectedFlow, setSelectedFlow] = useState('Moderate');
+  const [selectedClot, setSelectedClot] = useState('None');
+  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
+  const [expandedFaq, setExpandedFaq] = useState(null);
 
+  // Original Blood Colors (Redesigned for Section 4)
   const bloodColors = [
-    {
-      name: { en: 'Bright Red Blood', hi: 'चमकदार लाल रक्त', bn: 'উজ্জ্বল লাল রক্ত', ta: 'பிரகாசமான சிவப்பு இரத்தம்', te: 'ప్రకాశవంతమైన ఎరుపు రక్తం', mr: 'चमकदार लाल रक्त' },
-      hex: 'hsl(355, 90%, 45%)',
-      meaning: {
-        en: 'Indicates fresh blood flowing quickly from the uterus.',
-        hi: 'गर्भाशय से तेजी से बहने वाले ताजे रक्त को दर्शाता है।',
-        bn: 'জরায়ু থেকে দ্রুত প্রবাহিত তাজা রক্ত নির্দেশ করে।',
-        ta: 'கருப்பையிலிருந்து வேகமாக பாயும் புதிய இரத்தத்தை குறிக்கிறது.',
-        te: 'గర్భాశయం నుండి వేగంగా ప్రవహించే తాజా రక్తాన్ని సూచిస్తుంది.',
-        mr: 'गर्भाशयातून वेगाने वाहणारे ताजे रक्त दर्शवते.'
-      },
-      causes: {
-        en: 'Common during the start or heavy days of a period when shedding is active.',
-        hi: 'मासिक धर्म की शुरुआत या भारी दिनों में आम है जब शेडिंग सक्रिय होती है।',
-        bn: 'পিরিয়ডের শুরু বা ভারী দিনগুলিতে সাধারণ যখন শেডিং সক্রিয় থাকে।',
-        ta: 'மாதவிடாயின் தொடக்கம் அல்லது அதிக நாட்களில் பொதுவானது.',
-        te: 'రుతుక్రమం ప్రారంభం లేదా భారీ రోజుల్లో సాధారణం.',
-        mr: 'मासिक पाळीच्या सुरुवातीला किंवा जड दिवसांमध्ये सामान्य आहे.'
-      },
-      normal: {
-        en: 'Standard period flow in almost all cycles.',
-        hi: 'लगभग सभी चक्रों में मानक प्रवाह।',
-        bn: 'প্রায় সব চক্রের আদর্শ পিরিয়ড প্রবাহ।',
-        ta: 'கிட்டத்தட்ட அனைத்து சுழற்சிகளிலும் நிலையான ஓட்டம்.',
-        te: 'దాదాపు అన్ని చక్రాలలో ప్రామాణిక ప్రవాహం.',
-        mr: 'जवळपास सर्व चक्रांमध्ये मानक प्रवाह.'
-      },
-      warning: {
-        en: 'If bleeding is extremely heavy (soaking >1 pad/hour) or accompanied by severe pain.',
-        hi: 'यदि रक्तस्राव अत्यधिक भारी है (>1 पैड/घंटा) या गंभीर दर्द के साथ है।',
-        bn: 'যদি রক্তপাত অত্যন্ত ভারী হয় (>১ প্যাড/ঘণ্টা) বা তীব্র ব্যথার সাথে থাকে।',
-        ta: 'இரத்தப்போக்கு மிகவும் கடுமையாக இருந்தால் (>1 பேட்/மணி) அல்லது கடுமையான வலியுடன் இருந்தால்.',
-        te: 'రక్తస్రావం చాలా ఎక్కువగా ఉంటే (>1 ప్యాడ్/గంట) లేదా తీవ్రమైన నొప్పితో ఉంటే.',
-        mr: 'रक्तस्त्राव खूप जास्त असल्यास (>1 पॅड/तास) किंवा तीव्र वेदना होत असल्यास.'
-      },
-      severity: 'low'
-    },
-    {
-      name: { en: 'Dark Red / Purple Blood', hi: 'गहरा लाल / बैंगनी रक्त', bn: 'গাঢ় লাল / বেগুনি রক্ত', ta: 'அடர் சிவப்பு / ஊதா இரத்தம்', te: 'ముదురు ఎరుపు / ఊదా రక్తం', mr: 'गडद लाल / जांभळे रक्त' },
-      hex: 'hsl(340, 85%, 30%)',
-      meaning: {
-        en: 'Older blood that has stayed in the uterus longer and oxidized slightly.',
-        hi: 'पुराना रक्त जो गर्भाशय में अधिक समय तक रहा और थोड़ा ऑक्सीकृत हुआ।',
-        bn: 'পুরানো রক্ত যা জরায়ুতে বেশি সময় থাকে এবং কিছুটা অক্সিডাইজ হয়।',
-        ta: 'கருப்பையில் நீண்ட நேரம் தங்கி சிறிது ஆக்ஸிஜனேற்றப்பட்ட பழைய இரத்தம்.',
-        te: 'గర్భాశయంలో ఎక్కువ కాలం ఉండి కొద్దిగా ఆక్సీకరణం చెందిన పాత రక్తం.',
-        mr: 'जुने रक्त जे गर्भाशयात जास्त काळ राहिले आणि थोडे ऑक्सिडाइज झाले.'
-      },
-      causes: {
-        en: 'Common after waking up, or at the middle/end of the flow cycle.',
-        hi: 'सोने के बाद जागने पर, या प्रवाह चक्र के मध्य/अंत में आम है।',
-        bn: 'ঘুম থেকে ওঠার পর বা প্রবাহ চক্রের মাঝখানে/শেষে সাধারণ।',
-        ta: 'தூங்கி எழுந்தவுடன் அல்லது ஓட்ட சுழற்சியின் நடுவில்/முடிவில் பொதுவானது.',
-        te: 'నిద్రలేచిన తర్వాత లేదా ప్రవాహ చక్రం మధ్యలో/చివరిలో సాధారణం.',
-        mr: 'झोपेतून उठल्यानंतर, किंवा प्रवाह चक्राच्या मध्य/शेवटी सामान्य आहे.'
-      },
-      normal: {
-        en: 'Shedding older lining is a completely physiological, healthy cleaning process.',
-        hi: 'पुरानी परत को हटाना पूरी तरह से शारीरिक, स्वस्थ सफाई प्रक्रिया है।',
-        bn: 'পুরানো আস্তরণ বাদ দেওয়া সম্পূর্ণ স্বাস্থ্যকর পরিষ্কার প্রক্রিয়া।',
-        ta: 'பழைய புறணியை அகற்றுவது முற்றிலும் ஆரோக்கியமான சுத்தம் செய்யும் செயல்முறையாகும்.',
-        te: 'పాత పొరను వదిలించుకోవడం పూర్తిగా ఆరోగ్యకరమైన శుభ్రపరిచే ప్రక్రియ.',
-        mr: 'जुने अस्तर काढून टाकणे ही पूर्णपणे शारीरिक, निरोगी स्वच्छता प्रक्रिया आहे.'
-      },
-      warning: {
-        en: 'Standard; no warning unless clots are larger than a quarter.',
-        hi: 'मानक; कोई चेतावनी नहीं जब तक कि थक्के एक सिक्के से बड़े न हों।',
-        bn: 'স্ট্যান্ডার্ড; কোন সতর্কতা নেই যদি না জমাট বাঁধাগুলো একটি মুদ্রার চেয়ে বড় হয়।',
-        ta: 'நிலையானது; கட்டிகள் ஒரு நாணயத்தை விட பெரிதாக இல்லாவிட்டால் எச்சரிக்கை இல்லை.',
-        te: 'ప్రామాణికం; గడ్డలు నాణెం కంటే పెద్దవిగా ఉంటే తప్ప హెచ్చరిక లేదు.',
-        mr: 'मानक; गुठळ्या नाण्यापेक्षा मोठ्या असल्याशिवाय कोणताही इशारा नाही.'
-      },
-      severity: 'low'
-    },
-    {
-      name: { en: 'Brown / Black Blood', hi: 'भूरा / काला रक्त', bn: 'বাদামী / কালো রক্ত', ta: 'பழுப்பு / கருப்பு இரத்தம்', te: 'గోధుమ / నలుపు రక్తం', mr: 'तपकिरी / काळे रक्त' },
-      hex: 'hsl(20, 60%, 20%)',
-      meaning: {
-        en: 'Highly oxidized old blood that took a long time to exit the body.',
-        hi: 'अत्यधिक ऑक्सीकृत पुराना रक्त जिसे शरीर से बाहर निकलने में लंबा समय लगा।',
-        bn: 'অত্যন্ত অক্সিডাইজড পুরানো রক্ত যা শরীর থেকে বের হতে দীর্ঘ সময় নেয়।',
-        ta: 'அதிக அளவு ஆக்ஸிஜனேற்றப்பட்ட பழைய இரத்தம் உடலை விட்டு வெளியேற நீண்ட நேரம் எடுத்தது.',
-        te: 'శరీరం నుండి బయటకు రావడానికి చాలా సమయం తీసుకున్న అధిక ఆక్సీకరణ పాత రక్తం.',
-        mr: 'अत्यधिक ऑक्सिडाइज्ड जुने रक्त ज्याला शरीरातून बाहेर पडण्यास बराच वेळ लागला.'
-      },
-      causes: {
-        en: 'Usually seen in the very first spotting days or last tail-end period days.',
-        hi: 'आमतौर पर पहले स्पॉटिंग के दिनों या अंतिम टेल-एंड दिनों में देखा जाता है।',
-        bn: 'সাধারণত প্রথম স্পটিং দিন বা শেষ পিরিয়ডের দিনগুলিতে দেখা যায়।',
-        ta: 'பொதுவாக முதல் ஸ்பாட்டிங் நாட்கள் அல்லது கடைசி நாட்களில் காணப்படும்.',
-        te: 'సాధారణంగా మొదటి మచ్చల రోజులు లేదా చివరి రోజుల్లో కనిపిస్తుంది.',
-        mr: 'सहसा पहिल्या स्पॉटिंग दिवसांमध्ये किंवा शेवटच्या दिवसांमध्ये दिसून येते.'
-      },
-      normal: {
-        en: 'Completely normal. It represents late discharge or leftover uterine clean-up.',
-        hi: 'पूरी तरह से सामान्य। यह देर से डिस्चार्ज या बचे हुए गर्भाशय की सफाई का प्रतिनिधित्व करता है।',
-        bn: 'সম্পূর্ণ স্বাভাবিক। এটি দেরিতে স্রাব বা জরায়ু পরিষ্কারের প্রতিনিধিত্ব করে।',
-        ta: 'முற்றிலும் இயல்பானது. இது தாமதமான வெளியேற்றம் அல்லது கருப்பை சுத்தம் செய்வதைக் குறிக்கிறது.',
-        te: 'పూర్తిగా సాధారణం. ఇది ఆలస్యంగా ఉత్సర్గ లేదా గర్భాశయ శుభ్రతను సూచిస్తుంది.',
-        mr: 'पूर्णपणे सामान्य. हे उशिरा डिस्चार्ज किंवा गर्भाशयाच्या स्वच्छतेचे प्रतिनिधित्व करते.'
-      },
-      warning: {
-        en: 'No medical concern unless foul-smelling or paired with continuous pelvic pain.',
-        hi: 'कोई चिकित्सीय चिंता नहीं जब तक कि दुर्गंधयुक्त न हो या निरंतर पेल्विक दर्द न हो।',
-        bn: 'দুর্গন্ধযুক্ত বা একটানা শ্রোণী ব্যথা না হলে কোন চিকিৎসা উদ্বেগ নেই।',
-        ta: 'துர்நாற்றம் வீசும் அல்லது தொடர்ச்சியான இடுப்பு வலி இல்லாவிட்டால் எந்த மருத்துவ கவலையும் இல்லை.',
-        te: 'దుర్వాసన లేదా నిరంతర పెల్విక్ నొప్పి తప్ప ఎటువంటి వైద్య ఆందోళన లేదు.',
-        mr: 'दुर्गंधीयुक्त किंवा सतत पेल्विक वेदना असल्याशिवाय कोणतीही वैद्यकीय चिंता नाही.'
-      },
-      severity: 'low'
-    },
-    {
-      name: { en: 'Pink Blood', hi: 'गुलाबी रक्त', bn: 'গোলাপী রক্ত', ta: 'இளஞ்சிவப்பு இரத்தம்', te: 'గులాబీ రక్తం', mr: 'गुलाबी रक्त' },
-      hex: 'hsl(340, 75%, 70%)',
-      meaning: {
-        en: 'Blood diluted or mixed with fertile cervical fluid or vaginal discharge.',
-        hi: 'रक्त जो उपजाऊ ग्रीवा द्रव या योनि स्राव के साथ मिश्रित हो गया है।',
-        bn: 'রক্ত যা উর্বর জরায়ুর তরল বা যোনি স্রাবের সাথে মিশ্রিত হয়।',
-        ta: 'இரத்தம் கருப்பை வாய் திரவம் அல்லது யோனி வெளியேற்றத்துடன் கலக்கப்படுகிறது.',
-        te: 'రక్తం గర్భాశయ ద్రవం లేదా యోని ఉత్సర్గతో కలుపుతారు.',
-        mr: 'रक्त जे सुपीक ग्रीवा द्रव किंवा योनि स्रावमध्ये मिसळले आहे.'
-      },
-      causes: {
-        en: 'Low estrogen levels, ovulation spotting, light flow days, or early pregnancy implantation.',
-        hi: 'कम एस्ट्रोजन स्तर, ओव्यूलेशन स्पॉटिंग, हल्के प्रवाह के दिन, या प्रारंभिक गर्भावस्था।',
-        bn: 'কম ইস্ট্রোজেনের মাত্রা, ওভুলেশন স্পটিং, হালকা প্রবাহের দিন বা প্রাথমিক গর্ভাবস্থা।',
-        ta: 'குறைந்த ஈஸ்ட்ரோஜன் அளவு, அண்டவிடுப்பின் ஸ்பாட்டிங், லேசான ஓட்ட நாட்கள் அல்லது ஆரம்பகால கர்ப்பம்.',
-        te: 'తక్కువ ఈస్ట్రోజెన్ స్థాయిలు, అండోత్సర్గము మచ్చలు, తేలికపాటి ప్రవాహ రోజులు లేదా ప్రారంభ గర్భం.',
-        mr: 'कमी इस्ट्रोजेन पातळी, ओव्हुलेशन स्पॉटिंग, हलके प्रवाहाचे दिवस किंवा लवकर गर्भधारणा.'
-      },
-      normal: {
-        en: 'During ovulation windows (spotting) or start of light cycles.',
-        hi: 'ओव्यूलेशन स्पॉटिंग या हल्के चक्र की शुरुआत के दौरान।',
-        bn: 'ওভুলেশন স্পটিং বা হালকা চক্রের শুরুতে।',
-        ta: 'அண்டவிடுப்பின் (ஸ்பாட்டிங்) போது அல்லது ஒளி சுழற்சியின் தொடக்கத்தில்.',
-        te: 'అండోత్సర్గము (మచ్చలు) సమయంలో లేదా కాంతి చక్రం ప్రారంభంలో.',
-        mr: 'ओव्हुलेशन (स्पॉटिंग) दरम्यान किंवा हलक्या सायकलच्या सुरूवातीस.'
-      },
-      warning: {
-        en: 'If continuous, it might indicate low estrogen, hormonal imbalances, or vitamin deficiencies.',
-        hi: 'यदि निरंतर है, तो यह कम एस्ट्रोजन या हार्मोनल असंतुलन का संकेत दे सकता है।',
-        bn: 'অব্যাহত থাকলে এটি কম ইস্ট্রোজেন বা হরমোনের ভারসাম্যহীনতা নির্দেশ করতে পারে।',
-        ta: 'தொடர்ச்சியாக இருந்தால், அது குறைந்த ஈஸ்ட்ரோஜன் அல்லது ஹார்மோன் ஏற்றத்தாழ்வைக் குறிக்கலாம்.',
-        te: 'నిరంతరంగా ఉంటే, ఇది తక్కువ ఈస్ట్రోజెన్ లేదా హార్మోన్ల అసమతుల్యతను సూచిస్తుంది.',
-        mr: 'सतत असल्यास, हे कमी इस्ट्रोजेन किंवा संप्रेरक असंतुलन दर्शवू शकते.'
-      },
-      severity: 'medium'
-    },
-    {
-      name: { en: 'Orange Blood', hi: 'नारंगी रक्त', bn: 'কমলা রক্ত', ta: 'ஆரஞ்சு இரத்தம்', te: 'నారింజ రక్తం', mr: 'नारंगी रक्त' },
-      hex: 'hsl(25, 85%, 55%)',
-      meaning: {
-        en: 'Blood mixed with cervical secretions, which can sometimes indicate a bacterial infection.',
-        hi: 'रक्त ग्रीवा स्राव के साथ मिश्रित होता है, जो कभी-कभी संक्रमण का संकेत दे सकता है।',
-        bn: 'রক্ত জরায়ুর ক্ষরণের সাথে মিশ্রিত হয়, যা কখনও কখনও সংক্রমণের ইঙ্গিত দিতে পারে।',
-        ta: 'இரத்தம் கருப்பை வாய் சுரப்புடன் கலக்கப்படுகிறது, இது சில நேரங்களில் தொற்றுநோயைக் குறிக்கும்.',
-        te: 'రక్తం గర్భాశయ స్రావాలతో కలుపుతారు, ఇది కొన్నిసార్లు ఇన్ఫెక్షన్‌ను సూచిస్తుంది.',
-        mr: 'रक्त ग्रीवा स्रावात मिसळले जाते, जे कधीकधी संसर्ग दर्शवू शकते.'
-      },
-      causes: {
-        en: 'Can be spotting, or associated with vaginitis/cervical infections.',
-        hi: 'स्पॉटिंग हो सकती है, या वेजिनाइटिस/सर्वाइकल संक्रमण से जुड़ी हो सकती है।',
-        bn: 'স্পটিং হতে পারে, বা ভ্যাজাইনাইটিস/সার্ভাইকাল সংক্রমণের সাথে যুক্ত হতে পারে।',
-        ta: 'ஸ்பாட்டிங் ஆக இருக்கலாம் அல்லது வஜினினிடிஸ்/கர்ப்பப்பை வாய் தொற்றுகளுடன் தொடர்புடையதாக இருக்கலாம்.',
-        te: 'మచ్చలు కావచ్చు లేదా వాగినిటిస్/గర్భాశయ ఇన్ఫెక్షన్‌లతో సంబంధం కలిగి ఉండవచ్చు.',
-        mr: 'स्पॉटिंग असू शकते किंवा योनीसिस/ग्रीवा संसर्गाशी संबंधित असू शकते.'
-      },
-      normal: {
-        en: 'Rarely normal; usually warrants verification.',
-        hi: 'शायद ही कभी सामान्य; आमतौर पर सत्यापन की आवश्यकता होती है।',
-        bn: 'খুব কমই স্বাভাবিক; সাধারণত যাচাই প্রয়োজন।',
-        ta: 'அரிதாக சாதாரணமானது; வழக்கமாக சரிபார்ப்பு தேவைப்படுகிறது.',
-        te: 'అరుదుగా సాధారణం; సాధారణంగా ధృవీకరణ అవసరం.',
-        mr: 'क्वचितच सामान्य; सहसा पडताळणी आवश्यक असते.'
-      },
-      warning: {
-        en: 'Highly recommended to check if paired with itching, burning during urination, or unusual odor.',
-        hi: 'यदि खुजली, पेशाब के दौरान जलन या असामान्य गंध के साथ हो तो जांच करने की अत्यधिक सिफारिश की जाती है।',
-        bn: 'চুলকানি, প্রস্রাবের সময় জ্বালা বা অস্বাভাবিক গন্ধ হলে চেক করার সুপারিশ করা হয়।',
-        ta: 'அரிப்பு, சிறுநீர் கழிக்கும் போது எரிச்சல் அல்லது அசாதாரண வாசனை இருந்தால் சரிபார்க்க பரிந்துரைக்கப்படுகிறது.',
-        te: 'దురద, మూత్రవిసర్జన సమయంలో మంట లేదా అసాధారణ వాసన ఉంటే తనిఖీ చేయాలని సిఫార్సు చేయబడింది.',
-        mr: 'खाज सुटणे, लघवी करताना जळजळ किंवा असामान्य वास असल्यास तपासणी करण्याची शिफारस केली जाते.'
-      },
-      severity: 'high'
-    },
-    {
-      name: { en: 'Gray Blood', hi: 'धूसर / ग्रे रक्त', bn: 'ধূসর রক্ত', ta: 'சாம்பல் இரத்தம்', te: 'బూడిద రక్తం', mr: 'ग्रे रक्त' },
-      hex: 'hsl(0, 10%, 60%)',
-      meaning: {
-        en: 'A strong indicator of vaginal infections or potential pregnancy tissue passage.',
-        hi: 'योनि संक्रमण या संभावित गर्भावस्था ऊतक मार्ग का एक मजबूत संकेतक।',
-        bn: 'যোনি সংক্রমণ বা সম্ভাব্য গর্ভাবস্থার টিস্যু পাসের একটি শক্তিশালী সূচক।',
-        ta: 'யோனி தொற்றுகள் அல்லது சாத்தியமான கர்ப்ப திசு பத்தியின் வலுவான காட்டி.',
-        te: 'యోని అంటువ్యాధులు లేదా సంభావ్య గర్భం కణజాల మార్గానికి బలమైన సూచిక.',
-        mr: 'योनिमार्गात संक्रमण किंवा संभाव्य गर्भधारणा ऊतक जाण्याचा मजबूत सूचक.'
-      },
-      causes: {
-        en: 'Bacterial Vaginosis (BV), or potential miscarriage tissue.',
-        hi: 'बैक्टीरियल वेजिनाइटिस (BV), या संभावित गर्भपात।',
-        bn: 'ব্যাকটেরিয়াল ভ্যাজাইনোসিস (BV), বা সম্ভাব্য গর্ভপাতের টিস্যু।',
-        ta: 'பாக்டீரியல் வஜினோசிஸ் (BV), அல்லது சாத்தியமான கருச்சிதைவு திசு.',
-        te: 'బాక్టీరియల్ వాగినోసిస్ (BV), లేదా సంభావ్య గర్భస్రావం కణజాలం.',
-        mr: 'बॅक्टेरियल व्हजायनोसिस (BV), किंवा संभाव्य गर्भपात ऊतक.'
-      },
-      normal: {
-        en: 'Never normal. Warrants clinical checking.',
-        hi: 'कभी भी सामान्य नहीं। चिकित्सीय जांच की आवश्यकता है।',
-        bn: 'কখনই স্বাভাবিক নয়। ক্লিনিকাল চেকিং প্রয়োজন।',
-        ta: 'ஒருபோதும் இயல்பானதல்ல. மருத்துவ பரிசோதனை தேவை.',
-        te: 'ఎప్పుడూ సాధారణం కాదు. క్లినికల్ చెకింగ్ అవసరం.',
-        mr: 'कधीही सामान्य नाही. क्लिनिकल तपासणी आवश्यक आहे.'
-      },
-      warning: {
-        en: 'Seek immediate gynecological evaluation, especially if pregnant or experiencing severe cramping.',
-        hi: 'तुरंत स्त्री रोग संबंधी मूल्यांकन की तलाश करें, खासकर यदि गर्भवती हैं या गंभीर ऐंठन है।',
-        bn: 'অবিলম্বে গাইনোকোলজিকাল মূল্যায়ন করুন, বিশেষত যদি গর্ভবতী হন বা তীব্র ক্র্যাম্প অনুভব করেন।',
-        ta: 'உடனடி மகளிர் மருத்துவ மதிப்பீட்டைத் தேடுங்கள், குறிப்பாக கர்ப்பமாக இருந்தால் அல்லது கடுமையான தசைப்பிடிப்பு ஏற்பட்டால்.',
-        te: 'తక్షణ గైనకోలాజికల్ మూల్యాంకనాన్ని కోరండి, ముఖ్యంగా గర్భవతిగా ఉంటే లేదా తీవ్రమైన తిమ్మిరి ఉంటే.',
-        mr: 'तात्काळ स्त्रीरोग मूल्यमापन घ्या, विशेषतः जर गरोदर असाल किंवा तीव्र पेटके येत असतील.'
-      },
-      severity: 'high'
-    }
+    { name: 'Bright Red', hex: '#E11D48', meaning: 'Fresh blood flowing quickly from the uterus.', causes: 'Common during the start or heavy days of a period.', normal: 'Standard period flow in almost all cycles.', warning: 'If bleeding is extremely heavy or accompanied by severe pain.', severity: 'low' },
+    { name: 'Dark Red / Purple', hex: '#881337', meaning: 'Older blood that has stayed in the uterus longer and oxidized slightly.', causes: 'Common after waking up, or at the middle/end of the flow cycle.', normal: 'Shedding older lining is a completely physiological cleaning process.', warning: 'Standard; no warning unless clots are larger than a quarter.', severity: 'low' },
+    { name: 'Brown / Black', hex: '#451A03', meaning: 'Highly oxidized old blood that took a long time to exit the body.', causes: 'Usually seen in the very first spotting days or last tail-end period days.', normal: 'Completely normal. Represents late discharge.', warning: 'No medical concern unless foul-smelling or paired with continuous pelvic pain.', severity: 'low' },
+    { name: 'Pink', hex: '#F472B6', meaning: 'Blood diluted with fertile cervical fluid or vaginal discharge.', causes: 'Low estrogen levels, ovulation spotting, or early pregnancy implantation.', normal: 'During ovulation windows or start of light cycles.', warning: 'If continuous, it might indicate low estrogen or hormonal imbalances.', severity: 'medium' },
+    { name: 'Orange', hex: '#F97316', meaning: 'Blood mixed with cervical secretions, potentially indicating bacterial infection.', causes: 'Associated with vaginitis/cervical infections.', normal: 'Rarely normal; warrants verification.', warning: 'Seek checkup if paired with itching, burning during urination, or odor.', severity: 'high' },
+    { name: 'Gray', hex: '#9CA3AF', meaning: 'A strong indicator of vaginal infections or potential pregnancy tissue passage.', causes: 'Bacterial Vaginosis (BV), or potential miscarriage tissue.', normal: 'Never normal. Warrants clinical checking.', warning: 'Seek immediate gynecological evaluation.', severity: 'high' }
   ];
 
-  const strings = {
-    title: { en: 'Menstrual Blood Color Analyzer', hi: 'मासिक धर्म के रक्त रंग का विश्लेषण', bn: 'মেনস্ট্রুয়াল ব্লাড কালার অ্যানালাইজার', ta: 'மாதவிடாய் இரத்த நிற பகுப்பாய்வி', te: 'రుతు రక్త రంగు విశ్లేషణ', mr: 'मासिक पाळीच्या रक्ताचे रंग विश्लेषण' },
-    desc: { en: 'The color of your menstrual blood provides critical biological insights into your hormones, cycle speed, and potential infections. Understand what is healthy and when to consult a doctor.', hi: 'आपके मासिक धर्म के रक्त का रंग आपके हार्मोन, चक्र की गति और संभावित संक्रमणों में महत्वपूर्ण जैविक अंतर्दृष्टि प्रदान करता है।', bn: 'আপনার মাসিকের রক্তের রঙ আপনার হরমোন, চক্রের গতি এবং সম্ভাব্য সংক্রমণ সম্পর্কে গুরুত্বপূর্ণ জৈবিক অন্তর্দৃষ্টি প্রদান করে।', ta: 'உங்கள் மாதவிடாய் இரத்தத்தின் நிறம் உங்கள் ஹார்மோன்கள், சுழற்சி வேகம் மற்றும் சாத்தியமான நோய்த்தொற்றுகள் பற்றிய முக்கியமான உயிரியல் நுண்ணறிவுகளை வழங்குகிறது.', te: 'మీ రుతు రక్త రంగు మీ హార్మోన్లు, చక్రం వేగం మరియు సంభావ్య ఇన్ఫెక్షన్ల గురించి ముఖ్యమైన జీవసంబంధమైన అంతర్దృష్టులను అందిస్తుంది.', mr: 'तुमच्या मासिक पाळीच्या रक्ताचा रंग तुमचे हार्मोन्स, सायकलचा वेग आणि संभाव्य संसर्गाबद्दल महत्त्वपूर्ण जैविक अंतर्दृष्टी देतो.' },
-    allColors: { en: 'All Colors', hi: 'सभी रंग', bn: 'সব রং', ta: 'அனைத்து நிறங்களும்', te: 'అన్ని రంగులు', mr: 'सर्व रंग' },
-    normalHealthy: { en: 'Normal / Healthy', hi: 'सामान्य / स्वस्थ', bn: 'স্বাভাবিক / সুস্থ', ta: 'சாதாரண / ஆரோக்கியமான', te: 'సాధారణం / ఆరోగ్యకరం', mr: 'सामान्य / निरोगी' },
-    hormonalCheck: { en: 'Hormonal Check', hi: 'हार्मोनल जांच', bn: 'হরমোন চেক', ta: 'ஹார்மோன் சரிபார்ப்பு', te: 'హార్మోన్ల తనిఖీ', mr: 'हार्मोनल तपासणी' },
-    medicalEval: { en: 'Medical Evaluation', hi: 'चिकित्सीय मूल्यांकन', bn: 'চিকিৎসা মূল্যায়ন', ta: 'மருத்துவ மதிப்பீடு', te: 'వైద్య మూల్యాంకనం', mr: 'वैद्यकीय मूल्यांकन' },
-    statusLow: { en: 'Normal Clinical Status', hi: 'सामान्य नैदानिक स्थिति', bn: 'স্বাভাবিক ক্লিনিকাল স্ট্যাটাস', ta: 'சாதாரண மருத்துவ நிலை', te: 'సాధారణ క్లినికల్ స్థితి', mr: 'सामान्य क्लिनिकल स्थिती' },
-    statusMedium: { en: 'Hormonal Variations', hi: 'हार्मोनल बदलाव', bn: 'হরমোনের তারতম্য', ta: 'ஹார்மோன் வேறுபாடுகள்', te: 'హార్మోన్ల వైవిధ్యాలు', mr: 'हार्मोनल बदल' },
-    statusHigh: { en: 'Urgent Evaluation Recommended', hi: 'तत्काल मूल्यांकन की सिफारिश की गई', bn: 'জরুরী মূল্যায়ন সুপারিশ করা হয়', ta: 'அவசர மதிப்பீடு பரிந்துரைக்கப்படுகிறது', te: 'తక్షణ మూల్యాంకనం సిఫార్సు చేయబడింది', mr: 'तातडीचे मूल्यांकन सुचवले आहे' },
-    meaningLabel: { en: '📖 Meaning & Biology', hi: '📖 अर्थ और जीव विज्ञान', bn: '📖 অর্থ এবং জীববিজ্ঞান', ta: '📖 பொருள் மற்றும் உயிரியல்', te: '📖 అర్థం మరియు జీవశాస్త్రం', mr: '📖 अर्थ आणि जीवशास्त्र' },
-    causesLabel: { en: '💡 Common Causes', hi: '💡 सामान्य कारण', bn: '💡 সাধারণ কারণ', ta: '💡 பொதுவான காரணங்கள்', te: '💡 సాధారణ కారణాలు', mr: '💡 सामान्य कारणे' },
-    normalLabel: { en: '✅ Normal Indicator', hi: '✅ सामान्य संकेतक', bn: '✅ সাধারণ সূচক', ta: '✅ சாதாரண காட்டி', te: '✅ సాధారణ సూచిక', mr: '✅ सामान्य सूचक' },
-    warningLabel: { en: '⚠️ Seek Checking If', hi: '⚠️ जाँच करें यदि', bn: '⚠️ চেক করুন যদি', ta: '⚠️ சரிபார்க்கவும் என்றால்', te: '⚠️ తనిఖీ చేయండి ఉంటే', mr: '⚠️ तपासणी करा जर' }
+  const handleUpload = () => {
+    setIsUploading(true);
+    setTimeout(() => {
+      setIsUploading(false);
+      setHasUploaded(true);
+    }, 2500);
   };
 
-  const filteredColors = bloodColors.filter(color => {
-    if (filterType === 'all') return true;
-    return color.severity === filterType;
-  });
+  const toggleSymptom = (sym) => {
+    setSelectedSymptoms(prev => 
+      prev.includes(sym) ? prev.filter(s => s !== sym) : [...prev, sym]
+    );
+  };
+
+  const symptomsList = ['Severe Cramps', 'Fatigue', 'Dizziness', 'Headache', 'Nausea', 'Heavy Bleeding'];
+  const flows = ['Light', 'Moderate', 'Heavy', 'Very Heavy'];
+  const clots = ['None', 'Small', 'Medium', 'Large'];
+
+  // Conditional Logic for Doctor Alert
+  const requiresDoctor = 
+    selectedClot === 'Large' || 
+    selectedSymptoms.includes('Severe Cramps') || 
+    selectedSymptoms.includes('Heavy Bleeding') ||
+    selectedSymptoms.includes('Dizziness');
 
   return (
-    <div className="slide-in" style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+    <div className="flex flex-col gap-6 w-full animate-fade-in pb-12">
       
-      {/* 1. HEADER DESCRIPTION */}
-      <div className="glass-panel" style={{ padding: '30px', textAlign: 'center', background: 'linear-gradient(to right, rgba(255, 240, 240, 0.4), rgba(255, 255, 255, 0.8))' }}>
-        <h1 style={{ fontSize: '28px', color: 'var(--primary)', marginBottom: '10px' }}>
-          {strings.title[language] || strings.title['en']}
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '700px', margin: '0 auto', fontSize: '14px' }}>
-          {strings.desc[language] || strings.desc['en']}
-        </p>
+      {/* SECTION 1: Blood Health Summary */}
+      <div className="glass-panel p-6 md:p-8 rounded-3xl border border-pink-100/50 dark:border-zinc-800 bg-gradient-to-r from-pink-50 to-white dark:from-zinc-900 dark:to-zinc-950 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-pink-300/10 blur-3xl rounded-full"></div>
+        <div className="z-10 flex-1 w-full">
+           <h1 className="font-display text-2xl font-extrabold text-[var(--text-primary)] mb-6 flex items-center gap-2">
+             <Droplet className="w-6 h-6 text-red-500 fill-red-500" /> Blood Health Summary
+           </h1>
+           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+             <div className="bg-white/60 dark:bg-zinc-800/60 p-4 rounded-2xl border border-white/40 dark:border-zinc-700/40">
+               <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Last Analysis</span>
+               <p className="text-xl font-black text-red-600 dark:text-red-400 mt-1">Bright Red</p>
+             </div>
+             <div className="bg-white/60 dark:bg-zinc-800/60 p-4 rounded-2xl border border-white/40 dark:border-zinc-700/40">
+               <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Health Status</span>
+               <p className="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-1">Normal</p>
+             </div>
+             <div className="bg-white/60 dark:bg-zinc-800/60 p-4 rounded-2xl border border-white/40 dark:border-zinc-700/40">
+               <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Risk Level</span>
+               <p className="text-xl font-black text-[var(--text-primary)] mt-1 flex items-center gap-2">
+                 🟢 Low
+               </p>
+             </div>
+             <div className="bg-white/60 dark:bg-zinc-800/60 p-4 rounded-2xl border border-white/40 dark:border-zinc-700/40">
+               <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Last Updated</span>
+               <p className="text-xl font-black text-[var(--text-primary)] mt-1 text-sm pt-1.5">Today, 09:41 AM</p>
+             </div>
+           </div>
+        </div>
 
-        {/* Filters */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
-          {['all', 'low', 'medium', 'high'].map(type => (
-            <button
-              key={type}
-              onClick={() => setFilterType(type)}
-              style={{
-                padding: '6px 16px',
-                borderRadius: '20px',
-                border: '1px solid',
-                borderColor: filterType === type ? 'var(--primary)' : 'var(--border-color)',
-                background: filterType === type ? 'var(--primary)' : 'var(--bg-secondary)',
-                color: filterType === type ? 'white' : 'var(--text-primary)',
-                fontFamily: 'var(--font-display)',
-                fontSize: '12px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'var(--transition)'
-              }}
-            >
-              {type === 'all' && (strings.allColors[language] || strings.allColors['en'])}
-              {type === 'low' && (strings.normalHealthy[language] || strings.normalHealthy['en'])}
-              {type === 'medium' && (strings.hormonalCheck[language] || strings.hormonalCheck['en'])}
-              {type === 'high' && (strings.medicalEval[language] || strings.medicalEval['en'])}
-            </button>
+        <div className="flex flex-col items-center justify-center bg-white dark:bg-zinc-900 p-6 rounded-3xl shadow-xl shadow-pink-100/50 dark:shadow-none border border-pink-50 dark:border-zinc-800 z-10 w-full md:w-auto">
+          <p className="text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-4 text-center">Blood Health Score</p>
+          <div className="relative w-32 h-32 flex items-center justify-center">
+             <svg className="w-full h-full transform -rotate-90 absolute top-0 left-0">
+               <circle cx="64" cy="64" r="54" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-gray-100 dark:text-zinc-800" />
+               <circle cx="64" cy="64" r="54" stroke="currentColor" strokeWidth="12" fill="transparent" strokeDasharray="339.29" strokeDashoffset={339.29 - (339.29 * 90) / 100} className="text-red-500 transition-all duration-1000 ease-out" />
+             </svg>
+             <div className="flex flex-col items-center z-10">
+               <span className="font-display font-black text-3xl text-[var(--text-primary)]">90<span className="text-lg text-[var(--text-secondary)]">%</span></span>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CONDITIONAL DOCTOR ALERT (SECTION 13) */}
+      {requiresDoctor && (
+        <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-2xl p-6 flex items-start gap-4 animate-fade-in">
+          <AlertTriangle className="w-8 h-8 text-red-500 shrink-0 mt-1" />
+          <div className="flex-1">
+            <h3 className="font-display font-extrabold text-red-600 dark:text-red-400 text-lg mb-1">⚠ Professional Consultation Recommended</h3>
+            <p className="text-sm font-semibold text-red-800/80 dark:text-red-300/80 mb-4">
+              Based on your selected symptoms and clot analysis, we recommend speaking with a healthcare provider. Heavy bleeding or large clots could indicate an underlying condition.
+            </p>
+            <div className="flex gap-3">
+              <button className="bg-red-500 text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-red-600 transition-colors shadow-sm cursor-pointer">
+                Consult Doctor Now
+              </button>
+              <button className="bg-white dark:bg-zinc-900 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-400 px-4 py-2 rounded-full text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors cursor-pointer">
+                Emergency Support
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        {/* LEFT COLUMN: Upload, Flow, Clot, Symptoms, Diet */}
+        <div className="lg:col-span-7 flex flex-col gap-6">
+          
+          {/* SECTION 2 & 3: Upload & AI Results */}
+          <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800 relative overflow-hidden bg-white dark:bg-zinc-900">
+            <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-4">
+              📸 Upload Period Blood Image
+            </h3>
+            
+            {!hasUploaded && !isUploading && (
+              <div 
+                className="border-2 border-dashed border-gray-200 dark:border-zinc-700 rounded-2xl p-8 flex flex-col items-center justify-center gap-4 hover:border-pink-300 dark:hover:border-pink-800 transition-colors bg-gray-50 dark:bg-zinc-950/50 cursor-pointer group"
+                onClick={handleUpload}
+              >
+                <div className="w-16 h-16 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Upload className="w-8 h-8 text-pink-500" />
+                </div>
+                <div className="text-center">
+                  <p className="font-bold text-[var(--text-primary)]">Drag and drop your image here</p>
+                  <p className="text-xs font-medium text-[var(--text-secondary)] mt-1">or click to browse from your device</p>
+                </div>
+                <div className="flex gap-3 mt-2">
+                  <button className="bg-pink-500 text-white px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 hover:bg-pink-600 transition-colors cursor-pointer">
+                    <Upload size={14} /> Upload Image
+                  </button>
+                  <button className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-[var(--text-primary)] px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors cursor-pointer">
+                    <Camera size={14} /> Take Photo
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {isUploading && (
+              <div className="border-2 border-dashed border-pink-200 dark:border-pink-900/50 rounded-2xl p-12 flex flex-col items-center justify-center gap-4 bg-pink-50/50 dark:bg-pink-950/20">
+                <div className="relative w-16 h-16">
+                  <div className="absolute inset-0 border-4 border-pink-200 dark:border-pink-900/50 rounded-full"></div>
+                  <div className="absolute inset-0 border-4 border-pink-500 rounded-full border-t-transparent animate-spin"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Activity className="w-6 h-6 text-pink-500 animate-pulse" />
+                  </div>
+                </div>
+                <p className="font-bold text-[var(--text-primary)] animate-pulse text-sm">Analyzing blood pattern and color...</p>
+              </div>
+            )}
+
+            {/* SECTION 3: Results */}
+            {hasUploaded && !isUploading && (
+              <div className="animate-fade-in">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-display font-extrabold text-sm text-[var(--text-primary)] text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+                    <CheckCircle2 size={16} /> Analysis Complete
+                  </h4>
+                  <button onClick={() => setHasUploaded(false)} className="text-xs font-bold text-pink-500 hover:underline cursor-pointer">
+                    Analyze Another
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                  <div className="bg-gray-50 dark:bg-zinc-950/50 p-3 rounded-xl border border-gray-100 dark:border-zinc-800">
+                    <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Detected Color</span>
+                    <p className="text-sm font-black text-red-600 mt-1">Bright Red</p>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-zinc-950/50 p-3 rounded-xl border border-gray-100 dark:border-zinc-800">
+                    <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Confidence</span>
+                    <p className="text-sm font-black text-[var(--text-primary)] mt-1">94%</p>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-zinc-950/50 p-3 rounded-xl border border-gray-100 dark:border-zinc-800">
+                    <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Flow Type</span>
+                    <p className="text-sm font-black text-[var(--text-primary)] mt-1">Moderate</p>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-zinc-950/50 p-3 rounded-xl border border-gray-100 dark:border-zinc-800">
+                    <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Clot Detection</span>
+                    <p className="text-sm font-black text-[var(--text-primary)] mt-1">None</p>
+                  </div>
+                </div>
+
+                <div className="bg-emerald-50 dark:bg-emerald-950/20 p-4 rounded-xl border border-emerald-100 dark:border-emerald-900/30 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center shrink-0">
+                    <Heart className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-extrabold text-emerald-800/60 dark:text-emerald-400/60 uppercase tracking-wider">Overall Assessment</span>
+                    <p className="text-sm font-bold text-emerald-800 dark:text-emerald-300">Healthy Menstrual Flow</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* SECTION 7: Flow Tracking */}
+            <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800">
+              <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-4">
+                Flow Level
+              </h3>
+              <div className="flex flex-col gap-2">
+                {flows.map(f => (
+                  <button 
+                    key={f}
+                    onClick={() => setSelectedFlow(f)}
+                    className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${selectedFlow === f ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-400' : 'border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[var(--text-primary)] hover:border-pink-200'}`}
+                  >
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedFlow === f ? 'border-pink-500' : 'border-gray-300 dark:border-zinc-600'}`}>
+                      {selectedFlow === f && <div className="w-2 h-2 rounded-full bg-pink-500"></div>}
+                    </div>
+                    <span className="text-xs font-bold">{f}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-800">
+                <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Trend</span>
+                <div className="h-10 w-full flex items-end gap-1">
+                  {/* Mock Trend Chart */}
+                  <div className="w-1/6 bg-pink-200 dark:bg-pink-900/40 h-1/4 rounded-t-sm"></div>
+                  <div className="w-1/6 bg-pink-300 dark:bg-pink-900/60 h-2/4 rounded-t-sm"></div>
+                  <div className="w-1/6 bg-pink-400 h-3/4 rounded-t-sm"></div>
+                  <div className="w-1/6 bg-pink-500 h-full rounded-t-sm shadow-[0_0_8px_rgba(236,72,153,0.5)]"></div>
+                  <div className="w-1/6 bg-pink-300 dark:bg-pink-900/60 h-2/4 rounded-t-sm"></div>
+                  <div className="w-1/6 bg-pink-200 dark:bg-pink-900/40 h-1/4 rounded-t-sm"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 8: Clot Analysis */}
+            <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800">
+              <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-4">
+                Blood Clots
+              </h3>
+              <div className="flex flex-col gap-2">
+                {clots.map(c => (
+                  <button 
+                    key={c}
+                    onClick={() => setSelectedClot(c)}
+                    className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${selectedClot === c ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400' : 'border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[var(--text-primary)] hover:border-purple-200'}`}
+                  >
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedClot === c ? 'border-purple-500' : 'border-gray-300 dark:border-zinc-600'}`}>
+                      {selectedClot === c && <div className="w-2 h-2 rounded-full bg-purple-500"></div>}
+                    </div>
+                    <span className="text-xs font-bold">{c}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-800">
+                <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Information</span>
+                <p className="text-xs font-semibold text-[var(--text-secondary)] italic leading-relaxed h-10">
+                  {selectedClot === 'None' && 'A smooth flow without clots is perfectly healthy.'}
+                  {selectedClot === 'Small' && 'Small clots are usually normal during heavy flow days.'}
+                  {selectedClot === 'Medium' && 'Medium clots can occur, monitor if accompanied by severe pain.'}
+                  {selectedClot === 'Large' && 'Large frequent clots may require medical consultation.'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 9: Symptom Association */}
+          <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-4">
+              Select Today's Symptoms
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {symptomsList.map(sym => {
+                const active = selectedSymptoms.includes(sym);
+                return (
+                  <button
+                    key={sym}
+                    onClick={() => toggleSymptom(sym)}
+                    className={`px-3 py-1.5 rounded-full border text-[11px] font-bold cursor-pointer transition-all hover:-translate-y-0.5 ${active ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-400 shadow-sm' : 'border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-950/50 text-[var(--text-primary)] hover:border-pink-300'}`}
+                  >
+                    {active && <span className="mr-1">✓</span>}
+                    {sym}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* SECTION 10 & 11: Diet & Wellness */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800">
+               <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
+                  <Apple className="w-4 h-4" /> Recommended Foods
+               </h3>
+               <div className="flex flex-col gap-3">
+                 {[
+                   { name: 'Spinach', reason: 'High in iron to replenish blood loss.' },
+                   { name: 'Beetroot', reason: 'Improves blood circulation and energy.' },
+                   { name: 'Lentils', reason: 'Protein-rich, helps combat fatigue.' },
+                   { name: 'Pomegranate', reason: 'Antioxidants and blood volume.' },
+                   { name: 'Dates', reason: 'Natural sugar for energy and iron.' }
+                 ].map(food => (
+                   <div key={food.name} className="flex gap-3 items-start group">
+                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                     <div>
+                       <p className="text-xs font-bold text-[var(--text-primary)] group-hover:text-emerald-600 transition-colors">{food.name}</p>
+                       <p className="text-[10px] font-semibold text-[var(--text-secondary)]">{food.reason}</p>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+            </div>
+
+            <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800">
+               <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-indigo-600 dark:text-indigo-400">
+                  🧘 Wellness Activities
+               </h3>
+               <div className="flex flex-col gap-3">
+                 {[
+                   { name: 'Child Pose', reason: 'Relieves lower back pain and cramps.' },
+                   { name: 'Butterfly Pose', reason: 'Opens hips and reduces pelvic tension.' },
+                   { name: 'Deep Breathing', reason: 'Calms the nervous system and reduces nausea.' }
+                 ].map(pose => (
+                   <div key={pose.name} className="flex gap-3 items-start group">
+                     <CheckCircle2 className="w-4 h-4 text-indigo-500 shrink-0 mt-0.5" />
+                     <div>
+                       <p className="text-xs font-bold text-[var(--text-primary)] group-hover:text-indigo-600 transition-colors">{pose.name}</p>
+                       <p className="text-[10px] font-semibold text-[var(--text-secondary)]">{pose.reason}</p>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* RIGHT COLUMN: AI Insights, Timeline, Risk, Reference, Report */}
+        <div className="lg:col-span-5 flex flex-col gap-6">
+          
+          {/* SECTION 6: AI Health Insights */}
+          <div className="glass-panel p-6 rounded-3xl border border-purple-100 dark:border-purple-900/30 bg-purple-50/50 dark:bg-purple-950/20 shadow-lg shadow-purple-100/30 dark:shadow-none">
+             <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-4 text-purple-700 dark:text-purple-400">
+                🤖 Sakhi Blood Insights
+             </h3>
+             <ul className="flex flex-col gap-3">
+               <li className="flex gap-3 text-xs font-semibold text-[var(--text-primary)] leading-relaxed bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white/40 dark:border-zinc-700/40 hover:-translate-y-1 transition-transform">
+                 <span className="text-purple-500 mt-0.5">•</span>
+                 Your blood color has remained consistent over the last 3 cycles.
+               </li>
+               <li className="flex gap-3 text-xs font-semibold text-[var(--text-primary)] leading-relaxed bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white/40 dark:border-zinc-700/40 hover:-translate-y-1 transition-transform">
+                 <span className="text-purple-500 mt-0.5">•</span>
+                 No unusual color variations detected.
+               </li>
+               <li className="flex gap-3 text-xs font-semibold text-[var(--text-primary)] leading-relaxed bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white/40 dark:border-zinc-700/40 hover:-translate-y-1 transition-transform">
+                 <span className="text-purple-500 mt-0.5">•</span>
+                 Flow patterns appear normal and match your expected cycle length.
+               </li>
+             </ul>
+          </div>
+
+          {/* SECTION 12: Risk Monitoring */}
+          <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800">
+             <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-5">
+                Health Monitoring
+             </h3>
+             <div className="flex flex-col gap-4">
+               <div className="flex items-center justify-between bg-gray-50 dark:bg-zinc-950/50 p-2.5 rounded-xl border border-gray-100 dark:border-zinc-800">
+                 <div className="flex items-center gap-3">
+                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                   <span className="text-xs font-bold text-[var(--text-primary)]">Iron Deficiency Risk</span>
+                 </div>
+                 <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-md">Low</span>
+               </div>
+               <div className="flex items-center justify-between bg-gray-50 dark:bg-zinc-950/50 p-2.5 rounded-xl border border-gray-100 dark:border-zinc-800">
+                 <div className="flex items-center gap-3">
+                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                   <span className="text-xs font-bold text-[var(--text-primary)]">Hydration Status</span>
+                 </div>
+                 <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-md">Good</span>
+               </div>
+               <div className="flex items-center justify-between bg-gray-50 dark:bg-zinc-950/50 p-2.5 rounded-xl border border-gray-100 dark:border-zinc-800">
+                 <div className="flex items-center gap-3">
+                   <div className={`w-2.5 h-2.5 rounded-full ${selectedFlow === 'Very Heavy' ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]' : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]'}`}></div>
+                   <span className="text-xs font-bold text-[var(--text-primary)]">Flow Pattern</span>
+                 </div>
+                 <span className={`text-xs font-bold px-2 py-0.5 rounded-md ${selectedFlow === 'Very Heavy' ? 'text-yellow-600 bg-yellow-50 dark:bg-yellow-950/30' : 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30'}`}>
+                   {selectedFlow === 'Very Heavy' ? 'Monitor' : 'Normal'}
+                 </span>
+               </div>
+             </div>
+          </div>
+
+          {/* SECTION 5: Blood Color History */}
+          <div className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800">
+             <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-5">
+                <TrendingUp className="w-4 h-4 text-pink-500" /> Previous Analyses
+             </h3>
+             <div className="relative border-l-2 border-gray-200 dark:border-zinc-700 ml-3 flex flex-col gap-6">
+                <div className="relative pl-5">
+                  <div className="absolute w-3 h-3 bg-[#E11D48] rounded-full -left-[7px] top-1 ring-4 ring-white dark:ring-zinc-900 shadow-sm"></div>
+                  <p className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">May</p>
+                  <p className="text-xs font-bold text-[var(--text-primary)] mt-0.5">Bright Red</p>
+                </div>
+                <div className="relative pl-5">
+                  <div className="absolute w-3 h-3 bg-[#881337] rounded-full -left-[7px] top-1"></div>
+                  <p className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">April</p>
+                  <p className="text-xs font-bold text-[var(--text-primary)] mt-0.5">Dark Red</p>
+                </div>
+                <div className="relative pl-5 pb-2">
+                  <div className="absolute w-3 h-3 bg-[#451A03] rounded-full -left-[7px] top-1"></div>
+                  <p className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">March</p>
+                  <p className="text-xs font-bold text-[var(--text-primary)] mt-0.5">Brown</p>
+                </div>
+             </div>
+          </div>
+
+          {/* SECTION 15: Monthly Report */}
+          <div className="glass-panel p-6 rounded-3xl border border-pink-200 dark:border-pink-900/50 bg-pink-50/30 dark:bg-pink-950/10">
+             <h3 className="font-display font-extrabold text-base mb-2 text-[var(--text-primary)]">
+                Monthly Blood Health Report
+             </h3>
+             <p className="text-xs font-medium text-[var(--text-secondary)] mb-4">
+                Contains Blood Health Score, Flow Patterns, Color Trends, and Symptoms Logged.
+             </p>
+             <button className="w-full bg-white dark:bg-zinc-900 border border-pink-200 dark:border-pink-900/50 text-pink-600 dark:text-pink-400 py-3 rounded-xl text-xs font-bold flex justify-center items-center gap-2 hover:bg-pink-50 dark:hover:bg-pink-950/30 transition-colors shadow-sm cursor-pointer group">
+               <Download size={16} className="group-hover:-translate-y-0.5 transition-transform" /> Download Report
+             </button>
+          </div>
+
+        </div>
+      </div>
+
+      {/* SECTION 4: Blood Color Reference Guide */}
+      <div className="mt-4">
+        <h2 className="font-display font-extrabold text-xl text-[var(--text-primary)] mb-6 flex items-center gap-2">
+          Blood Color Reference Guide
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {bloodColors.map((color, idx) => (
+            <div key={idx} className="glass-panel p-6 rounded-3xl border border-gray-100 dark:border-zinc-800 flex flex-col gap-4 hover:-translate-y-1 transition-transform group">
+              <div className="flex items-center gap-4">
+                <div 
+                  className="w-12 h-12 rounded-full shadow-lg border-4 border-white dark:border-zinc-800 shrink-0 group-hover:scale-110 transition-transform"
+                  style={{ backgroundColor: color.hex, boxShadow: `0 4px 15px ${color.hex}40` }}
+                ></div>
+                <div>
+                  <h3 className="font-bold text-[var(--text-primary)] text-sm">{color.name}</h3>
+                  <span className={`text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full mt-1 inline-block ${color.severity === 'low' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400' : color.severity === 'medium' ? 'bg-yellow-50 text-yellow-600 dark:bg-yellow-950/30 dark:text-yellow-400' : 'bg-red-50 text-red-600 dark:bg-red-950/30 dark:text-red-400'}`}>
+                    {color.severity === 'low' ? 'Normal Clinical Status' : color.severity === 'medium' ? 'Hormonal Variations' : 'Evaluation Recommended'}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3 mt-2 border-t border-gray-100 dark:border-zinc-800 pt-4">
+                <div>
+                  <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider block mb-1">Meaning</span>
+                  <p className="text-xs font-medium text-[var(--text-primary)] leading-relaxed">{color.meaning}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider block mb-1">Common Causes</span>
+                  <p className="text-xs font-medium text-[var(--text-primary)] leading-relaxed">{color.causes}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3 mt-2 h-full">
+                  <div className="bg-emerald-50/50 dark:bg-emerald-950/10 p-2.5 rounded-xl border border-emerald-100/50 dark:border-emerald-900/20 flex flex-col h-full">
+                    <span className="text-[9px] font-extrabold text-emerald-600 uppercase tracking-wider block mb-1">When Normal</span>
+                    <p className="text-[10px] font-medium text-[var(--text-primary)]">{color.normal}</p>
+                  </div>
+                  <div className="bg-red-50/50 dark:bg-red-950/10 p-2.5 rounded-xl border border-red-100/50 dark:border-red-900/20 flex flex-col h-full">
+                    <span className="text-[9px] font-extrabold text-red-600 uppercase tracking-wider block mb-1">When to Consult</span>
+                    <p className="text-[10px] font-medium text-[var(--text-primary)]">{color.warning}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* 2. GRID OF COLOR CARDS */}
-      <div className="grid-2">
-        {filteredColors.map((color, idx) => (
-          <div key={idx} className="glass-panel" style={{ padding: '30px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            
-            {/* Top Drop & Title */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div 
-                style={{ 
-                  width: '50px', 
-                  height: '50px', 
-                  borderRadius: '50% 50% 10% 50%', 
-                  background: color.hex, 
-                  transform: 'rotate(-45deg)', 
-                  boxShadow: `0 4px 15px ${color.hex}40`,
-                  border: '3px solid white'
-                }}
-              ></div>
-              <div>
-                <h3 style={{ fontSize: '18px', color: 'var(--text-primary)' }}>{color.name[language] || color.name['en']}</h3>
-                <span 
-                  style={{ 
-                    fontSize: '11px', 
-                    fontWeight: '700', 
-                    textTransform: 'uppercase', 
-                    color: color.severity === 'low' ? 'var(--success)' : color.severity === 'medium' ? 'var(--warning)' : 'var(--danger)',
-                    background: color.severity === 'low' ? 'var(--success-light)' : color.severity === 'medium' ? 'var(--warning-light)' : 'var(--danger-light)',
-                    padding: '3px 8px',
-                    borderRadius: '10px',
-                    display: 'inline-block',
-                    marginTop: '4px'
-                  }}
-                >
-                  {color.severity === 'low' ? (strings.statusLow[language] || strings.statusLow['en']) : color.severity === 'medium' ? (strings.statusMedium[language] || strings.statusMedium['en']) : (strings.statusHigh[language] || strings.statusHigh['en'])}
+      {/* SECTION 14: Educational Center (FAQs) */}
+      <div className="mt-4">
+        <h2 className="font-display font-extrabold text-xl text-[var(--text-primary)] mb-6 flex items-center gap-2">
+          <HelpCircle className="w-5 h-5 text-indigo-500" /> Understanding Blood Colors
+        </h2>
+        <div className="flex flex-col gap-3">
+          {bloodColors.slice(0, 4).map((color, idx) => (
+            <div key={idx} className="glass-panel border border-gray-100 dark:border-zinc-800 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900">
+              <button 
+                className="w-full p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+                onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
+              >
+                <span className="font-bold text-sm text-[var(--text-primary)] flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color.hex }}></div>
+                  What does {color.name} blood mean?
                 </span>
-              </div>
-            </div>
-
-            {/* Description details */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '16px', fontSize: '13px' }}>
-              <div>
-                <span style={{ fontWeight: '700', color: 'var(--text-primary)', display: 'block', marginBottom: '2px' }}>{strings.meaningLabel[language] || strings.meaningLabel['en']}</span>
-                <p style={{ color: 'var(--text-secondary)' }}>{color.meaning[language] || color.meaning['en']}</p>
-              </div>
-
-              <div>
-                <span style={{ fontWeight: '700', color: 'var(--text-primary)', display: 'block', marginBottom: '2px' }}>{strings.causesLabel[language] || strings.causesLabel['en']}</span>
-                <p style={{ color: 'var(--text-secondary)' }}>{color.causes[language] || color.causes['en']}</p>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginTop: '4px' }}>
-                <div style={{ background: 'var(--success-light)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(0, 200, 100, 0.1)' }}>
-                  <span style={{ fontWeight: '700', color: 'var(--success)', display: 'block', fontSize: '11px', textTransform: 'uppercase', marginBottom: '2px' }}>{strings.normalLabel[language] || strings.normalLabel['en']}</span>
-                  <p style={{ color: 'var(--text-primary)', fontSize: '12px', lineHeight: '1.4' }}>{color.normal[language] || color.normal['en']}</p>
+                <ChevronDown className={`w-4 h-4 text-[var(--text-secondary)] transition-transform ${expandedFaq === idx ? 'rotate-180' : ''}`} />
+              </button>
+              {expandedFaq === idx && (
+                <div className="p-4 pt-0 border-t border-gray-50 dark:border-zinc-800/50 bg-gray-50/50 dark:bg-zinc-950/30 text-xs font-medium text-[var(--text-primary)] leading-relaxed animate-fade-in">
+                  <p className="mb-2"><strong className="text-[var(--text-secondary)] font-bold">Overview:</strong> {color.meaning}</p>
+                  <p className="mb-2"><strong className="text-[var(--text-secondary)] font-bold">Why it happens:</strong> {color.causes}</p>
+                  <p><strong className="text-[var(--text-secondary)] font-bold">Is it normal?</strong> {color.normal} However, {color.warning.toLowerCase()}</p>
                 </div>
-
-                <div style={{ background: 'var(--danger-light)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(250, 50, 50, 0.1)' }}>
-                  <span style={{ fontWeight: '700', color: 'var(--danger)', display: 'block', fontSize: '11px', textTransform: 'uppercase', marginBottom: '2px' }}>{strings.warningLabel[language] || strings.warningLabel['en']}</span>
-                  <p style={{ color: 'var(--text-primary)', fontSize: '12px', lineHeight: '1.4' }}>{color.warning[language] || color.warning['en']}</p>
-                </div>
-              </div>
+              )}
             </div>
-
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
     </div>

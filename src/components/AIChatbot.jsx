@@ -1,560 +1,546 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  Sparkles, 
-  Send, 
-  ShieldCheck, 
-  MessageSquare, 
-  Plus, 
-  Activity, 
-  Heart,
-  TrendingUp,
-  AlertTriangle,
-  FolderHeart
+  Sparkles, Send, ShieldCheck, MessageSquare, Plus, Activity, Heart, TrendingUp, AlertTriangle, 
+  Droplet, Brain, Clock, Mic, User, CheckCircle2, ChevronRight, Apple, HeartPulse
 } from 'lucide-react';
 
 export default function AIChatbot({ language, setTab }) {
-  const [activeChatTab, setActiveChatTab] = useState('chat'); // 'chat' or 'predictor'
-  
-  const strings = {
-    tabChat: { en: 'AI Health Assistant', hi: 'एआई स्वास्थ्य सहायक', bn: 'এআই স্বাস্থ্য সহকারী', ta: 'ஏஐ சுகாதார உதவியாளர்', te: 'ఏఐ ఆరోగ్య సహాయకుడు', mr: 'एआय आरोग्य सहाय्यक' },
-    tabPredictor: { en: 'AI Disease Predictor', hi: 'एआई रोग भविष्यवक्ता', bn: 'এআই रोग ভবিষ্যদ্বাণীকারী', ta: 'ஏஐ நோய் முன்னறிவிப்பாளர்', te: 'ఏఐ వ్యాధి అంచనాదారు', mr: 'एआय रोग भविष्यवाणी करणारा' },
-    sessions: { en: 'Consultation Sessions', hi: 'परामर्श सत्र', bn: 'পরামর্শ সেশন', ta: 'ஆலோசனை அமர்வுகள்', te: 'సంప్రదింపు సెషన్లు', mr: 'सल्लामसलत सत्रे' },
-    newConsult: { en: 'New Consult', hi: 'नया परामर्श', bn: 'নতুন পরামর্শ', ta: 'புதிய ஆலோசனை', te: 'కొత్త సంప్రదింపు', mr: 'नवीन सल्लामसलत' },
-    disclaimer: { en: 'AI provides educational guidance only and does not replace professional medical advice.', hi: 'एआई केवल शैक्षिक मार्गदर्शन प्रदान करता है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है।', bn: 'এআই শুধুমাত্র শিক্ষামূলক নির্দেশনা প্রদান করে এবং পেশাদার চিকিৎসা পরামর্শ প্রতিস্থাপন করে না।', ta: 'ஏஐ கல்வி வழிகாட்டுதலை மட்டுமே வழங்குகிறது மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாகாது.', te: 'ఏఐ విద్యాపరమైన మార్గదర్శకత్వాన్ని మాత్రమే అందిస్తుంది మరియు వృత్తిపరమైన వైద్య సలహాను భర్తీ చేయదు.', mr: 'एआय केवळ शैक्षणिक मार्गदर्शन देते आणि व्यावसायिक वैद्यकीय सल्ल्याला पर्याय नाही.' },
-    askAi: { en: 'Ask SAKHI AI Assistant', hi: 'सखी एआई असिस्टेंट से पूछें', bn: 'সখী এআই সহকারীকে জিজ্ঞাসা করুন', ta: 'சகி ஏஐ உதவியாளரைக் கேளுங்கள்', te: 'సఖి ఏఐ అసిస్టెంట్‌ని అడగండి', mr: 'सखी एआय असिस्टंटला विचारा' },
-    askDesc: { en: 'Describe symptoms, upload reports, or ask cycle health questions.', hi: 'लक्षणों का वर्णन करें, रिपोर्ट अपलोड करें, या चक्र स्वास्थ्य प्रश्न पूछें।', bn: 'লক্ষণগুলি বর্ণনা করুন, রিপোর্ট আপলোড করুন বা চক্র স্বাস্থ্য প্রশ্ন জিজ্ঞাসা করুন।', ta: 'அறிகுறிகளை விவரிக்கவும், அறிக்கைகளை பதிவேற்றவும் அல்லது சுழற்சி சுகாதார கேள்விகளைக் கேட்கவும்.', te: 'లక్షణాలను వివరించండి, నివేదికలను అప్‌లోడ్ చేయండి లేదా సైకిల్ ఆరోగ్య ప్రశ్నలను అడగండి.', mr: 'लक्षणांचे वर्णन करा, अहवाल अपलोड करा किंवा सायकल आरोग्य प्रश्न विचारा.' },
-    possibleExp: { en: 'Possible Explanations', hi: 'संभावित स्पष्टीकरण', bn: 'সম্ভাব্য ব্যাখ্যা', ta: 'சாத்தியமான விளக்கங்கள்', te: 'సాధ్యమైన వివరణలు', mr: 'संभाव्य स्पष्टीकरणे' },
-    severity: { en: 'Severity Level', hi: 'गंभीरता स्तर', bn: 'তীব্রতার স্তর', ta: 'தீவிர நிலை', te: 'తీవ్రత స్థాయి', mr: 'तीव्रता पातळी' },
-    lifestyle: { en: 'Lifestyle Suggestions', hi: 'जीवन शैली सुझाव', bn: 'জীবনধারা পরামর্শ', ta: 'வாழ்க்கை முறை பரிந்துரைகள்', te: 'జీవనశైలి సూచనలు', mr: 'जीवनशैली सूचना' },
-    expertRec: { en: 'Expert Recommendation:', hi: 'विशेषज्ञ की सिफारिश:', bn: 'বিশেষজ্ঞের সুপারিশ:', ta: 'நிபுணர் பரிந்துரை:', te: 'నిపుణుల సిఫార్సు:', mr: 'तज्ञांची शिफारस:' },
-    inputPlaceholder: { en: 'Describe symptoms in detail...', hi: 'अपने लक्षणों का विस्तार से वर्णन करें...', bn: 'লক্ষণগুলি বিস্তারিতভাবে বর্ণনা করুন...', ta: 'அறிகுறிகளை விரிவாக விவரிக்கவும்...', te: 'లక్షణాలను వివరంగా వివరించండి...', mr: 'लक्षणांचे सविस्तर वर्णन करा...' },
-    symptomProfile: { en: 'Symptom Profile Assessment', hi: 'लक्षण प्रोफ़ाइल मूल्यांकन', bn: 'লক্ষণ প্রোফাইল মূল্যায়ন', ta: 'அறிகுறி சுயவிவர மதிப்பீடு', te: 'లక్షణ ప్రొఫైల్ అంచనా', mr: 'लक्षण प्रोफाइल मूल्यांकन' },
-    yourAge: { en: 'Your Age', hi: 'आपकी आयु', bn: 'আপনার বয়স', ta: 'உங்கள் வயது', te: 'మీ వయస్సు', mr: 'तुमचे वय' },
-    cycleDays: { en: 'Average Cycle length (Days)', hi: 'औसत चक्र की लंबाई (दिन)', bn: 'গড় চক্রের দৈর্ঘ্য (দিন)', ta: 'சராசரி சுழற்சி நீளம் (நாட்கள்)', te: 'సగటు చక్రం పొడవు (రోజులు)', mr: 'सरासरी सायकल लांबी (दिवस)' },
-    enterSymptoms: { en: 'Enter Symptoms (comma separated)', hi: 'लक्षण दर्ज करें (अल्पविराम से अलग)', bn: 'লক্ষণগুলি লিখুন (কমা দ্বারা আলাদা)', ta: 'அறிகுறிகளை உள்ளிடவும் (கமாவால் பிரிக்கப்பட்டது)', te: 'లక్షణాలను నమోదు చేయండి (కామాతో వేరు చేయబడింది)', mr: 'लक्षणे प्रविष्ट करा (स्वल्पविरामाने विभक्त)' },
-    placeholderSym: { en: 'e.g. Irregular periods, sudden weight gain, heavy fatigue...', hi: 'उदा. अनियमित पीरियड्स, अचानक वजन बढ़ना, भारी थकान...', bn: 'যেমন অনিয়মিত পিরিয়ড, হঠাৎ ওজন বৃদ্ধি...', ta: 'எ.கா. ஒழுங்கற்ற மாதவிடாய், திடீர் எடை அதிகரிப்பு...', te: 'ఉదా. సక్రమంగా లేని పీరియడ్స్, అకస్మాత్తుగా బరువు పెరగడం...', mr: 'उदा. अनियमित पाळी, अचानक वजन वाढणे...' },
-    medicalHistory: { en: 'Existing Medical History', hi: 'मौजूदा चिकित्सा इतिहास', bn: 'বিদ্যমান চিকিৎসা ইতিহাস', ta: 'தற்போதைய மருத்துவ வரலாறு', te: 'ఉన్న వైద్య చరిత్ర', mr: 'विद्यमान वैद्यकीय इतिहास' },
-    optNone: { en: 'No major conditions', hi: 'कोई बड़ी बीमारी नहीं', bn: 'কোন বড় রোগ নেই', ta: 'பெரிய நிலைமைகள் இல்லை', te: 'పెద్ద వ్యాధులు లేవు', mr: 'कोणतेही मोठे आजार नाहीत' },
-    optPcos: { en: 'Diagnosed PCOS', hi: 'निदान पीसीओएस', bn: 'নির্ণয় পিসিওএস', ta: 'கண்டறியப்பட்ட பிசிஓஎஸ்', te: 'నిర్ధారణ పీసీఓఎస్', mr: 'निदान पीसीओएस' },
-    optAnemia: { en: 'Anemia', hi: 'एनीमिया', bn: 'রক্তাল্পতা', ta: 'இரத்த சோகை', te: 'రక్తహీనత', mr: 'अशक्तपणा' },
-    optThyroid: { en: 'Thyroid Irregularity', hi: 'थायराइड अनियमितता', bn: 'থাইরয়েড অনিয়ম', ta: 'தைராய்டு ஒழுங்கின்மை', te: 'థైరాయిడ్ అక్రమం', mr: 'थायरॉईड अनियमितता' },
-    generateReport: { en: 'Generate AI Risk Report', hi: 'एआई जोखिम रिपोर्ट तैयार करें', bn: 'এআই ঝুঁকি প্রতিবেদন তৈরি করুন', ta: 'ஏஐ ஆபத்து அறிக்கை உருவாக்கு', te: 'ఏఐ ప్రమాద నివేదికను రూపొందించండి', mr: 'एआय जोखीम अहवाल तयार करा' },
-    pendingReport: { en: 'Prediction Report Pending', hi: 'भविष्यवाणी रिपोर्ट लंबित', bn: 'ভবিষ্যদ্বাণী প্রতিবেদন মুলতুবি', ta: 'முன்னறிவிப்பு அறிக்கை நிலுவையில் உள்ளது', te: 'అంచనా నివేదిక పెండింగ్‌లో ఉంది', mr: 'भविष्यवाणी अहवाल प्रलंबित' },
-    pendingDesc: { en: 'Complete the health profile assessment details and run analysis to compile your risk summary report.', hi: 'जोखिम सारांश रिपोर्ट संकलित करने के लिए स्वास्थ्य प्रोफ़ाइल मूल्यांकन विवरण पूरा करें और विश्लेषण चलाएं।', bn: 'ঝুঁকির সারসংক্ষেপ প্রতিবেদন কম্পাইল করতে স্বাস্থ্য প্রোফাইল মূল্যায়নের বিবরণ সম্পূর্ণ করুন এবং বিশ্লেষণ চালান।', ta: 'ஆபத்து சுருக்க அறிக்கையை தொகுக்க சுகாதார சுயவிவர மதிப்பீட்டு விவரங்களை முடித்து பகுப்பாய்வை இயக்கவும்.', te: 'ప్రమాద సారాంశ నివేదికను రూపొందించడానికి ఆరోగ్య ప్రొఫైల్ అంచనా వివరాలను పూర్తి చేయండి మరియు విశ్లేషణను అమలు చేయండి.', mr: 'जोखीम सारांश अहवाल संकलित करण्यासाठी आरोग्य प्रोफाइल मूल्यांकन तपशील पूर्ण करा आणि विश्लेषण चालवा.' },
-    aiDiagnostic: { en: 'AI Diagnostic Prediction', hi: 'एआई डायग्नोस्टिक भविष्यवाणी', bn: 'এআই ডায়াগনস্টிக் ভবিষ্যদ্বাণী', ta: 'ஏஐ நோயறிதல் முன்னறிவிப்பு', te: 'ఏఐ డయాగ్నస్టిక్ అంచనా', mr: 'एआय डायग्नोस्टिक भविष्यवाणी' },
-    age: { en: 'Age', hi: 'आयु', bn: 'বয়স', ta: 'வயது', te: 'వయస్సు', mr: 'वय' },
-    identifiedCond: { en: 'Identified Potential Conditions', hi: 'पहचानी गई संभावित स्थितियां', bn: 'চিহ্নিত সম্ভাব্য অবস্থা', ta: 'அடையாளம் காணப்பட்ட சாத்தியமான நிலைமைகள்', te: 'గుర్తించబడిన సంభావ్య పరిస్థితులు', mr: 'ओळखल्या गेलेल्या संभाव्य परिस्थिती' },
-    aggRisk: { en: 'Aggregated Risk Level:', hi: 'एकत्रित जोखिम स्तर:', bn: 'সমষ্টিগত ঝুঁকির স্তর:', ta: 'ஒட்டுமொத்த ஆபத்து நிலை:', te: 'సమగ్ర ప్రమాద స్థాయి:', mr: 'एकत्रित जोखीम पातळी:' },
-    prevAction: { en: 'Preventive Action Steps', hi: 'निवारक कार्रवाई कदम', bn: 'প্রতিরোধমূলক পদক্ষেপ', ta: 'தடுப்பு நடவடிக்கை படிகள்', te: 'నివారణ చర్య దశలు', mr: 'प्रतिबंधात्मक कृती पायऱ्या' },
-    dailyRec: { en: 'Daily Recovery Recommendations:', hi: 'दैनिक पुनर्प्राप्ति अनुशंसाएं:', bn: 'দৈনিক পুনরুদ্ধারের সুপারিশ:', ta: 'தினசரி மீட்பு பரிந்துரைகள்:', te: 'రోజువారీ రికవరీ సిఫార్సులు:', mr: 'दैनिक पुनर्प्राप्ती शिफारसी:' },
-    downloadPdf: { en: 'Download Report Summary (PDF)', hi: 'रिपोर्ट सारांश डाउनलोड करें (पीडीएफ)', bn: 'প্রতিবেদনের সারাংশ ডাউনলোড করুন (পিডিএফ)', ta: 'அறிக்கை சுருக்கத்தை பதிவிறக்கவும் (PDF)', te: 'నివేదిక సారాంశాన్ని డౌన్‌లోడ్ చేయండి (PDF)', mr: 'अहवाल सारांश डाउनलोड करा (पीडीएफ)' },
-    bookTest: { en: 'Book a blood test', hi: 'रक्त परीक्षण बुक करें', bn: 'একটি রক্ত পরীক্ষা বুক করুন', ta: 'ரத்தப் பரிசோதனை முன்பதிவு செய்', te: 'రక్త పరీక్షను బుక్ చేయండి', mr: 'रक्त चाचणी बुक करा' },
-    chatDoc: { en: 'Chat with Doctor', hi: 'डॉक्टर से बात करें', bn: 'ডাক্তারের সাথে চ্যাট করুন', ta: 'மருத்துவரிடம் பேசுங்கள்', te: 'డాక్టర్‌తో చాట్ చేయండి', mr: 'डॉक्टरांशी चॅट करा' },
-    sos: { en: 'Trigger SOS Alert', hi: 'SOS अलर्ट ट्रिगर करें', bn: 'SOS সতর্কতা ট্রিগার করুন', ta: 'SOS எச்சரிக்கையைத் தூண்டு', te: 'SOS హెచ్చరికను ప్రేరేపించండి', mr: 'SOS अलर्ट ट्रिगर करा' },
-    callDoc: { en: 'Call Gynecologist Now', hi: 'अभी स्त्री रोग विशेषज्ञ को कॉल करें', bn: 'এখন স্ত্রীরোগ বিশেষজ্ঞকে কল করুন', ta: 'இப்போது மகளிர் நல மருத்துவரை அழைக்கவும்', te: 'ఇప్పుడు గైనకాలజిస్ట్‌కు కాల్ చేయండి', mr: 'आता स्त्रीरोग तज्ञाला कॉल करा' },
-    genDiet: { en: 'Generate PCOS Diet', hi: 'पीसीओएस आहार उत्पन्न करें', bn: 'পিসিওএস ডায়েট তৈরি করুন', ta: 'பிசிஓஎஸ் உணவை உருவாக்கு', te: 'పీసీఓఎస్ డైట్‌ను రూపొందించండి', mr: 'पीसीओएस आहार तयार करा' },
-    consultSpec: { en: 'Consult Specialist', hi: 'विशेषज्ञ से परामर्श लें', bn: 'বিশেষজ্ঞের পরামর্শ নিন', ta: 'நிபுணரை அணுகவும்', te: 'నిపుణుడిని సంప్రదించండి', mr: 'तज्ञाचा सल्ला घ्या' },
-    logTracker: { en: 'Log in Tracker', hi: 'ट्रैकर में लॉग इन करें', bn: 'ট্র্যাকারে লগ করুন', ta: 'கண்காணிப்பானில் பதிவு செய்யவும்', te: 'ట్రాకర్‌లో లాగ్ చేయండి', mr: 'ट्रॅकरमध्ये नोंद करा' }
-  };
+  const [activeSessionId, setActiveSessionId] = useState('session-1');
+  const [inputVal, setInputVal] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const chatEndRef = useRef(null);
+
+  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
+  const symptomsList = ['Cramps', 'Fatigue', 'Headache', 'Bloating', 'Acne', 'Mood Swings', 'Anxiety', 'Back Pain', 'Nausea', 'Irregular Period'];
+
+  const quickQuestions = [
+    'Why is my period late?',
+    'Why am I feeling tired?',
+    'Is my blood color normal?',
+    'How can I reduce cramps?',
+    'What should I eat during my period?'
+  ];
 
   const [chats, setChats] = useState([
     {
       id: 'session-1',
-      title: 'Migraine & Fatigue',
+      title: 'Fatigue Analysis',
       messages: [
         {
-          sender: 'user',
-          text: 'I\'ve been feeling unusually tired for the past three days, and I\'m having mild cramps even though my period isn\'t due for another week. What could this be?'
-        },
-        {
           sender: 'ai',
-          isClinicalOverview: true,
-          possibleExplanations: [
-            'Ovulation pain (Mittelschmerz)',
-            'Hormonal fluctuations (Progesterone peak)',
-            'Early signs of nutritional deficiency (Iron/B12)'
-          ],
-          severityLevel: 'Low',
-          severityDesc: 'Symptoms appear physiological. Monitor for changes in intensity.',
-          lifestyleSuggestions: [
-            'Increase consumption of magnesium-rich foods.',
-            'Ensure hydration stays above 2.5 Liters daily.',
-            'Secure 7-8 hours of restorative, continuous sleep.'
-          ],
-          expertRecommendation: 'If fatigue persists for more than 7 days or cramps become sharp, we recommend a CBC and Thyroid panel.',
-          ctaActions: [
-            { action: 'book_test', label: 'bookTest' },
-            { action: 'chat_doctor', label: 'chatDoc' }
-          ]
+          text: 'Hello! I am Sakhi, your AI Health Assistant. How are you feeling today?',
+          timestamp: new Date(Date.now() - 3600000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]
     },
-    { id: 'session-2', title: 'Regular Check-up Inquiry', messages: [] },
-    { id: 'session-3', title: 'Cycle Irregularity', messages: [] }
+    { id: 'session-2', title: 'Period Delay', messages: [] },
+    { id: 'session-3', title: 'Diet Advice', messages: [] },
+    { id: 'session-4', title: 'Mood Changes', messages: [] }
   ]);
 
-  const [activeSessionId, setActiveSessionId] = useState('session-1');
-  const [inputVal, setInputVal] = useState('');
-  const chatEndRef = useRef(null);
-
-  // Predictor Form States
-  const [formAge, setFormAge] = useState('25');
-  const [formCycleDays, setFormCycleDays] = useState('28');
-  const [formSymptomInput, setFormSymptomInput] = useState('cramps');
-  const [formHistory, setFormHistory] = useState('none');
-  const [predictionResult, setPredictionResult] = useState(null);
+  const [emergencyAlert, setEmergencyAlert] = useState(false);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [chats]);
+  }, [chats, isTyping]);
 
   const currentSession = chats.find(s => s.id === activeSessionId) || chats[0];
 
-  const handleSendMessage = () => {
-    if (!inputVal.trim()) return;
-
-    const userMsg = { sender: 'user', text: inputVal };
-    
-    // Core AI processing simulation logic
-    let aiResponse = {};
-    const textQuery = inputVal.toLowerCase();
-
-    // Check emergency red-flags first
-    if (
-      textQuery.includes('fainting') || 
-      textQuery.includes('passed out') || 
-      textQuery.includes('severe bleeding') || 
-      textQuery.includes('heavy bleeding') ||
-      textQuery.includes('severe pelvic pain') ||
-      textQuery.includes('high fever')
-    ) {
-      aiResponse = {
-        sender: 'ai',
-        isClinicalOverview: true,
-        possibleExplanations: [
-          'High Risk Menstrual Complication',
-          'Potential Acute Pelvic Infection or Hemorrhage'
-        ],
-        severityLevel: 'High',
-        severityDesc: 'EMERGENCY RED-FLAG INDICATORS DETECTED. Immediate evaluation is highly critical.',
-        lifestyleSuggestions: [
-          'Lie down with your legs elevated.',
-          'Avoid taking any heavy self-medicated pain relievers immediately.',
-          'Secure an immediate escort to the nearest Emergency Clinic.'
-        ],
-        expertRecommendation: 'Proceed immediately to your nearest emergency hospital care or dial our local emergency hotlines immediately.',
-        ctaActions: [
-          { action: 'sos', label: 'sos' },
-          { action: 'chat_doctor', label: 'callDoc' }
-        ]
-      };
-    } else if (textQuery.includes('pcos') || textQuery.includes('ovary') || textQuery.includes('irregular')) {
-      aiResponse = {
-        sender: 'ai',
-        isClinicalOverview: true,
-        possibleExplanations: [
-          'Polycystic Ovary Syndrome (PCOS)',
-          'Anovulatory Cycles',
-          'Luteal Phase Deficiency'
-        ],
-        severityLevel: 'Medium',
-        severityDesc: 'Hormonal parameters warrant a diagnostic profile test.',
-        lifestyleSuggestions: [
-          'Adopt a low-glycemic, anti-inflammatory whole food diet.',
-          'Introduce moderate aerobic activity (30m daily).',
-          'Log your BBT (Basal Body Temperature) daily.'
-        ],
-        expertRecommendation: 'We highly recommend requesting a pelvic ultrasound scan and fasting insulin + LH/FSH blood work.',
-        ctaActions: [
-          { action: 'diet', label: 'genDiet' },
-          { action: 'chat_doctor', label: 'consultSpec' }
-        ]
-      };
-    } else {
-      // Default standard response
-      aiResponse = {
-        sender: 'ai',
-        isClinicalOverview: true,
-        possibleExplanations: [
-          'Hormonal Cycle Fluctuations',
-          'General Dehydration or Fatigue',
-          'Follicular Phase Transition'
-        ],
-        severityLevel: 'Low',
-        severityDesc: 'Symptoms align with standard physiological phase transitions.',
-        lifestyleSuggestions: [
-          'Increase fluid intake above 2.5 Liters.',
-          'Conduct 10-15 minutes of gentle yoga or stretches.',
-          'Consume a well-balanced low-glycemic meal.'
-        ],
-        expertRecommendation: 'Log symptoms in your SAKHI Tracker. If issues persist past 5 consecutive days, seek physician review.',
-        ctaActions: [
-          { action: 'track', label: 'logTracker' }
-        ]
-      };
-    }
-
-    setChats(prev => prev.map(s => {
-      if (s.id === activeSessionId) {
-        return {
-          ...s,
-          messages: [...s.messages, userMsg, aiResponse]
-        };
+  const toggleSymptom = (sym) => {
+    setSelectedSymptoms(prev => {
+      const newSymptoms = prev.includes(sym) ? prev.filter(s => s !== sym) : [...prev, sym];
+      // Auto-fill input
+      if (newSymptoms.length > 0) {
+        setInputVal(`I am experiencing: ${newSymptoms.join(', ')}`);
+      } else {
+        setInputVal('');
       }
-      return s;
-    }));
-    setInputVal('');
-  };
-
-  const handlePredict = () => {
-    // Generate Disease Prediction Report
-    let conditions = [];
-    let severity = 'Low';
-    let recovery = [];
-    const sym = formSymptomInput.toLowerCase();
-
-    if (sym.includes('cramps') && sym.includes('pelvic')) {
-      conditions = ['Endometriosis', 'Hormonal Imbalance'];
-      severity = 'Medium';
-      recovery = ['Warm compresses', 'Omega-3 fatty acids', 'Hormonal balancing therapy'];
-    } else if (sym.includes('period') || sym.includes('weight') || sym.includes('hair')) {
-      conditions = ['Polycystic Ovary Syndrome (PCOS)', 'Hormonal Imbalance'];
-      severity = 'Medium';
-      recovery = ['Spearmint tea', 'Strength training', 'Inositol supplementation'];
-    } else if (sym.includes('burning') || sym.includes('urine') || sym.includes('pain')) {
-      conditions = ['Urinary Tract Infection (UTI)', 'Vaginal Infection'];
-      severity = 'High';
-      recovery = ['Increased cranberry concentrates', 'Antibiotic consultation', 'Probiotics support'];
-    } else {
-      conditions = ['Anemia', 'General Micronutrient Deficiency'];
-      severity = 'Low';
-      recovery = ['Iron-rich leafy vegetables', 'Vitamin C absorption boosters'];
-    }
-
-    setPredictionResult({
-      age: formAge,
-      symptoms: formSymptomInput,
-      conditions,
-      severity,
-      recovery,
-      measures: ['Avoid artificial sweeteners', 'Log flow colors daily', 'Get 8h sleep']
+      return newSymptoms;
     });
   };
 
+  const handleSendPrompt = (prompt) => {
+    setInputVal(prompt);
+    setTimeout(() => {
+      processMessage(prompt);
+    }, 100);
+  };
+
+  const processMessage = (text) => {
+    if (!text.trim()) return;
+
+    const userMsg = { 
+      sender: 'user', 
+      text: text, 
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+    };
+
+    setChats(prev => prev.map(s => {
+      if (s.id === activeSessionId) return { ...s, messages: [...s.messages, userMsg] };
+      return s;
+    }));
+    
+    setInputVal('');
+    setIsTyping(true);
+    setEmergencyAlert(false);
+
+    setTimeout(() => {
+      const textQuery = text.toLowerCase();
+      let aiResponse = {};
+
+      if (textQuery.includes('fainting') || textQuery.includes('severe bleeding') || textQuery.includes('heavy bleeding')) {
+        setEmergencyAlert(true);
+        aiResponse = {
+          sender: 'ai',
+          text: 'I detected severe symptoms in your message. Please do not ignore this.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          analysis: {
+            causes: ['High Risk Menstrual Complication', 'Potential Acute Pelvic Infection'],
+            confidence: '95%',
+            severity: 'High'
+          },
+          followUps: ['Should I consult a doctor immediately?', 'What are emergency symptoms?']
+        };
+      } else if (textQuery.includes('cramps') || textQuery.includes('tired') || textQuery.includes('fatigue')) {
+        aiResponse = {
+          sender: 'ai',
+          text: 'It sounds like you are experiencing common physiological symptoms related to hormonal fluctuations. Rest is important right now.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          analysis: {
+            causes: ['Hormonal fluctuations', 'Stress', 'Iron deficiency'],
+            confidence: '85%',
+            severity: 'Low'
+          },
+          followUps: ['What foods should I avoid?', 'How can I reduce cramps?']
+        };
+      } else {
+        aiResponse = {
+          sender: 'ai',
+          text: 'Thank you for sharing. Based on your cycle data, this is relatively common for the Ovulation phase.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          analysis: {
+            causes: ['Follicular Phase Transition', 'Hydration Levels'],
+            confidence: '78%',
+            severity: 'Low'
+          },
+          followUps: ['Is this symptom normal?', 'How can I improve my cycle health?']
+        };
+      }
+
+      setChats(prev => prev.map(s => {
+        if (s.id === activeSessionId) return { ...s, messages: [...s.messages, aiResponse] };
+        return s;
+      }));
+      setIsTyping(false);
+      setSelectedSymptoms([]); // clear symptoms after sending
+    }, 2000);
+  };
+
+  const handleSendMessage = () => {
+    processMessage(inputVal);
+  };
+
   return (
-    <div className="slide-in" style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+    <div className="flex flex-col gap-6 w-full animate-fade-in pb-12">
       
-      {/* Tab select: Chat vs Predictor */}
-      <div style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', gap: '20px' }}>
-        <button 
-          onClick={() => setActiveChatTab('chat')}
-          style={{
-            background: 'none',
-            border: 'none',
-            borderBottom: activeChatTab === 'chat' ? '3px solid var(--primary)' : 'none',
-            padding: '10px 20px',
-            fontFamily: 'var(--font-display)',
-            fontSize: '16px',
-            fontWeight: '700',
-            color: activeChatTab === 'chat' ? 'var(--primary)' : 'var(--text-secondary)',
-            cursor: 'pointer'
-          }}
-        >
-          💬 {strings.tabChat[language] || strings.tabChat['en']}
-        </button>
-        <button 
-          onClick={() => setActiveChatTab('predictor')}
-          style={{
-            background: 'none',
-            border: 'none',
-            borderBottom: activeChatTab === 'predictor' ? '3px solid var(--primary)' : 'none',
-            padding: '10px 20px',
-            fontFamily: 'var(--font-display)',
-            fontSize: '16px',
-            fontWeight: '700',
-            color: activeChatTab === 'predictor' ? 'var(--primary)' : 'var(--text-secondary)',
-            cursor: 'pointer'
-          }}
-        >
-          🔬 {strings.tabPredictor[language] || strings.tabPredictor['en']}
-        </button>
+      {/* SECTION 1: Health Snapshot (Hero) */}
+      <div className="glass-panel p-6 rounded-3xl border border-pink-100/50 dark:border-zinc-800 bg-gradient-to-r from-pink-50 to-white dark:from-zinc-900 dark:to-zinc-950 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-pink-300/10 blur-3xl rounded-full pointer-events-none"></div>
+        <div className="z-10 flex-1 w-full">
+           <h1 className="font-display text-xl md:text-2xl font-extrabold text-[var(--text-primary)] mb-6 flex items-center gap-2">
+             🌸 Today's Health Snapshot
+           </h1>
+           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+             <div className="bg-white/60 dark:bg-zinc-800/60 p-4 rounded-2xl border border-white/40 dark:border-zinc-700/40">
+               <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Current Phase</span>
+               <p className="text-sm font-black text-pink-600 dark:text-pink-400 mt-1">Ovulation</p>
+             </div>
+             <div className="bg-white/60 dark:bg-zinc-800/60 p-4 rounded-2xl border border-white/40 dark:border-zinc-700/40">
+               <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Mood</span>
+               <p className="text-sm font-black text-[var(--text-primary)] mt-1">Happy 😊</p>
+             </div>
+             <div className="bg-white/60 dark:bg-zinc-800/60 p-4 rounded-2xl border border-white/40 dark:border-zinc-700/40">
+               <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Energy & Stress</span>
+               <p className="text-sm font-black text-[var(--text-primary)] mt-1 text-emerald-600">8/10 • Low</p>
+             </div>
+             <div className="bg-white/60 dark:bg-zinc-800/60 p-4 rounded-2xl border border-white/40 dark:border-zinc-700/40">
+               <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider">Hydration</span>
+               <p className="text-sm font-black text-blue-500 mt-1">6/8 Glasses</p>
+             </div>
+           </div>
+        </div>
+
+        <div className="flex flex-col items-center justify-center bg-white dark:bg-zinc-900 p-6 rounded-3xl shadow-xl shadow-pink-100/50 dark:shadow-none border border-pink-50 dark:border-zinc-800 z-10 w-full md:w-auto shrink-0">
+          <p className="text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 text-center">Health Score</p>
+          <div className="relative w-24 h-24 flex items-center justify-center">
+             <svg className="w-full h-full transform -rotate-90 absolute top-0 left-0">
+               <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-100 dark:text-zinc-800" />
+               <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 88) / 100} className="text-emerald-500 transition-all duration-1000 ease-out" />
+             </svg>
+             <div className="flex flex-col items-center z-10">
+               <span className="font-display font-black text-xl text-[var(--text-primary)]">88<span className="text-xs text-[var(--text-secondary)]">/100</span></span>
+             </div>
+          </div>
+        </div>
       </div>
 
-      {activeChatTab === 'chat' ? (
-        /* =================== CHAT SYSTEM =================== */
-        <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '24px' }} className="grid-2">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        {/* LEFT COLUMN: History, Trends, Wellness Score */}
+        <div className="lg:col-span-3 flex flex-col gap-6">
           
-          {/* Left sessions column */}
-          <div className="glass-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', height: '560px' }}>
-            <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--text-secondary)', letterSpacing: '1px', textTransform: 'uppercase' }}>
-              {strings.sessions[language] || strings.sessions['en']}
-            </span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', flexGrow: '1' }}>
+          {/* SECTION 8: Health History */}
+          <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-[var(--text-primary)] uppercase tracking-wider">
+              <Clock className="w-4 h-4 text-pink-500" /> Recent Conversations
+            </h3>
+            <div className="flex flex-col gap-2">
               {chats.map(session => (
                 <button
                   key={session.id}
                   onClick={() => setActiveSessionId(session.id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    width: '100%',
-                    padding: '10px 12px',
-                    border: 'none',
-                    borderRadius: '8px',
-                    background: activeSessionId === session.id ? 'var(--primary-light)' : 'transparent',
-                    color: activeSessionId === session.id ? 'var(--primary)' : 'var(--text-primary)',
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '13px',
-                    fontWeight: activeSessionId === session.id ? '600' : '500',
-                    cursor: 'pointer',
-                    textAlign: 'left'
-                  }}
+                  className={`flex items-center gap-3 p-2.5 rounded-xl border transition-all cursor-pointer ${activeSessionId === session.id ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-400' : 'border-transparent text-[var(--text-secondary)] hover:bg-gray-50 dark:hover:bg-zinc-800'}`}
                 >
-                  <MessageSquare size={14} />
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{session.title}</span>
+                  <MessageSquare size={14} className={activeSessionId === session.id ? 'text-pink-500' : 'text-gray-400'} />
+                  <span className="text-xs font-bold overflow-hidden text-ellipsis whitespace-nowrap">{session.title}</span>
                 </button>
               ))}
+              <button 
+                className="mt-2 text-xs font-bold text-pink-500 flex items-center justify-center gap-2 p-2 border border-dashed border-pink-200 dark:border-pink-900/50 rounded-xl hover:bg-pink-50 dark:hover:bg-pink-950/30 transition-colors"
+                onClick={() => {
+                  const newId = `session-${chats.length + 1}`;
+                  setChats(prev => [...prev, { id: newId, title: 'New Consultation', messages: [] }]);
+                  setActiveSessionId(newId);
+                }}
+              >
+                <Plus size={14} /> New Chat
+              </button>
             </div>
-
-            <button 
-              className="btn btn-secondary" 
-              style={{ padding: '8px', width: '100%', justifyContent: 'center', fontSize: '12px' }}
-              onClick={() => {
-                const newId = `session-${chats.length + 1}`;
-                setChats(prev => [...prev, { id: newId, title: `New Inquiry ${chats.length}`, messages: [] }]);
-                setActiveSessionId(newId);
-              }}
-            >
-              <Plus size={14} /> {strings.newConsult[language] || strings.newConsult['en']}
-            </button>
           </div>
 
-          {/* Right chat screen */}
-          <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '560px' }}>
-            
-            {/* Disclaimer Banner */}
-            <div style={{ background: 'var(--primary-light)', padding: '12px 16px', borderRadius: '10px', border: '1px solid var(--accent-pink)', marginBottom: '16px', fontSize: '11px', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <ShieldCheck size={16} />
-              <span>{strings.disclaimer[language] || strings.disclaimer['en']}</span>
-            </div>
-
-            {/* Message Viewport */}
-            <div style={{ flexGrow: '1', overflowY: 'auto', paddingRight: '6px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {currentSession.messages.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-secondary)' }}>
-                  <Sparkles size={32} style={{ color: 'var(--primary)', marginBottom: '12px', animation: 'pulse 2s infinite' }} />
-                  <h4 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>{strings.askAi[language] || strings.askAi['en']}</h4>
-                  <p style={{ fontSize: '13px' }}>{strings.askDesc[language] || strings.askDesc['en']}</p>
+          {/* SECTION 12: AI Wellness Score */}
+          <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-[var(--text-primary)] uppercase tracking-wider">
+              <Activity className="w-4 h-4 text-purple-500" /> Wellness Score
+            </h3>
+            <div className="flex flex-col gap-4">
+              {[
+                { label: 'Sleep', val: 80, color: 'bg-indigo-500' },
+                { label: 'Nutrition', val: 85, color: 'bg-emerald-500' },
+                { label: 'Hydration', val: 75, color: 'bg-blue-500' },
+                { label: 'Mood', val: 90, color: 'bg-pink-500' }
+              ].map(stat => (
+                <div key={stat.label}>
+                  <div className="flex justify-between text-[10px] font-extrabold uppercase mb-1">
+                    <span className="text-[var(--text-secondary)]">{stat.label}</span>
+                    <span className="text-[var(--text-primary)]">{stat.val}%</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+                    <div className={`h-full ${stat.color} rounded-full`} style={{ width: `${stat.val}%` }}></div>
+                  </div>
                 </div>
-              ) : (
-                currentSession.messages.map((msg, idx) => {
-                  if (msg.isClinicalOverview) {
-                    // Render premium clinical overview box
-                    return (
-                      <div key={idx} className="glass-panel slide-in" style={{ padding: '24px', maxWidth: '85%', alignSelf: 'flex-start', display: 'flex', flexDirection: 'column', gap: '16px', borderLeft: `6px solid ${msg.severityLevel === 'High' ? 'var(--danger)' : msg.severityLevel === 'Medium' ? 'var(--warning)' : 'var(--success)'}` }}>
-                        
-                        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px' }}>
-                          <div>
-                            <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>{strings.possibleExp[language] || strings.possibleExp['en']}</span>
-                            <ul style={{ listStyleType: 'disc', paddingLeft: '16px', fontSize: '13px', color: 'var(--text-primary)', marginTop: '4px' }}>
-                              {msg.possibleExplanations.map((exp, eIdx) => <li key={eIdx}>{exp}</li>)}
-                            </ul>
-                          </div>
+              ))}
+            </div>
+          </div>
 
-                          <div style={{ background: msg.severityLevel === 'High' ? 'var(--danger-light)' : msg.severityLevel === 'Medium' ? 'var(--warning-light)' : 'var(--success-light)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(0,0,0,0.05)', textAlign: 'center' }}>
-                            <span style={{ fontSize: '10px', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block' }}>{strings.severity[language] || strings.severity['en']}</span>
-                            <span style={{ fontSize: '20px', fontWeight: '800', color: msg.severityLevel === 'High' ? 'var(--danger)' : msg.severityLevel === 'Medium' ? 'var(--warning)' : 'var(--success)', display: 'block', marginTop: '2px' }}>
-                              {msg.severityLevel}
-                            </span>
-                            <span style={{ fontSize: '10px', color: 'var(--text-secondary)', display: 'block', lineHeight: '1.2', marginTop: '4px' }}>{msg.severityDesc}</span>
-                          </div>
-                        </div>
+          {/* SECTION 9: Health Trends */}
+          <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-[var(--text-primary)] uppercase tracking-wider">
+              <TrendingUp className="w-4 h-4 text-orange-500" /> This Month's Trends
+            </h3>
+            <div className="flex flex-col gap-3">
+              <p className="text-[10px] font-semibold text-[var(--text-secondary)] leading-tight">Most Common Symptoms</p>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                  <span className="text-xs font-bold text-[var(--text-primary)] flex-1">Fatigue</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-orange-400"></div>
+                  <span className="text-xs font-bold text-[var(--text-primary)] flex-1">Mood Swings</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-orange-300"></div>
+                  <span className="text-xs font-bold text-[var(--text-primary)] flex-1">Headache</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                        <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '12px' }}>
-                          <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>🥗 {strings.lifestyle[language] || strings.lifestyle['en']}</span>
-                          <ul style={{ listStyleType: 'decimal', paddingLeft: '16px', fontSize: '13px', color: 'var(--text-primary)' }}>
-                            {msg.lifestyleSuggestions.map((sug, sIdx) => <li key={sIdx}>{sug}</li>)}
+        </div>
+
+        {/* CENTER COLUMN: Chat Interface, Quick Actions */}
+        <div className="lg:col-span-6 flex flex-col gap-4">
+          
+          {/* SECTION 2: Quick Symptom Selection */}
+          <div className="glass-panel p-4 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+             <span className="text-[10px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Select Your Symptoms</span>
+             <div className="flex flex-wrap gap-1.5">
+               {symptomsList.map(sym => {
+                 const active = selectedSymptoms.includes(sym);
+                 return (
+                   <button
+                     key={sym}
+                     onClick={() => toggleSymptom(sym)}
+                     className={`px-3 py-1 rounded-full border text-[11px] font-bold cursor-pointer transition-all ${active ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-400' : 'border-gray-200 dark:border-zinc-700 bg-transparent text-[var(--text-primary)] hover:border-pink-300'}`}
+                   >
+                     {sym}
+                   </button>
+                 );
+               })}
+             </div>
+          </div>
+
+          {/* SECTION 4: AI Health Assistant CHAT VIEWPORT */}
+          <div className="glass-panel flex-1 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden flex flex-col h-[600px] shadow-sm">
+            
+            {/* Chat Area */}
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+              
+              {currentSession.messages.length === 0 && (
+                <div className="flex flex-col gap-4 my-auto">
+                   {/* SECTION 3: Quick Health Questions */}
+                   <div className="text-center mb-2">
+                     <Sparkles className="w-8 h-8 text-pink-400 mx-auto mb-2 opacity-50" />
+                     <p className="text-sm font-bold text-[var(--text-secondary)]">Ask Sakhi anything about your health...</p>
+                   </div>
+                   <div className="flex flex-wrap justify-center gap-2 p-2">
+                     {quickQuestions.map((q, idx) => (
+                       <button
+                         key={idx}
+                         onClick={() => handleSendPrompt(q)}
+                         className="px-4 py-2 rounded-2xl border border-gray-200 dark:border-zinc-700 text-xs font-bold text-[var(--text-primary)] hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer text-left shadow-sm"
+                       >
+                         💬 {q}
+                       </button>
+                     ))}
+                   </div>
+                </div>
+              )}
+
+              {currentSession.messages.map((msg, idx) => (
+                <div key={idx} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'} animate-fade-in`}>
+                  <div className="flex items-end gap-2 max-w-[85%]">
+                    {msg.sender === 'ai' && (
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-pink-500 to-purple-500 flex items-center justify-center shrink-0 shadow-sm mb-4">
+                        <Sparkles size={12} className="text-white" />
+                      </div>
+                    )}
+                    
+                    <div className="flex flex-col gap-1 w-full">
+                      <div className={`p-3.5 rounded-2xl text-sm font-medium leading-relaxed shadow-sm ${
+                        msg.sender === 'user' 
+                          ? 'bg-pink-500 text-white rounded-br-sm' 
+                          : 'bg-gray-50 dark:bg-zinc-800 text-[var(--text-primary)] rounded-bl-sm border border-gray-100 dark:border-zinc-700'
+                      }`}>
+                        {msg.text}
+                      </div>
+                      <span className={`text-[9px] font-bold text-[var(--text-secondary)] ${msg.sender === 'user' ? 'text-right pr-1' : 'pl-1'}`}>
+                        {msg.timestamp}
+                      </span>
+                    </div>
+
+                    {msg.sender === 'user' && (
+                      <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-zinc-700 flex items-center justify-center shrink-0 shadow-sm mb-4">
+                        <User size={12} className="text-gray-500 dark:text-gray-400" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* SECTION 5: AI Health Analysis Inline */}
+                  {msg.analysis && (
+                    <div className="ml-8 mt-2 max-w-[85%] bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/30 rounded-2xl p-4 w-full">
+                      <h4 className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5 mb-2">
+                        🤖 Sakhi Analysis
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <span className="text-[9px] font-bold text-[var(--text-secondary)] block mb-1">Possible Causes:</span>
+                          <ul className="text-xs font-semibold text-[var(--text-primary)] flex flex-col gap-1">
+                            {msg.analysis.causes.map((c, i) => <li key={i} className="flex gap-1.5"><span className="text-indigo-400">•</span>{c}</li>)}
                           </ul>
                         </div>
-
-                        <div style={{ background: 'var(--bg-primary)', padding: '12px', borderRadius: '8px', borderLeft: '4px solid var(--secondary)', fontSize: '12px' }}>
-                          <span style={{ fontWeight: '700', color: 'var(--secondary)' }}>🩺 {strings.expertRec[language] || strings.expertRec['en']} </span>
-                          {msg.expertRecommendation}
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                          {msg.ctaActions?.map((cta, cIdx) => (
-                            <button
-                              key={cIdx}
-                              className="btn btn-secondary"
-                              style={{ padding: '6px 12px', fontSize: '11px' }}
-                              onClick={() => {
-                                if (cta.action === 'sos') setTab('sos');
-                                else if (cta.action === 'diet') setTab('diet-fitness');
-                                else alert(`Simulating consultation call setup for: "${strings[cta.label]?.[language] || strings[cta.label]?.['en'] || cta.label}"...`);
-                              }}
-                            >
-                              {strings[cta.label]?.[language] || strings[cta.label]?.['en'] || cta.label}
-                            </button>
-                          ))}
+                        <div>
+                           <span className="text-[9px] font-bold text-[var(--text-secondary)] block mb-1">Confidence Level:</span>
+                           <span className="text-sm font-black text-indigo-600 dark:text-indigo-400">{msg.analysis.confidence}</span>
                         </div>
                       </div>
-                    );
-                  }
-                  
-                  return (
-                    <div key={idx} className={`chat-bubble ${msg.sender}`}>
-                      {msg.text}
                     </div>
-                  );
-                })
+                  )}
+
+                  {/* SECTION 14: Suggested Follow-Up Questions */}
+                  {msg.followUps && (
+                    <div className="ml-8 mt-3 flex flex-col gap-2 w-full max-w-[85%]">
+                      <span className="text-[10px] font-bold text-[var(--text-secondary)]">You may also ask:</span>
+                      <div className="flex flex-wrap gap-2">
+                        {msg.followUps.map((q, i) => (
+                          <button
+                            key={i}
+                            onClick={() => handleSendPrompt(q)}
+                            className="px-3 py-1.5 rounded-full border border-gray-200 dark:border-zinc-700 text-[10px] font-bold text-[var(--text-primary)] hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer text-left"
+                          >
+                            {q}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              ))}
+
+              {isTyping && (
+                <div className="flex items-end gap-2 max-w-[85%] animate-fade-in">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-pink-500 to-purple-500 flex items-center justify-center shrink-0 shadow-sm mb-4">
+                    <Sparkles size={12} className="text-white" />
+                  </div>
+                  <div className="p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800 rounded-bl-sm border border-gray-100 dark:border-zinc-700 mb-4 flex gap-1">
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                </div>
               )}
+              
               <div ref={chatEndRef}></div>
             </div>
 
-            {/* Input Bar */}
-            <div style={{ display: 'flex', gap: '10px', marginTop: '16px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
-              <input
-                type="text"
-                placeholder={strings.inputPlaceholder[language] || strings.inputPlaceholder['en']}
-                value={inputVal}
-                onChange={(e) => setInputVal(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                style={{
-                  flexGrow: '1',
-                  padding: '12px 18px',
-                  borderRadius: '30px',
-                  border: '1px solid var(--border-color)',
-                  background: 'var(--bg-primary)',
-                  color: 'var(--text-primary)',
-                  outline: 'none',
-                  fontSize: '14px',
-                  fontFamily: 'var(--font-sans)'
-                }}
-              />
-              <button className="btn btn-primary" style={{ padding: '12px', borderRadius: '50%' }} onClick={handleSendMessage}>
-                <Send size={18} />
+            {/* Chat Input */}
+            <div className="p-4 border-t border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex gap-2">
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  placeholder="Ask Sakhi anything about your health..."
+                  value={inputVal}
+                  onChange={(e) => setInputVal(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                  className="w-full pl-4 pr-10 py-3 rounded-2xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-950 text-sm font-medium text-[var(--text-primary)] outline-none focus:border-pink-300 transition-colors shadow-inner"
+                />
+                {/* SECTION 13: Voice Assistant */}
+                <button className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-pink-500 transition-colors cursor-pointer">
+                  <Mic size={18} />
+                </button>
+              </div>
+              <button 
+                className="bg-pink-500 hover:bg-pink-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shadow-sm cursor-pointer disabled:opacity-50"
+                onClick={handleSendMessage}
+                disabled={!inputVal.trim() || isTyping}
+              >
+                <Send size={18} className="ml-1" />
               </button>
             </div>
 
           </div>
         </div>
-      ) : (
-        /* =================== DISEASE PREDICTOR =================== */
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }} className="grid-2">
+
+        {/* RIGHT COLUMN: Context, Risks, Recommendations */}
+        <div className="lg:col-span-3 flex flex-col gap-6">
           
-          {/* Prediction input form */}
-          <div className="glass-panel" style={{ padding: '30px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h3 style={{ fontSize: '18px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
-              🔬 {strings.symptomProfile[language] || strings.symptomProfile['en']}
-            </h3>
-
-            <div className="grid-2">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '600' }}>{strings.yourAge[language] || strings.yourAge['en']}</span>
-                <input 
-                  type="number" 
-                  value={formAge} 
-                  onChange={(e) => setFormAge(e.target.value)}
-                  style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} 
-                />
+          {/* SECTION 11: Emergency Detection */}
+          {emergencyAlert && (
+            <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-3xl p-5 flex flex-col gap-3 animate-fade-in shadow-sm">
+              <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
+                <AlertTriangle className="w-5 h-5" />
+                <h3 className="font-display font-extrabold text-sm uppercase tracking-wider">Important Health Alert</h3>
               </div>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '600' }}>{strings.cycleDays[language] || strings.cycleDays['en']}</span>
-                <input 
-                  type="number" 
-                  value={formCycleDays} 
-                  onChange={(e) => setFormCycleDays(e.target.value)}
-                  style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} 
-                />
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '600' }}>{strings.enterSymptoms[language] || strings.enterSymptoms['en']}</span>
-              <textarea
-                placeholder={strings.placeholderSym[language] || strings.placeholderSym['en']}
-                value={formSymptomInput}
-                onChange={(e) => setFormSymptomInput(e.target.value)}
-                style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '80px', resize: 'none', fontFamily: 'var(--font-sans)', fontSize: '13px' }}
-              />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '600' }}>{strings.medicalHistory[language] || strings.medicalHistory['en']}</span>
-              <select
-                value={formHistory}
-                onChange={(e) => setFormHistory(e.target.value)}
-                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
-              >
-                <option value="none">{strings.optNone[language] || strings.optNone['en']}</option>
-                <option value="PCOS">{strings.optPcos[language] || strings.optPcos['en']}</option>
-                <option value="anemia">{strings.optAnemia[language] || strings.optAnemia['en']}</option>
-                <option value="thyroid">{strings.optThyroid[language] || strings.optThyroid['en']}</option>
-              </select>
-            </div>
-
-            <button className="btn btn-primary" style={{ justifyContent: 'center' }} onClick={handlePredict}>
-              {strings.generateReport[language] || strings.generateReport['en']} <TrendingUp size={16} />
-            </button>
-          </div>
-
-          {/* Prediction report results */}
-          <div className="glass-panel" style={{ padding: '30px', display: 'flex', flexDirection: 'column', justifyContent: predictionResult ? 'flex-start' : 'center', minHeight: '400px' }}>
-            {!predictionResult ? (
-              <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-                <Activity size={40} style={{ color: 'var(--secondary)', marginBottom: '12px' }} />
-                <h4>{strings.pendingReport[language] || strings.pendingReport['en']}</h4>
-                <p style={{ fontSize: '12px', padding: '0 40px' }}>{strings.pendingDesc[language] || strings.pendingDesc['en']}</p>
-              </div>
-            ) : (
-              <div className="slide-in" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h4 style={{ fontSize: '18px' }}>🔍 {strings.aiDiagnostic[language] || strings.aiDiagnostic['en']}</h4>
-                  <span style={{ fontSize: '11px', background: 'var(--primary-light)', color: 'var(--primary)', padding: '2px 8px', borderRadius: '10px', fontWeight: '700' }}>{strings.age[language] || strings.age['en']} {predictionResult.age}</span>
-                </div>
-
-                <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '700', textTransform: 'uppercase' }}>{strings.identifiedCond[language] || strings.identifiedCond['en']}</span>
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '6px' }}>
-                    {predictionResult.conditions.map((cond, cIdx) => (
-                      <span key={cIdx} style={{ background: 'var(--secondary-light)', color: 'var(--secondary)', padding: '4px 10px', borderRadius: '15px', fontSize: '12px', fontWeight: '600' }}>
-                        🏥 {cond}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', background: 'var(--bg-primary)', padding: '12px 16px', borderRadius: '8px', alignItems: 'center' }}>
-                  <span style={{ fontSize: '13px', fontWeight: '700' }}>{strings.aggRisk[language] || strings.aggRisk['en']}</span>
-                  <span style={{ fontSize: '16px', fontWeight: '800', color: predictionResult.severity === 'High' ? 'var(--danger)' : predictionResult.severity === 'Medium' ? 'var(--warning)' : 'var(--success)' }}>
-                    {predictionResult.severity}
-                  </span>
-                </div>
-
-                <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontWeight: '700', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>🛡️ {strings.prevAction[language] || strings.prevAction['en']}</span>
-                  <ul style={{ listStyleType: 'disc', paddingLeft: '16px', fontSize: '13px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    {predictionResult.measures.map((m, idx) => <li key={idx}>{m}</li>)}
-                  </ul>
-                </div>
-
-                <div style={{ background: 'var(--success-light)', borderLeft: '4px solid var(--success)', padding: '12px', borderRadius: '6px', fontSize: '12px' }}>
-                  <span style={{ fontWeight: '700', color: 'var(--success)' }}>🌱 {strings.dailyRec[language] || strings.dailyRec['en']} </span>
-                  {predictionResult.recovery.join(', ')}
-                </div>
-
-                <button className="btn btn-secondary" style={{ justifyContent: 'center' }} onClick={() => alert('Compiling doctor-ready clinical PDF... Download ready.')}>
-                  📥 {strings.downloadPdf[language] || strings.downloadPdf['en']}
+              <p className="text-xs font-semibold text-red-800/80 dark:text-red-300/80">
+                Please consult a healthcare professional immediately based on your symptoms.
+              </p>
+              <div className="flex flex-col gap-2 mt-1">
+                <button className="bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold hover:bg-red-600 transition-colors cursor-pointer">
+                  Book Consultation
+                </button>
+                <button className="bg-transparent border border-red-200 dark:border-red-900 text-red-600 dark:text-red-400 py-2 rounded-xl text-[11px] font-bold hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors cursor-pointer">
+                  Emergency SOS
                 </button>
               </div>
-            )}
+            </div>
+          )}
+
+          {/* SECTION 7: Related Health Data */}
+          <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-[var(--text-primary)] uppercase tracking-wider">
+              <HeartPulse className="w-4 h-4 text-rose-500" /> Ecosystem Data
+            </h3>
+            <div className="flex flex-col gap-3">
+               <div>
+                 <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider block mb-0.5">Current Cycle Phase</span>
+                 <p className="text-xs font-bold text-[var(--text-primary)]">Ovulation</p>
+               </div>
+               <div>
+                 <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider block mb-0.5">Recent Mood</span>
+                 <p className="text-xs font-bold text-[var(--text-primary)]">Happy 😊</p>
+               </div>
+               <div>
+                 <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider block mb-0.5">Last Blood Analysis</span>
+                 <p className="text-xs font-bold text-[var(--text-primary)]">Bright Red (Normal)</p>
+               </div>
+               <div>
+                 <span className="text-[9px] font-extrabold text-[var(--text-secondary)] uppercase tracking-wider block mb-0.5">Recent Symptoms</span>
+                 <p className="text-xs font-bold text-[var(--text-primary)]">Fatigue, Mild Cramps</p>
+               </div>
+            </div>
+          </div>
+
+          {/* SECTION 10: Risk Monitoring */}
+          <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-[var(--text-primary)] uppercase tracking-wider">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" /> Health Monitoring
+            </h3>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                 <span className="text-xs font-bold text-[var(--text-primary)]">Iron Deficiency Risk</span>
+                 <span className="text-[10px] font-bold text-yellow-600 bg-yellow-50 dark:bg-yellow-950/30 px-2 py-0.5 rounded-md flex items-center gap-1.5">
+                   <div className="w-1.5 h-1.5 rounded-full bg-yellow-500"></div> Moderate
+                 </span>
+              </div>
+              <div className="flex items-center justify-between">
+                 <span className="text-xs font-bold text-[var(--text-primary)]">Stress Risk</span>
+                 <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-md flex items-center gap-1.5">
+                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Low
+                 </span>
+              </div>
+              <div className="flex items-center justify-between">
+                 <span className="text-xs font-bold text-[var(--text-primary)]">Cycle Irregularity Risk</span>
+                 <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-md flex items-center gap-1.5">
+                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Low
+                 </span>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 6: Personalized Recommendations */}
+          <div className="glass-panel p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex-1">
+             <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-[var(--text-primary)] uppercase tracking-wider">
+               <Brain className="w-4 h-4 text-purple-500" /> Recommendations
+             </h3>
+             <div className="flex flex-col gap-4">
+               <div>
+                 <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 block mb-1.5 flex items-center gap-1">🍎 Diet Suggestions</span>
+                 <div className="flex flex-wrap gap-1.5">
+                   <span className="text-[10px] font-bold bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 px-2 py-1 rounded-md text-[var(--text-primary)]">✓ Spinach</span>
+                   <span className="text-[10px] font-bold bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 px-2 py-1 rounded-md text-[var(--text-primary)]">✓ Beetroot</span>
+                   <span className="text-[10px] font-bold bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 px-2 py-1 rounded-md text-[var(--text-primary)]">✓ Lentils</span>
+                 </div>
+               </div>
+               <div>
+                 <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 block mb-1.5 flex items-center gap-1">🧘 Wellness Suggestions</span>
+                 <div className="flex flex-wrap gap-1.5">
+                   <span className="text-[10px] font-bold bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 px-2 py-1 rounded-md text-[var(--text-primary)]">✓ Child Pose</span>
+                   <span className="text-[10px] font-bold bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 px-2 py-1 rounded-md text-[var(--text-primary)]">✓ Deep Breathing</span>
+                   <span className="text-[10px] font-bold bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 px-2 py-1 rounded-md text-[var(--text-primary)]">✓ Meditation</span>
+                 </div>
+               </div>
+               <div>
+                 <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 block mb-1.5 flex items-center gap-1">💧 Hydration Goal</span>
+                 <span className="text-[11px] font-black text-[var(--text-primary)] block pl-1">2.5 Liters</span>
+               </div>
+             </div>
           </div>
 
         </div>
-      )}
+
+      </div>
 
     </div>
   );

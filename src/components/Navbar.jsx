@@ -64,39 +64,7 @@ export default function Navbar({
           />
         </div>
 
-        {/* Navigation Links (Both states match mockups) */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-gray-800 dark:text-zinc-200">
-          <button 
-            onClick={() => setPage('home')} 
-            className={`hover:text-feminine-pink transition-colors cursor-pointer ${page === 'home' ? 'text-feminine-pink' : ''}`}
-          >
-            {strings.features[language] || strings.features['en']}
-          </button>
-          <button 
-            onClick={() => setPage('home')} 
-            className="hover:text-feminine-pink transition-colors cursor-pointer"
-          >
-            {strings.knowledgeHub[language] || strings.knowledgeHub['en']}
-          </button>
-          <button 
-            onClick={() => setPage('home')} 
-            className="hover:text-feminine-pink transition-colors cursor-pointer"
-          >
-            {strings.experts[language] || strings.experts['en']}
-          </button>
-          <button 
-            onClick={() => {
-              if (user) {
-                setPage('community');
-              } else {
-                handleGetStarted();
-              }
-            }} 
-            className={`hover:text-feminine-pink transition-colors cursor-pointer ${page === 'community' ? 'text-feminine-pink' : ''}`}
-          >
-            {strings.community[language] || strings.community['en']}
-          </button>
-        </nav>
+
 
         {/* Global Controls & Auth actions */}
         <div className="flex items-center gap-4">
