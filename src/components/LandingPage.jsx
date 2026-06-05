@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { 
   ArrowRight, 
-  Smartphone, 
   Sparkles, 
-  ShieldCheck, 
-  Layers, 
   ChevronRight, 
   HelpCircle, 
   Plus, 
@@ -55,104 +52,216 @@ export default function LandingPage({ language, setTab }) {
       basic: 'बेसिक प्लान',
       standard: 'स्टैंडर्ड प्लान',
       premium: 'प्रीमियम प्लान'
+    },
+    bn: {
+      heroTitle: 'এআই-চালিত নির্ভুল নারী স্বাস্থ্য প্ল্যাটফর্ম',
+      heroSub: 'SAKHI আপনার ক্লিনিকাল স্বাস্থ্য সঙ্গী হিসেবে কাজ করে। চক্রের ভবিষ্যদ্বাণী করুন, লক্ষণ বিশ্লেষণ করুন, শীর্ষ ডাক্তারদের সাথে পরামর্শ করুন এবং সুরক্ষিত প্রযুক্তির মাধ্যমে সামগ্রিক সুস্থতা পরিচালনা করুন।',
+      explore: 'ড্যাশবোর্ড দেখুন',
+      download: 'মোবাইল অ্যাপ মকআপ',
+      daysCountdown: 'পরবর্তী পিরিয়ড',
+      daysValue: '১২ দিন পর',
+      ovulationText: 'ওভুলেশন: ১৪ অক্টোবর',
+      fertilityChance: 'উচ্চ উর্বরতার সম্ভাবনা',
+      featuresTitle: 'সম্পূর্ণ ফেমটেক অফার',
+      featuresSub: 'আপনার জীবনের প্রতিটি পর্যায়ের জন্য তৈরি সমন্বিত চিকিৎসা, পুষ্টি এবং বিশ্লেষণাত্মক সহায়তা।',
+      meetExperts: 'আমাদের বিশেষজ্ঞদের সাথে দেখা করুন',
+      meetExpertsSub: 'প্রত্যয়িত গাইনোকোলজিস্ট, পুষ্টিবিদ এবং মানসিক সুস্থতা অনুশীলনকারীদের তাত্ক্ষণিক অ্যাক্সেস।',
+      pricingTitle: 'আপনার স্বাস্থ্য পাস চয়ন করুন',
+      pricingSub: 'চ্যাট পরামর্শ, ভিডিও মূল্যায়ন এবং এআই সরঞ্জাম সমর্থনকারী নমনীয় সাবস্ক্রিপশন প্রোগ্রাম।',
+      faqTitle: 'সচরাচর জিজ্ঞাস্য',
+      basic: 'বেসিক প্ল্যান',
+      standard: 'স্ট্যান্ডার্ড প্ল্যান',
+      premium: 'প্রিমিয়াম প্ল্যান'
+    },
+    ta: {
+      heroTitle: 'ஏஐ-இயங்கும் துல்லியமான பெண்கள் சுகாதார தளம்',
+      heroSub: 'SAKHI உங்கள் மருத்துவ சுகாதார தோழியாக செயல்படுகிறது. சுழற்சிகளைக் கணிக்கவும், அறிகுறிகளைப் பகுப்பாய்வு செய்யவும், சிறந்த மருத்துவர்களை அணுகவும் மற்றும் முழுமையான ஆரோக்கியத்தை நிர்வகிக்கவும்.',
+      explore: 'டாஷ்போர்டை ஆராய்க',
+      download: 'மொபைல் ஆப் மோக்கப்',
+      daysCountdown: 'அடுத்த மாதவிடாய்',
+      daysValue: '12 நாட்களில்',
+      ovulationText: 'அண்டவிடுப்பு: 14 அக்',
+      fertilityChance: 'அதிக கருவுறுதல் வாய்ப்பு',
+      featuresTitle: 'முழுமையான ஃபெம்டெக் சலுகைகள்',
+      featuresSub: 'உங்கள் வாழ்க்கையின் ஒவ்வொரு கட்டத்திற்கும் ஏற்ற ஒருங்கிணைந்த மருத்துவ, ஊட்டச்சத்து மற்றும் பகுப்பாய்வு ஆதரவு.',
+      meetExperts: 'எங்கள் பராமரிப்பு நிபுணர்களைச் சந்திக்கவும்',
+      meetExpertsSub: 'சான்றளிக்கப்பட்ட மகளிர் மருத்துவ நிபுணர்கள், ஊட்டச்சத்து நிபுணர்கள் மற்றும் மனநல பயிற்சியாளர்களுக்கான உடனடி அணுகல்.',
+      pricingTitle: 'உங்கள் ஹெல்த் பாஸைத் தேர்வுசெய்க',
+      pricingSub: 'அரட்டை ஆலோசனைகள், வீடியோ மதிப்பீடுகள் மற்றும் ஏஐ கருவிகளை ஆதரிக்கும் நெகிழ்வான சந்தா திட்டங்கள்.',
+      faqTitle: 'அடிக்கடி கேட்கப்படும் கேள்விகள்',
+      basic: 'அடிப்படை திட்டம்',
+      standard: 'நிலையான திட்டம்',
+      premium: 'பிரீமியம் திட்டம்'
+    },
+    te: {
+      heroTitle: 'ఏఐ-ఆధారిత ప్రెసిషన్ విమెన్స్ హెల్త్ ప్లాట్‌ఫారమ్',
+      heroSub: 'SAKHI మీ క్లినికల్ హెల్త్ కంానియన్‌గా పనిచేస్తుంది. చక్రాలను అంచనా వేయండి, లక్షణాలను విశ్లేషించండి, అగ్రశ్రేణి వైద్యులను సంప్రదించండి మరియు సంపూర్ణ ఆరోగ్యాన్ని నిర్వహించండి.',
+      explore: 'డ్యాష్‌బోర్డ్‌ను అన్వేషించండి',
+      download: 'మొబైల్ యాప్ మాక్అప్',
+      daysCountdown: 'తదుపరి పీరియడ్',
+      daysValue: '12 రోజుల్లో',
+      ovulationText: 'అండోత్సర్గము: 14 అక్టోబర్',
+      fertilityChance: 'అధిక సంతానోత్పత్తి అవకాశం',
+      featuresTitle: 'పూర్తి ఫెమ్‌టెక్ ఆఫర్‌లు',
+      featuresSub: 'మీ జీవితంలోని ప్రతి దశకు అనుగుణంగా సమీకృత వైద్య, పోషకాహార మరియు విశ్లేషణాత్మక మద్దతు.',
+      meetExperts: 'మా నిపుణులను కలవండి',
+      meetExpertsSub: 'ధృవీకరించబడిన గైనకాలజిస్టులు, న్యూట్రిషనిస్ట్‌లు మరియు మానసిక ఆరోగ్య నిపుణులకు తక్షణ ప్రాప్యత.',
+      pricingTitle: 'మీ హెల్త్ పాస్‌ను ఎంచుకోండి',
+      pricingSub: 'చాట్ సంప్రదింపులు, వీడియో అసెస్‌మెంట్‌లు మరియు ఏఐ సాధనాలకు మద్దతు ఇచ్చే అనువైన సభ్యత్వ కార్యక్రమాలు.',
+      faqTitle: 'తరచుగా అడిగే ప్రశ్నలు',
+      basic: 'ప్రాథమిక ప్లాన్',
+      standard: 'ప్రామాణిక ప్లాన్',
+      premium: 'ప్రీమియం ప్లాన్'
+    },
+    mr: {
+      heroTitle: 'एआय-संचालित अचूक महिला आरोग्य प्लॅटफॉर्म',
+      heroSub: 'SAKHI तुमची क्लिनिकल हेल्थ सखी म्हणून काम करते. सायकल्सचा अंदाज घ्या, लक्षणांचे विश्लेषण करा, शीर्ष डॉक्टरांचा सल्ला घ्या आणि सर्वांगीण कल्याणाचे व्यवस्थापन करा.',
+      explore: 'डॅशबोर्ड एक्सप्लोर करा',
+      download: 'मोबाईल ॲप मॉकअप',
+      daysCountdown: 'पुढची पाळी',
+      daysValue: '१२ दिवसांत',
+      ovulationText: 'ओव्हुलेशन: १४ ऑक्टोबर',
+      fertilityChance: 'उच्च प्रजनन क्षमता',
+      featuresTitle: 'संपूर्ण फेमटेक ऑफर',
+      featuresSub: 'तुमच्या आयुष्यातील प्रत्येक टप्प्यासाठी तयार केलेले एकात्मिक वैद्यकीय, पौष्टिक आणि विश्लेषणात्मक समर्थन.',
+      meetExperts: 'आमच्या काळजी तज्ञांना भेटा',
+      meetExpertsSub: 'प्रमाणित स्त्रीरोगतज्ज्ञ, पोषणतज्ञ आणि मानसिक स्वास्थ्य चिकित्सकांपर्यंत त्वरित प्रवेश.',
+      pricingTitle: 'तुमचा हेल्थ पास निवडा',
+      pricingSub: 'चॅट सल्लामसलत, व्हिडिओ मूल्यांकन आणि एआय साधनांना समर्थन देणारे लवचिक सदस्यता कार्यक्रम.',
+      faqTitle: 'वारंवार विचारले जाणारे प्रश्न',
+      basic: 'बेसिक प्लॅन',
+      standard: 'स्टँडर्ड प्लॅन',
+      premium: 'प्रीमियम प्लॅन'
     }
   };
 
   const currentLang = t[language] || t['en'];
 
   const solutions = [
-    { name: 'PCOS Management', color: 'hsl(330, 80%, 95%)', border: 'hsl(330, 70%, 48%)' },
-    { name: 'Endometriosis Care', color: 'hsl(265, 80%, 95%)', border: 'hsl(265, 60%, 55%)' },
-    { name: 'UTI & Pelvis Health', color: 'hsl(180, 80%, 94%)', border: 'hsl(180, 70%, 40%)' },
-    { name: 'Pregnancy Journey', color: 'hsl(15, 80%, 94%)', border: 'hsl(15, 75%, 50%)' }
+    { name: { en: 'PCOS Management', hi: 'पीसीओएस प्रबंधन', bn: 'পিসিওএস ব্যবস্থাপনা', ta: 'பிசிஓஎஸ் மேலாண்மை', te: 'పీసీఓఎస్ నిర్వహణ', mr: 'पीसीओएस व्यवस्थापन' }, color: 'hsl(330, 80%, 95%)', border: 'hsl(330, 70%, 48%)' },
+    { name: { en: 'Endometriosis Care', hi: 'एंडोमेट्रियोसिस देखभाल', bn: 'এন্ডোমেট্রিওসিস যত্ন', ta: 'எண்டோமெட்ரியோசிஸ் பராமரிப்பு', te: 'ఎండోమెట్రియోసిస్ కేర్', mr: 'एंडोमेट्रिओसिस केअर' }, color: 'hsl(265, 80%, 95%)', border: 'hsl(265, 60%, 55%)' },
+    { name: { en: 'UTI & Pelvis Health', hi: 'यूटीआई और पेल्विस स्वास्थ्य', bn: 'ইউটিআই এবং পেলভিস স্বাস্থ্য', ta: 'யூடிஐ மற்றும் இடுப்பு ஆரோக்கியம்', te: 'యూటీఐ మరియు పెల్విస్ ఆరోగ్యం', mr: 'यूटीआय आणि पेल्विस आरोग्य' }, color: 'hsl(180, 80%, 94%)', border: 'hsl(180, 70%, 40%)' },
+    { name: { en: 'Pregnancy Journey', hi: 'गर्भावस्था यात्रा', bn: 'গর্ভাবস্থার যাত্রা', ta: 'கர்ப்ப பயணம்', te: 'గర్భధారణ ప్రయాణం', mr: 'गर्भधारणा प्रवास' }, color: 'hsl(15, 80%, 94%)', border: 'hsl(15, 75%, 50%)' }
   ];
 
   const experts = [
-    { name: 'Dr. Shalini Iyer', role: 'Gynecologist & Obstetrician', exp: '12+ Years Exp', clinic: 'Apollo Health', price: '₹499' },
-    { name: 'Dr. Rohan Sharma', role: 'Reproductive Endocrinologist', exp: '8+ Years Exp', clinic: 'Max Care', price: '₹599' },
-    { name: 'Dr. Priya Sen', role: 'Clinical Dietitian & Nutritionist', exp: '10+ Years Exp', clinic: 'Fortis Clinic', price: '₹399' }
+    { name: 'Dr. Shalini Iyer', role: { en: 'Gynecologist & Obstetrician', hi: 'स्त्री रोग विशेषज्ञ और प्रसूति रोग विशेषज्ञ', bn: 'স্ত্রীরোগ ও প্রসূতি বিশেষজ্ঞ', ta: 'மகளிர் மற்றும் மகப்பேறு மருத்துவர்', te: 'గైనకాలజిస్ట్ & అబ్‌స్టెట్రిషియన్', mr: 'स्त्रीरोगतज्ज्ञ आणि प्रसूतीशास्त्रज्ञ' }, exp: { en: '12+ Years Exp', hi: '12+ साल का अनुभव', bn: '১২+ বছরের অভিজ্ঞতা', ta: '12+ வருட அனுபவம்', te: '12+ సంవత్సరాల అనుభవం', mr: '१२+ वर्षांचा अनुभव' }, clinic: 'Apollo Health', price: '₹499' },
+    { name: 'Dr. Rohan Sharma', role: { en: 'Reproductive Endocrinologist', hi: 'प्रजनन एंडोक्रिनोलॉजिस्ट', bn: 'প্রজনন এন্ডোক্রিনোলজিস্ট', ta: 'இனப்பெருக்க உட்சுரப்பியல் நிபுணர்', te: 'పునరుత్పత్తి ఎండోక్రినాలజిస్ట్', mr: 'प्रजनन एंडोक्रिनोलॉजिस्ट' }, exp: { en: '8+ Years Exp', hi: '8+ साल का अनुभव', bn: '৮+ বছরের অভিজ্ঞতা', ta: '8+ வருட அனுபவம்', te: '8+ సంవత్సరాల అనుభవం', mr: '८+ वर्षांचा अनुभव' }, clinic: 'Max Care', price: '₹599' },
+    { name: 'Dr. Priya Sen', role: { en: 'Clinical Dietitian & Nutritionist', hi: 'क्लिनिकल डाइटिशियन और न्यूट्रिशनिस्ट', bn: 'ক্লিনিকাল ডায়েটিশিয়ান ও পুষ্টিবিদ', ta: 'மருத்துவ உணவியல் & ஊட்டச்சத்து நிபுணர்', te: 'క్లినికల్ డైటీషియన్ & న్యూట్రిషనిస్ట్', mr: 'क्लिनिकल आहारतज्ञ आणि पोषणतज्ञ' }, exp: { en: '10+ Years Exp', hi: '10+ साल का अनुभव', bn: '১০+ বছরের অভিজ্ঞতা', ta: '10+ வருட அனுபவம்', te: '10+ సంవత్సరాల అనుభవం', mr: '१०+ वर्षांचा अनुभव' }, clinic: 'Fortis Clinic', price: '₹399' }
   ];
 
   const plans = [
     {
       name: currentLang.basic,
       price: '₹499',
-      period: '/ 7 Days',
-      features: ['24/7 Chat consultations', 'AI Symptom checker', 'Cycle logs and calendar tracking'],
+      period: { en: '/ 7 Days', hi: '/ 7 दिन', bn: '/ ৭ দিন', ta: '/ 7 நாட்கள்', te: '/ 7 రోజులు', mr: '/ ७ दिवस' },
+      features: [
+        { en: '24/7 Chat consultations', hi: '24/7 चैट परामर्श', bn: '২৪/৭ চ্যাট পরামর্শ', ta: '24/7 அரட்டை ஆலோசனைகள்', te: '24/7 చాట్ సంప్రదింపులు', mr: '२४/७ चॅट सल्लामसलत' },
+        { en: 'AI Symptom checker', hi: 'एआई लक्षण चेकर', bn: 'এআই লক্ষণ পরীক্ষক', ta: 'ஏஐ அறிகுறி சரிபார்ப்பு', te: 'ఏఐ లక్షణ చెకర్', mr: 'एआय लक्षण तपासक' },
+        { en: 'Cycle logs and calendar tracking', hi: 'चक्र लॉग और कैलेंडर ट्रैकिंग', bn: 'চক্র লগ এবং ক্যালেন্ডার ট্র্যাকিং', ta: 'சுழற்சி பதிவுகள் மற்றும் காலண்டர் கண்காணிப்பு', te: 'సైకిల్ లాగ్‌లు మరియు క్యాలెండర్ ట్రాకింగ్', mr: 'सायकल लॉग आणि कॅलेंडर ट्रॅकिंग' }
+      ],
       highlight: false,
-      color: 'hsl(285, 20%, 96%)'
+      color: 'bg-zinc-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800'
     },
     {
       name: currentLang.standard,
       price: '₹1,499',
-      period: '/ 30 Days',
-      features: ['Video + Chat doctor slots', 'Dynamic PCOS & Weight plans', 'Advanced analytics and trends', 'Priority booking support'],
+      period: { en: '/ 30 Days', hi: '/ 30 दिन', bn: '/ ৩০ দিন', ta: '/ 30 நாட்கள்', te: '/ 30 రోజులు', mr: '/ ३० दिवस' },
+      features: [
+        { en: 'Video + Chat doctor slots', hi: 'वीडियो + चैट डॉक्टर स्लॉट', bn: 'ভিডিও + চ্যাট ডাক্তার স্লট', ta: 'வீடியோ + அரட்டை மருத்துவர் இடங்கள்', te: 'వీడియో + చాట్ డాక్టర్ స్లాట్‌లు', mr: 'व्हिडिओ + चॅट डॉक्टर स्लॉट' },
+        { en: 'Dynamic PCOS & Weight plans', hi: 'डायनेमिक पीसीओएस और वजन योजनाएं', bn: 'ডায়নামিক পিসিওএস এবং ওজন পরিকল্পনা', ta: 'டைனமிக் பிசிஓஎஸ் & எடை திட்டங்கள்', te: 'డైనమిక్ పీసీఓఎస్ & బరువు ప్రణాళికలు', mr: 'डायनॅमिक पीसीओएस आणि वजन योजना' },
+        { en: 'Advanced analytics and trends', hi: 'उन्नत विश्लेषण और रुझान', bn: 'উন্নত বিশ্লেষণ এবং প্রবণতা', ta: 'மேம்பட்ட பகுப்பாய்வு மற்றும் போக்குகள்', te: 'అధునాతన విశ్లేషణలు మరియు పోకడలు', mr: 'प्रगत विश्लेषण आणि ट्रेंड' },
+        { en: 'Priority booking support', hi: 'प्राथमिकता बुकिंग समर्थन', bn: 'অগ্রাধিকার বুকিং সমর্থন', ta: 'முன்னுரிமை முன்பதிவு ஆதரவு', te: 'ప్రాధాన్యత బుకింగ్ మద్దతు', mr: 'प्राधान्य बुकिंग समर्थन' }
+      ],
       highlight: true,
-      color: 'linear-gradient(135deg, hsl(330, 70%, 48%), hsl(265, 60%, 55%))'
+      color: 'bg-white dark:bg-zinc-950 border-2 border-feminine-pink shadow-xl shadow-pink-500/10 transform scale-105 z-10'
     },
     {
       name: currentLang.premium,
       price: '₹3,499',
-      period: '/ 90 Days',
-      features: ['Unlimited video consultations', 'Customized nutrition program', 'Mental wellness coach access', 'Downloadable doctor-ready reports'],
+      period: { en: '/ 90 Days', hi: '/ 90 दिन', bn: '/ ৯০ দিন', ta: '/ 90 நாட்கள்', te: '/ 90 రోజులు', mr: '/ ९० दिवस' },
+      features: [
+        { en: 'Unlimited video consultations', hi: 'असीमित वीडियो परामर्श', bn: 'সীমাহীন ভিডিও পরামর্শ', ta: 'வரம்பற்ற வீடியோ ஆலோசனைகள்', te: 'అపరిమిత వీడియో సంప్రదింపులు', mr: 'अमर्यादित व्हिडिओ सल्लामसलत' },
+        { en: 'Customized nutrition program', hi: 'अनुकूलित पोषण कार्यक्रम', bn: 'কাস্টমাইজড পুষ্টি প্রোগ্রাম', ta: 'தனிப்பயனாக்கப்பட்ட ஊட்டச்சத்து திட்டம்', te: 'అనుకూలీకరించిన పోషకాహార కార్యక్రమం', mr: 'सानुकूलित पोषण कार्यक्रम' },
+        { en: 'Mental wellness coach access', hi: 'मानसिक स्वास्थ्य कोच पहुंच', bn: 'মানসিক সুস্থতা কোচের অ্যাক্সেস', ta: 'மன ஆரோக்கிய பயிற்சியாளர் அணுகல்', te: 'మానసిక ఆరోగ్య శిక్షకుల ప్రాప్యత', mr: 'मानसिक स्वास्थ्य प्रशिक्षक प्रवेश' },
+        { en: 'Downloadable doctor-ready reports', hi: 'डाउनलोड करने योग्य डॉक्टर-तैयार रिपोर्ट', bn: 'ডাউনলোডযোগ্য ডাক্তার-প্রস্তুত রিপোর্ট', ta: 'பதிவிறக்கம் செய்யக்கூடிய மருத்துவர்-தயார் அறிக்கைகள்', te: 'డౌన్‌లోడ్ చేసుకోదగిన డాక్టర్-రెడీ నివేదికలు', mr: 'डाउनलोड करण्यायोग्य डॉक्टर-तयार अहवाल' }
+      ],
       highlight: false,
-      color: 'hsl(285, 20%, 96%)'
+      color: 'bg-zinc-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800'
     }
   ];
 
   const faqs = [
-    { q: 'How secure is my health logging details?', a: 'All logged menstrual data and chat logs are fully encrypted using end-to-end protocols (HIPAA-inspired standard). We never sell or share clinical details.' },
-    { q: 'How does the AI blood color analyzer operate?', a: 'It provides key educational references for Bright Red, Dark Red, Gray, Brown, Orange, and Pink blood, outlining normal conditions and critical emergency red-flags.' },
-    { q: 'Can I speak directly to certified gynecologists?', a: 'Yes! Our Standard and Premium subscription passes allow you to instantly book secure video appointments with validated board-certified gynecologists.' }
+    { 
+      q: { en: 'How secure is my health logging details?', hi: 'मेरे स्वास्थ्य लॉगिंग विवरण कितने सुरक्षित हैं?', bn: 'আমার স্বাস্থ্য লগিং বিশদ কতটা সুরক্ষিত?', ta: 'எனது சுகாதார பதிவு விவரங்கள் எவ்வளவு பாதுகாப்பானவை?', te: 'నా ఆరోగ్య లాగింగ్ వివరాలు ఎంత సురక్షితం?', mr: 'माझे आरोग्य लॉगिंग तपशील किती सुरक्षित आहेत?' }, 
+      a: { en: 'All logged menstrual data and chat logs are fully encrypted using end-to-end protocols (HIPAA-inspired standard). We never sell or share clinical details.', hi: 'सभी लॉग किए गए मासिक धर्म डेटा और चैट लॉग एंड-टू-एंड प्रोटोकॉल (HIPAA-प्रेरित मानक) का उपयोग करके पूरी तरह से एन्क्रिप्ट किए गए हैं। हम कभी भी नैदानिक विवरण नहीं बेचते या साझा नहीं करते हैं।', bn: 'সমস্ত লগ করা মাসিক ডেটা এবং চ্যাট লগগুলি এন্ড-টু-এন্ড প্রোটোকল (HIPAA-অনুপ্রাণিত মান) ব্যবহার করে সম্পূর্ণরূপে এনক্রিপ্ট করা হয়েছে। আমরা কখনই ক্লিনিকাল বিবরণ বিক্রি বা শেয়ার করি না।', ta: 'பதிவுசெய்யப்பட்ட அனைத்து மாதவிடாய் தரவு மற்றும் அரட்டை பதிவுகள் எண்ட்-டு-எண்ட் நெறிமுறைகளை (HIPAA-ஈர்க்கப்பட்ட தரநிலை) பயன்படுத்தி முழுமையாக குறியாக்கம் செய்யப்பட்டுள்ளன. நாங்கள் மருத்துவ விவரங்களை விற்கவோ அல்லது பகிரவோ மாட்டோம்.', te: 'లాగిన్ చేయబడిన అన్ని రుతుక్రమ డేటా మరియు చాట్ లాగ్‌లు ఎండ్-టు-ఎండ్ ప్రోటోకాల్‌లను (HIPAA-ప్రేరేపిత ప్రమాణం) ఉపయోగించి పూర్తిగా గుప్తీకరించబడతాయి. మేము క్లినికల్ వివరాలను ఎప్పుడూ విక్రయించము లేదా పంచుకోము.', mr: 'सर्व लॉग केलेला मासिक पाळीचा डेटा आणि चॅट लॉग एंड-टू-एंड प्रोटोकॉल (HIPAA-प्रेरित मानक) वापरून पूर्णपणे कूटबद्ध केले आहेत. आम्ही क्लिनिकल तपशील कधीही विकत नाही किंवा शेअर करत नाही.' } 
+    },
+    { 
+      q: { en: 'How does the AI blood color analyzer operate?', hi: 'एआई रक्त रंग विश्लेषक कैसे कार्य करता है?', bn: 'এআই রক্তের রঙ বিশ্লেষক কীভাবে কাজ করে?', ta: 'ஏஐ இரத்த நிற பகுப்பாய்வி எவ்வாறு செயல்படுகிறது?', te: 'ఏఐ రక్త రంగు ఎనలైజర్ ఎలా పనిచేస్తుంది?', mr: 'एआय रक्त रंग विश्लेषक कसे चालते?' }, 
+      a: { en: 'It provides key educational references for Bright Red, Dark Red, Gray, Brown, Orange, and Pink blood, outlining normal conditions and critical emergency red-flags.', hi: 'यह चमकीले लाल, गहरे लाल, ग्रे, भूरे, नारंगी और गुलाबी रक्त के लिए प्रमुख शैक्षिक संदर्भ प्रदान करता है, सामान्य स्थितियों और महत्वपूर्ण आपातकालीन रेड-फ्लैग को रेखांकित करता है।', bn: 'এটি উজ্জ্বল লাল, গাঢ় লাল, ধূসর, বাদামী, কমলা এবং গোলাপী রক্তের জন্য মূল শিক্ষামূলক রেফারেন্স প্রদান করে, সাধারণ অবস্থা এবং সমালোচনামূলক জরুরি রেড-ফ্ল্যাগগুলির রূপরেখা দেয়।', ta: 'இது பிரகாசமான சிவப்பு, அடர் சிவப்பு, சாம்பல், பழுப்பு, ஆரஞ்சு மற்றும் இளஞ்சிவப்பு இரத்தத்திற்கான முக்கிய கல்வி குறிப்புகளை வழங்குகிறது, சாதாரண நிலைமைகள் மற்றும் முக்கியமான அவசர சிவப்பு கொடிகளை கோடிட்டுக் காட்டுகிறது.', te: 'ఇది బ్రైట్ రెడ్, డార్క్ రెడ్, గ్రే, బ్రౌన్, ఆరెంజ్ మరియు పింక్ రక్తం కోసం కీలకమైన విద్యాపరమైన సూచనలను అందిస్తుంది, సాధారణ పరిస్థితులు మరియు క్లిష్టమైన అత్యవసర రెడ్-ఫ్లాగ్‌లను వివరిస్తుంది.', mr: 'हे चमकदार लाल, गडद लाल, राखाडी, तपकिरी, नारिंगी आणि गुलाबी रक्तासाठी प्रमुख शैक्षणिक संदर्भ प्रदान करते, सामान्य परिस्थिती आणि गंभीर आणीबाणीच्या रेड-फ्लॅगची रूपरेषा देते.' } 
+    },
+    { 
+      q: { en: 'Can I speak directly to certified gynecologists?', hi: 'क्या मैं सीधे प्रमाणित स्त्री रोग विशेषज्ञों से बात कर सकता हूँ?', bn: 'আমি কি সরাসরি সার্টিফাইড গাইনোকোলজিস্টদের সাথে কথা বলতে পারি?', ta: 'சான்றளிக்கப்பட்ட மகளிர் மருத்துவ நிபுணர்களிடம் நான் நேரடியாகப் பேசலாமா?', te: 'నేను ధృవీకరించబడిన గైనకాలజిస్ట్‌లతో నేరుగా మాట్లాడవచ్చా?', mr: 'मी प्रमाणित स्त्रीरोग तज्ञांशी थेट बोलू शकेन का?' }, 
+      a: { en: 'Yes! Our Standard and Premium subscription passes allow you to instantly book secure video appointments with validated board-certified gynecologists.', hi: 'हाँ! हमारे स्टैंडर्ड और प्रीमियम सब्सक्रिप्शन पास आपको मान्य बोर्ड-प्रमाणित स्त्री रोग विशेषज्ञों के साथ तुरंत सुरक्षित वीडियो अपॉइंटमेंट बुक करने की अनुमति देते हैं।', bn: 'হ্যাঁ! আমাদের স্ট্যান্ডার্ড এবং প্রিমিয়াম সাবস্ক্রিপশন পাসগুলি আপনাকে অবিলম্বে বৈধ বোর্ড-প্রত্যয়িত গাইনোকোলজিস্টদের সাথে নিরাপদ ভিডিও অ্যাপয়েন্টমেন্ট বুক করতে দেয়।', ta: 'ஆம்! எங்களின் ஸ்டாண்டர்ட் மற்றும் பிரீமியம் சந்தா பாஸ்கள், சரிபார்க்கப்பட்ட போர்டு-சான்றளிக்கப்பட்ட மகளிர் மருத்துவ நிபுணர்களுடன் பாதுகாப்பான வீடியோ சந்திப்புகளை உடனடியாக முன்பதிவு செய்ய உங்களை அனுமதிக்கின்றன.', te: 'అవును! మా ప్రామాణిక మరియు ప్రీమియం సబ్‌స్క్రిప్షన్ పాస్‌లు ధృవీకరించబడిన బోర్డ్-సర్టిఫైడ్ గైనకాలజిస్ట్‌లతో తక్షణమే సురక్షిత వీడియో అపాయింట్‌మెంట్‌లను బుక్ చేసుకోవడానికి మిమ్మల్ని అనుమతిస్తాయి.', mr: 'होय! आमचे स्टँडर्ड आणि प्रीमियम सबस्क्रिप्शन पास तुम्हाला प्रमाणित बोर्ड-प्रमाणित स्त्रीरोग तज्ञांसोबत सुरक्षित व्हिडिओ भेटी त्वरित बुक करण्याची परवानगी देतात.' } 
+    }
   ];
 
+  const categoryTitles = { en: 'Specialized Care Portals', hi: 'विशेष देखभाल पोर्टल', bn: 'বিশেষায়িত কেয়ার পোর্টাল', ta: 'சிறப்பு பராமரிப்பு இணையதளங்கள்', te: 'ప్రత్యేక సంరక్షణ పోర్టల్స్', mr: 'विशेष काळजी पोर्टल' };
+  const categoryDesc = { en: 'Targeted insights and plans developed for common women\'s health parameters.', hi: 'सामान्य महिलाओं के स्वास्थ्य मापदंडों के लिए लक्षित अंतर्दृष्टि और योजनाएं विकसित की गईं।', bn: 'সাধারণ মহিলাদের স্বাস্থ্য পরামিতিগুলির জন্য লক্ষ্যযুক্ত অন্তর্দৃষ্টি এবং পরিকল্পনা তৈরি করা হয়েছে।', ta: 'பொதுவான பெண்களின் ஆரோக்கிய அளவுருக்களுக்காக உருவாக்கப்பட்ட இலக்கு நுண்ணறிவு மற்றும் திட்டங்கள்.', te: 'సాధారణ మహిళల ఆరోగ్య పారామితుల కోసం లక్ష్య అంతర్దృష్టులు మరియు ప్రణాళికలు అభివృద్ధి చేయబడ్డాయి.', mr: 'सामान्य महिलांच्या आरोग्य पॅरामीटर्ससाठी विकसित केलेले लक्ष्यित अंतर्दृष्टी आणि योजना.' };
+  const accessGuide = { en: 'Access Guide', hi: 'एक्सेस गाइड', bn: 'অ্যাক্সেস গাইড', ta: 'அணுகல் வழிகாட்டி', te: 'యాక్సెస్ గైడ్', mr: 'प्रवेश मार्गदर्शक' };
+  const viewAllDocs = { en: 'View All Doctors', hi: 'सभी डॉक्टर देखें', bn: 'সব ডাক্তার দেখুন', ta: 'அனைத்து மருத்துவர்களையும் காண்க', te: 'అందరు వైద్యులను వీక్షించండి', mr: 'सर्व डॉक्टर पहा' };
+  const consultPrefix = { en: 'Consult:', hi: 'परामर्श:', bn: 'পরামর্শ:', ta: 'ஆலோசனை:', te: 'సంప్రదింపులు:', mr: 'सल्लामसलत:' };
+  const bookSession = { en: 'Book Session', hi: 'सत्र बुक करें', bn: 'সেশন বুক করুন', ta: 'அமர்வு முன்பதிவு', te: 'సెషన్ బుక్ చేయండి', mr: 'सत्र बुक करा' };
+  const activatePass = { en: 'Activate Health Pass', hi: 'हेल्थ पास सक्रिय करें', bn: 'হেলথ পাস সক্রিয় করুন', ta: 'ஹெல்த் பாஸை செயல்படுத்து', te: 'హెల్త్ పాస్‌ను యాక్టివేట్ చేయండి', mr: 'हेल्थ पास सक्रिय करा' };
+  const bestValue = { en: 'Best Value', hi: 'सर्वोत्तम मूल्य', bn: 'সেরা মূল্য', ta: 'சிறந்த மதிப்பு', te: 'ఉత్తమ విలువ', mr: 'सर्वोत्तम मूल्य' };
+
   return (
-    <div className="slide-in" style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
+    <div className="slide-in flex flex-col gap-20 max-w-6xl mx-auto text-left">
       
       {/* 1. HERO BANNER */}
-      <div className="glass-panel" style={{ padding: '60px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '40px', flexWrap: 'wrap', background: 'linear-gradient(to right, rgba(255, 240, 248, 0.6), rgba(240, 240, 255, 0.6))', border: '1px solid rgba(255, 255, 255, 0.8)' }}>
-        <div style={{ flex: '1', minWidth: '320px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <span style={{ textTransform: 'uppercase', fontSize: '12px', fontWeight: '700', letterSpacing: '2px', color: 'var(--primary)', background: 'var(--primary-light)', padding: '6px 12px', borderRadius: '20px', width: 'fit-content' }}>
+      <div className="glass-panel p-10 md:p-14 rounded-3xl bg-gradient-to-r from-pink-50/60 to-purple-50/60 dark:from-zinc-900/60 dark:to-zinc-900/60 border border-white/80 dark:border-zinc-800 flex flex-wrap lg:flex-nowrap items-center justify-between gap-10">
+        <div className="flex-1 min-w-[320px] flex flex-col gap-6">
+          <span className="text-[10px] font-extrabold tracking-widest text-feminine-purple bg-feminine-purple/10 px-3.5 py-1.5 rounded-full w-fit uppercase">
             🏥 Women's Health & AI Technology
           </span>
-          <h1 style={{ fontSize: '42px', lineHeight: '1.2', fontWeight: '800', color: 'var(--text-primary)' }}>
+          <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-[var(--text-primary)] leading-tight tracking-tight">
             {currentLang.heroTitle}
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: '1.6' }}>
+          <p className="text-base text-[var(--text-secondary)] font-semibold leading-relaxed">
             {currentLang.heroSub}
           </p>
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '10px' }}>
-            <button className="btn btn-primary" onClick={() => setTab('dashboard')}>
+          <div className="flex gap-4 flex-wrap mt-2">
+            <button className="bg-feminine-pink hover:bg-feminine-pink/90 text-white font-bold py-3 px-6 rounded-full flex items-center gap-2 shadow-lg shadow-pink-500/20 active:scale-95 transition-all cursor-pointer text-sm" onClick={() => setTab('dashboard')}>
               {currentLang.explore} <ArrowRight size={16} />
             </button>
-            <button className="btn btn-secondary" onClick={() => setTab('ai-chat')}>
+            <button className="bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 text-[var(--text-primary)] font-bold py-3 px-6 rounded-full border border-gray-200 dark:border-zinc-800 shadow-xs active:scale-95 transition-all cursor-pointer text-sm" onClick={() => setTab('ai-chat')}>
               {currentLang.download}
             </button>
           </div>
         </div>
 
         {/* Dynamic Mockup Card */}
-        <div style={{ flex: '1', minWidth: '300px', display: 'flex', justifyContent: 'center' }}>
-          <div className="glass-panel float-animation" style={{ width: '320px', padding: '30px', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-              <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-secondary)' }}>📅 Cycle Outlook</span>
-              <span style={{ background: 'var(--primary-light)', color: 'var(--primary)', padding: '3px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '700' }}>Day 16</span>
+        <div className="flex-1 min-w-[300px] flex justify-center">
+          <div className="glass-panel float-animation w-[320px] p-8 relative overflow-hidden rounded-3xl border border-gray-150/40 dark:border-zinc-800 bg-white/70 dark:bg-zinc-950/70 shadow-xl">
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-xs font-extrabold text-[var(--text-secondary)]">📅 Cycle Outlook</span>
+              <span className="bg-feminine-pink/10 text-feminine-pink px-2.5 py-1 rounded-full text-[10px] font-extrabold">Day 16</span>
             </div>
 
             {/* Pulsing countdown circle */}
-            <div style={{ width: '160px', height: '160px', borderRadius: '50%', border: '4px solid var(--border-color)', margin: '0 auto 24px auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-              <div className="breathe-animation" style={{ position: 'absolute', width: '130px', height: '130px', borderRadius: '50%', background: 'var(--primary-light)', zIndex: '0' }}></div>
-              <div style={{ zIndex: '1', textAlign: 'center' }}>
-                <span style={{ fontSize: '12px', color: 'var(--text-secondary)', display: 'block' }}>{currentLang.daysCountdown}</span>
-                <span style={{ fontSize: '28px', fontWeight: '800', color: 'var(--primary)' }}>{currentLang.daysValue}</span>
+            <div className="w-[160px] h-[160px] rounded-full border-4 border-gray-100 dark:border-zinc-800 mx-auto mb-6 flex flex-col items-center justify-center relative bg-white dark:bg-zinc-900 shadow-inner">
+              <div className="breathe-animation absolute w-[130px] h-[130px] rounded-full bg-feminine-pink/10 z-0"></div>
+              <div className="z-10 text-center">
+                <span className="text-[10px] font-extrabold text-[var(--text-secondary)] block uppercase tracking-wider mb-1">{currentLang.daysCountdown}</span>
+                <span className="text-3xl font-extrabold text-feminine-pink tracking-tighter">{currentLang.daysValue}</span>
               </div>
             </div>
 
-            <div style={{ background: 'var(--bg-primary)', padding: '16px', borderRadius: 'var(--radius-md)', textAlign: 'center', border: '1px solid var(--border-color)' }}>
-              <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--secondary)', display: 'block', marginBottom: '4px' }}>
+            <div className="bg-gray-50 dark:bg-zinc-900 p-4 rounded-xl text-center border border-gray-100 dark:border-zinc-800">
+              <span className="text-sm font-bold text-feminine-purple block mb-1">
                 ✨ {currentLang.fertilityChance}
               </span>
-              <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+              <span className="text-xs font-semibold text-[var(--text-secondary)]">
                 {currentLang.ovulationText}
               </span>
             </div>
@@ -161,29 +270,24 @@ export default function LandingPage({ language, setTab }) {
       </div>
 
       {/* 2. CURATED SOLUTIONS CATEGORIES */}
-      <div>
-        <h2 style={{ fontSize: '24px', textAlign: 'center', marginBottom: '10px' }}>Specialized Care Portals</h2>
-        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '40px' }}>Targeted insights and plans developed for common women's health parameters.</p>
+      <div className="flex flex-col items-center">
+        <h2 className="font-display text-2xl font-extrabold mb-2 text-[var(--text-primary)] text-center">{categoryTitles[language] || categoryTitles['en']}</h2>
+        <p className="text-sm font-semibold text-[var(--text-secondary)] mb-10 text-center">{categoryDesc[language] || categoryDesc['en']}</p>
         
-        <div className="grid-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
           {solutions.map((sol, index) => (
             <div 
               key={index} 
-              className="glass-panel" 
-              style={{ 
-                padding: '24px', 
-                textAlign: 'center', 
-                borderLeft: `5px solid ${sol.border}`,
-                cursor: 'pointer'
-              }}
+              className="glass-panel p-6 text-center rounded-2xl cursor-pointer hover:-translate-y-1 transition-transform border border-gray-100 dark:border-zinc-800" 
+              style={{ borderTop: `4px solid ${sol.border}` }}
               onClick={() => setTab('diet-fitness')}
             >
-              <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: sol.color, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto', color: sol.border }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: sol.color, color: sol.border }}>
                 <Sparkles size={20} />
               </div>
-              <h3 style={{ fontSize: '16px', marginBottom: '8px' }}>{sol.name}</h3>
-              <span style={{ fontSize: '12px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
-                Access Guide <ChevronRight size={14} />
+              <h3 className="font-display text-base font-extrabold mb-2 text-[var(--text-primary)]">{sol.name[language] || sol.name['en']}</h3>
+              <span className="text-xs font-bold text-[var(--text-secondary)] flex items-center justify-center gap-1 group-hover:text-feminine-pink transition-colors">
+                {accessGuide[language] || accessGuide['en']} <ChevronRight size={14} />
               </span>
             </div>
           ))}
@@ -191,39 +295,38 @@ export default function LandingPage({ language, setTab }) {
       </div>
 
       {/* 3. EXPERT DOCTORS SECTION */}
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '16px' }}>
+      <div className="flex flex-col gap-8">
+        <div className="flex justify-between items-end flex-wrap gap-4 border-b border-gray-150/40 dark:border-zinc-800 pb-4">
           <div>
-            <h2 style={{ fontSize: '28px', marginBottom: '8px' }}>{currentLang.meetExperts}</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>{currentLang.meetExpertsSub}</p>
+            <h2 className="font-display text-2xl font-extrabold mb-2 text-[var(--text-primary)]">{currentLang.meetExperts}</h2>
+            <p className="text-sm font-semibold text-[var(--text-secondary)]">{currentLang.meetExpertsSub}</p>
           </div>
-          <button className="btn btn-secondary" onClick={() => setTab('ai-chat')}>
-            View All Doctors
+          <button className="bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 text-[10px] font-extrabold text-[var(--text-primary)] py-2.5 px-5 rounded-full border border-gray-200 dark:border-zinc-800 cursor-pointer uppercase tracking-wider" onClick={() => setTab('ai-chat')}>
+            {viewAllDocs[language] || viewAllDocs['en']}
           </button>
         </div>
 
-        <div className="grid-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {experts.map((exp, index) => (
-            <div key={index} className="glass-panel" style={{ padding: '30px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                {/* Doctor Portrait Mock */}
-                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent-pink), var(--accent-lavender))', border: '2px solid var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'var(--primary)', fontSize: '20px' }}>
+            <div key={index} className="glass-panel p-8 rounded-3xl flex flex-col gap-5 border border-gray-100 dark:border-zinc-800">
+              <div className="flex gap-4 items-center">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple border-2 border-white dark:border-zinc-800 flex items-center justify-center font-extrabold text-white text-2xl shadow-lg shrink-0">
                   {exp.name.split(' ')[1][0]}
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '17px', color: 'var(--text-primary)' }}>{exp.name}</h3>
-                  <span style={{ fontSize: '13px', color: 'var(--primary)', fontWeight: '600', display: 'block' }}>{exp.role}</span>
-                  <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>{exp.clinic}</span>
+                  <h3 className="font-display text-base font-extrabold text-[var(--text-primary)] leading-snug">{exp.name}</h3>
+                  <span className="text-[11px] font-bold text-feminine-purple block mt-0.5">{exp.role[language] || exp.role['en']}</span>
+                  <span className="text-[10px] text-[var(--text-secondary)] font-semibold mt-1 block">{exp.clinic}</span>
                 </div>
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '12px 0', fontSize: '13px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>🎖️ {exp.exp}</span>
-                <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>Consult: {exp.price}</span>
+              <div className="flex justify-between items-center border-y border-gray-150/40 dark:border-zinc-800 py-3 text-xs font-bold">
+                <span className="text-[var(--text-secondary)]">🎖️ {exp.exp[language] || exp.exp['en']}</span>
+                <span className="text-[var(--text-primary)]">{consultPrefix[language] || consultPrefix['en']} {exp.price}</span>
               </div>
 
-              <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setTab('ai-chat')}>
-                Book Session
+              <button className="w-full bg-feminine-pink/10 hover:bg-feminine-pink/20 text-feminine-pink font-bold py-3 rounded-xl transition-colors cursor-pointer text-xs" onClick={() => setTab('ai-chat')}>
+                {bookSession[language] || bookSession['en']}
               </button>
             </div>
           ))}
@@ -231,56 +334,46 @@ export default function LandingPage({ language, setTab }) {
       </div>
 
       {/* 4. SUBSCRIPTION PLANS */}
-      <div>
-        <h2 style={{ fontSize: '28px', textAlign: 'center', marginBottom: '8px' }}>{currentLang.pricingTitle}</h2>
-        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '40px' }}>{currentLang.pricingSub}</p>
+      <div className="flex flex-col items-center">
+        <h2 className="font-display text-2xl font-extrabold mb-2 text-center text-[var(--text-primary)]">{currentLang.pricingTitle}</h2>
+        <p className="text-sm font-semibold text-[var(--text-secondary)] text-center mb-10">{currentLang.pricingSub}</p>
 
-        <div className="grid-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full max-w-5xl items-center">
           {plans.map((plan, index) => (
             <div 
               key={index} 
-              className="glass-panel" 
-              style={{ 
-                padding: '40px 30px', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                gap: '24px',
-                border: plan.highlight ? '2px solid var(--primary)' : '1px solid var(--border-color)',
-                position: 'relative',
-                transform: plan.highlight ? 'scale(1.03)' : 'scale(1)'
-              }}
+              className={`glass-panel p-8 rounded-3xl flex flex-col gap-6 relative ${plan.color}`}
             >
               {plan.highlight && (
-                <span style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: 'var(--primary)', color: 'white', padding: '4px 14px', borderRadius: '15px', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                  Best Value
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-feminine-pink to-feminine-purple text-white px-4 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest shadow-md">
+                  {bestValue[language] || bestValue['en']}
                 </span>
               )}
               
-              <div style={{ textAlign: 'center' }}>
-                <h3 style={{ fontSize: '20px', marginBottom: '12px', color: plan.highlight ? 'var(--primary)' : 'var(--text-primary)' }}>{plan.name}</h3>
-                <div style={{ display: 'flex', justifySelf: 'center', alignItems: 'baseline', gap: '4px' }}>
-                  <span style={{ fontSize: '36px', fontWeight: '800', color: 'var(--text-primary)' }}>{plan.price}</span>
-                  <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>{plan.period}</span>
+              <div className="text-center">
+                <h3 className={`font-display text-xl font-extrabold mb-3 ${plan.highlight ? 'text-feminine-pink' : 'text-[var(--text-primary)]'}`}>{plan.name}</h3>
+                <div className="flex justify-center items-baseline gap-1.5">
+                  <span className="text-4xl font-extrabold text-[var(--text-primary)] tracking-tighter">{plan.price}</span>
+                  <span className="text-xs font-bold text-[var(--text-secondary)]">{plan.period[language] || plan.period['en']}</span>
                 </div>
               </div>
 
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', flexGrow: '1' }}>
+              <ul className="flex flex-col gap-3.5 flex-grow mt-4">
                 {plan.features.map((feat, fIdx) => (
-                  <li key={fIdx} style={{ fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
-                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'var(--success-light)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Check size={12} />
+                  <li key={fIdx} className="text-xs font-bold flex items-center gap-3 text-[var(--text-primary)] leading-snug">
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+                      <Check size={12} strokeWidth={3} />
                     </div>
-                    {feat}
+                    {feat[language] || feat['en']}
                   </li>
                 ))}
               </ul>
 
               <button 
-                className={`btn ${plan.highlight ? 'btn-primary' : 'btn-secondary'}`}
-                style={{ width: '100%', justifyContent: 'center' }}
-                onClick={() => alert(`${plan.name} simulation initialized. Directing to Razorpay checkout...`)}
+                className={`w-full py-3.5 rounded-xl font-bold text-xs transition-all cursor-pointer mt-4 ${plan.highlight ? 'bg-gradient-to-r from-feminine-pink to-feminine-purple text-white shadow-lg' : 'bg-white/50 dark:bg-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-700 text-[var(--text-primary)] border border-gray-200 dark:border-zinc-700'}`}
+                onClick={() => alert(`Redirecting to Razorpay for ${plan.name}...`)}
               >
-                Activate Health Pass
+                {activatePass[language] || activatePass['en']}
               </button>
             </div>
           ))}
@@ -288,40 +381,26 @@ export default function LandingPage({ language, setTab }) {
       </div>
 
       {/* 5. COLLAPSIBLE FAQ MODULE */}
-      <div className="glass-panel" style={{ padding: '40px' }}>
-        <h2 style={{ fontSize: '24px', marginBottom: '24px', textAlign: 'center' }}>{currentLang.faqTitle}</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div className="glass-panel p-10 rounded-3xl border border-gray-150/40 dark:border-zinc-800">
+        <h2 className="font-display text-2xl font-extrabold mb-8 text-center text-[var(--text-primary)]">{currentLang.faqTitle}</h2>
+        <div className="flex flex-col gap-4">
           {faqs.map((faq, index) => {
             const isOpen = activeFaq === index;
             return (
-              <div key={index} style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
+              <div key={index} className="border-b border-gray-150/40 dark:border-zinc-800 last:border-0 pb-4">
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : index)}
-                  style={{
-                    width: '100%',
-                    background: 'none',
-                    border: 'none',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '8px 0',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '16px',
-                    fontWeight: '600',
-                    color: 'var(--text-primary)',
-                    cursor: 'pointer',
-                    textAlign: 'left'
-                  }}
+                  className="w-full bg-transparent border-none flex justify-between items-center py-2 font-display text-sm font-extrabold text-[var(--text-primary)] cursor-pointer text-left hover:text-feminine-pink transition-colors"
                 >
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <HelpCircle size={18} style={{ color: 'var(--primary)' }} />
-                    {faq.q}
+                  <span className="flex items-center gap-3">
+                    <HelpCircle size={16} className="text-feminine-pink shrink-0" />
+                    {faq.q[language] || faq.q['en']}
                   </span>
-                  {isOpen ? <Minus size={16} /> : <Plus size={16} />}
+                  {isOpen ? <Minus size={16} className="text-[var(--text-secondary)] shrink-0" /> : <Plus size={16} className="text-[var(--text-secondary)] shrink-0" />}
                 </button>
                 {isOpen && (
-                  <p className="slide-in" style={{ padding: '12px 10px 0 28px', color: 'var(--text-secondary)', fontSize: '14px', lineHeight: '1.6' }}>
-                    {faq.a}
+                  <p className="slide-in pl-7 pr-4 pt-3 text-xs font-semibold text-[var(--text-secondary)] leading-relaxed">
+                    {faq.a[language] || faq.a['en']}
                   </p>
                 )}
               </div>

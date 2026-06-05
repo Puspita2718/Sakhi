@@ -33,6 +33,15 @@ export default function Sidebar({
     { id: 'community', label: { en: 'Community', hi: 'समुदाय', bn: 'কমিউনিটি', ta: 'சமூகம்', te: 'కమ్యూనిటీ', mr: 'समुदाय' }, icon: Users }
   ];
 
+  const sosStrings = {
+    en: 'SOS Emergency',
+    hi: 'आपातकालीन SOS',
+    bn: 'জরুরী SOS',
+    ta: 'அவசர SOS',
+    te: 'అత్యవసర SOS',
+    mr: 'आपत्कालीन SOS'
+  };
+
   const languages = [
     { code: 'en', name: 'English' },
     { code: 'hi', name: 'हिन्दी' },
@@ -80,7 +89,7 @@ export default function Sidebar({
               className="sidebar-menu-btn"
             >
               <Icon size={18} style={{ color: isActive ? 'var(--primary)' : 'var(--text-secondary)' }} />
-              <span className="sidebar-btn-text">{item.label[language]}</span>
+              <span className="sidebar-btn-text">{item.label[language] || item.label['en']}</span>
             </button>
           );
         })}
@@ -109,7 +118,7 @@ export default function Sidebar({
         >
           <PhoneCall size={18} />
           <span className="sidebar-btn-text">
-            {language === 'en' ? 'SOS Emergency' : language === 'hi' ? 'आपातकालीन SOS' : 'SOS'}
+            {sosStrings[language] || sosStrings['en']}
           </span>
         </button>
       </div>

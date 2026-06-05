@@ -205,7 +205,14 @@ export default function App() {
                 </div>
                 <span className="font-display font-extrabold tracking-tight dark:text-white text-sm">SAKHI</span>
               </div>
-              <span>© 2026 SAKHI Inc. All rights reserved. HIPAA & GDPR Certified.</span>
+              <span>
+                {language === 'hi' ? '© 2026 SAKHI इंक. सर्वाधिकार सुरक्षित। HIPAA और GDPR प्रमाणित।' : 
+                 language === 'bn' ? '© 2026 SAKHI Inc. সর্বস্বত্ব সংরক্ষিত। HIPAA এবং GDPR প্রত্যয়িত।' : 
+                 language === 'ta' ? '© 2026 SAKHI Inc. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை. HIPAA & GDPR சான்றிதழ் பெற்றது.' : 
+                 language === 'te' ? '© 2026 SAKHI Inc. సర్వ హక్కులు ప్రత్యేకించబడ్డాయి. HIPAA & GDPR సర్టిఫైడ్.' : 
+                 language === 'mr' ? '© 2026 SAKHI Inc. सर्व हक्क राखीव. HIPAA आणि GDPR प्रमाणित.' : 
+                 '© 2026 SAKHI Inc. All rights reserved. HIPAA & GDPR Certified.'}
+              </span>
             </div>
           </footer>
         </div>
@@ -305,13 +312,27 @@ export default function App() {
             <div className="hidden lg:flex h-16 border-b border-[var(--border-color)] bg-[var(--bg-secondary)] items-center justify-between px-10 transition-colors duration-300 shadow-sm">
               <div className="flex items-center gap-4 animate-fade-in">
                 <h1 className="font-display font-extrabold text-lg text-[var(--text-primary)] tracking-tight">
-                  {pageTitles[page] ? pageTitles[page][language] || pageTitles[page]['en'] : 'SAKHI Workspace'}
+                  {pageTitles[page] ? pageTitles[page][language] || pageTitles[page]['en'] : (
+                    language === 'hi' ? 'SAKHI कार्यक्षेत्र' : 
+                    language === 'bn' ? 'SAKHI ওয়ার্কস্পেস' : 
+                    language === 'ta' ? 'SAKHI பணியிடம்' : 
+                    language === 'te' ? 'SAKHI వర్క్‌స్పేస్' : 
+                    language === 'mr' ? 'SAKHI वर्कस्पेस' : 
+                    'SAKHI Workspace'
+                  )}
                 </h1>
                 
                 {/* HIPAA Secure Pill Badge */}
                 <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200/50 dark:border-emerald-800/30 rounded-full px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 shadow-2xs select-none">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span className="uppercase tracking-wider">HIPAA SECURE</span>
+                  <span className="uppercase tracking-wider">
+                    {language === 'hi' ? 'HIPAA सुरक्षित' : 
+                     language === 'bn' ? 'HIPAA সুরক্ষিত' : 
+                     language === 'ta' ? 'HIPAA பாதுகாப்பானது' : 
+                     language === 'te' ? 'HIPAA సురక్షితం' : 
+                     language === 'mr' ? 'HIPAA सुरक्षित' : 
+                     'HIPAA SECURE'}
+                  </span>
                 </div>
               </div>
               
@@ -321,7 +342,21 @@ export default function App() {
                     onClick={() => setPage(page === 'admin' ? 'dashboard' : 'admin')}
                     className="flex items-center gap-1 bg-indigo-100 dark:bg-indigo-950/30 border border-indigo-200/50 text-indigo-700 dark:text-indigo-400 rounded-full px-3 py-1.5 text-xs font-extrabold hover:bg-indigo-200 dark:hover:bg-indigo-900 transition-colors cursor-pointer shadow-2xs"
                   >
-                    {page === 'admin' ? 'View Dashboard' : 'Admin Panel'}
+                    {page === 'admin' ? (
+                      language === 'hi' ? 'डैशबोर्ड देखें' : 
+                      language === 'bn' ? 'ড্যাশবোর্ড দেখুন' : 
+                      language === 'ta' ? 'டாஷ்போர்டை காண்க' : 
+                      language === 'te' ? 'డాష్‌బోర్డ్‌ను వీక్షించండి' : 
+                      language === 'mr' ? 'डॅशबोर्ड पहा' : 
+                      'View Dashboard'
+                    ) : (
+                      language === 'hi' ? 'प्रशासक पैनल' : 
+                      language === 'bn' ? 'অ্যাডমিন প্যানেল' : 
+                      language === 'ta' ? 'நிர்வாக குழு' : 
+                      language === 'te' ? 'అడ్మిన్ ప్యానెల్' : 
+                      language === 'mr' ? 'अ‍ॅडमिन पॅनेल' : 
+                      'Admin Panel'
+                    )}
                   </button>
                 )}
 
@@ -371,7 +406,12 @@ export default function App() {
                   }}
                   className="text-xs font-extrabold text-[var(--text-secondary)] hover:text-feminine-pink transition-colors ml-2.5 cursor-pointer"
                 >
-                  Logout
+                  {language === 'hi' ? 'लॉग आउट' : 
+                   language === 'bn' ? 'লগ আউট' : 
+                   language === 'ta' ? 'வெளியேறு' : 
+                   language === 'te' ? 'లాగ్అవుట్' : 
+                   language === 'mr' ? 'लॉगआउट' : 
+                   'Logout'}
                 </button>
               </div>
             </div>

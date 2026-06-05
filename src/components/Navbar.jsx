@@ -22,6 +22,17 @@ export default function Navbar({
     { code: 'mr', name: 'MR' }
   ];
 
+  const strings = {
+    features: { en: 'Features', hi: 'विशेषताएं', bn: 'ফিচার', ta: 'அம்சங்கள்', te: 'ఫీచర్లు', mr: 'वैशिष्ट्ये' },
+    knowledgeHub: { en: 'Knowledge Hub', hi: 'ज्ञान केंद्र', bn: 'নলেজ হাব', ta: 'அறிவு மையம்', te: 'నాలెడ్జ్ హబ్', mr: 'ज्ञान केंद्र' },
+    experts: { en: 'Experts', hi: 'विशेषज्ञ', bn: 'বিশেষজ্ঞ', ta: 'நிபுணர்கள்', te: 'నిపుణులు', mr: 'तज्ञ' },
+    community: { en: 'Community', hi: 'समुदाय', bn: 'কমিউনিটি', ta: 'சமூகம்', te: 'కమ్యూనిటీ', mr: 'समुदाय' },
+    dashboard: { en: 'Dashboard', hi: 'डैशबोर्ड', bn: 'ড্যাশবোর্ড', ta: 'டாஷ்போர்டு', te: 'డాష్‌బోర్డ్', mr: 'डॅशबोर्ड' },
+    logout: { en: 'Logout', hi: 'लॉग आउट', bn: 'লগআউট', ta: 'வெளியேறு', te: 'లాగ్అవుట్', mr: 'लॉगआउट' },
+    signIn: { en: 'Sign In', hi: 'साइन इन करें', bn: 'সাইন ইন', ta: 'உள்நுழைய', te: 'సైన్ ఇన్', mr: 'साइन इन करा' },
+    getStarted: { en: 'Get Started', hi: 'शुरू करें', bn: 'শুরু করুন', ta: 'தொடங்குங்கள்', te: 'ప్రారంభించండి', mr: 'सुरुवात करा' }
+  };
+
   const handleGetStarted = () => {
     // Automatically log in Ananya to show the dashboard
     setUser({
@@ -59,19 +70,19 @@ export default function Navbar({
             onClick={() => setPage('home')} 
             className={`hover:text-feminine-pink transition-colors cursor-pointer ${page === 'home' ? 'text-feminine-pink' : ''}`}
           >
-            Features
+            {strings.features[language] || strings.features['en']}
           </button>
           <button 
             onClick={() => setPage('home')} 
             className="hover:text-feminine-pink transition-colors cursor-pointer"
           >
-            Knowledge Hub
+            {strings.knowledgeHub[language] || strings.knowledgeHub['en']}
           </button>
           <button 
             onClick={() => setPage('home')} 
             className="hover:text-feminine-pink transition-colors cursor-pointer"
           >
-            Experts
+            {strings.experts[language] || strings.experts['en']}
           </button>
           <button 
             onClick={() => {
@@ -83,7 +94,7 @@ export default function Navbar({
             }} 
             className={`hover:text-feminine-pink transition-colors cursor-pointer ${page === 'community' ? 'text-feminine-pink' : ''}`}
           >
-            Community
+            {strings.community[language] || strings.community['en']}
           </button>
         </nav>
 
@@ -129,7 +140,7 @@ export default function Navbar({
                 onClick={() => setPage('dashboard')}
                 className="hidden sm:inline-flex rounded-full border border-feminine-pink/30 hover:bg-feminine-pink/5 text-[11px] font-extrabold text-feminine-pink px-4 py-2 cursor-pointer transition-all duration-300"
               >
-                Dashboard
+                {strings.dashboard[language] || strings.dashboard['en']}
               </button>
 
               {/* User Avatar & Name */}
@@ -150,7 +161,7 @@ export default function Navbar({
                 }}
                 className="text-xs font-bold text-gray-500 hover:text-feminine-pink transition-colors cursor-pointer"
               >
-                Logout
+                {strings.logout[language] || strings.logout['en']}
               </button>
             </div>
           ) : (
@@ -159,13 +170,13 @@ export default function Navbar({
                 onClick={() => setPage('login')}
                 className="text-xs font-extrabold text-gray-800 dark:text-zinc-200 hover:text-feminine-pink transition-colors cursor-pointer mr-1"
               >
-                Sign In
+                {strings.signIn[language] || strings.signIn['en']}
               </button>
               <button
                 onClick={() => setPage('signup')}
                 className="rounded-full bg-feminine-pink hover:bg-feminine-pink/95 px-5 py-2.5 text-xs font-extrabold text-white shadow-md shadow-pink-500/10 hover:shadow-lg active:scale-95 transition-all duration-300 cursor-pointer"
               >
-                Get Started
+                {strings.getStarted[language] || strings.getStarted['en']}
               </button>
             </div>
           )}
