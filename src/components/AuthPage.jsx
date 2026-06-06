@@ -3,9 +3,9 @@ import { Mail, Lock, User, Globe, Database, AlertCircle, Loader } from 'lucide-r
 import { supabase, isSupabaseConfigured } from '../supabaseClient';
 
 export default function AuthPage({ view, setPage, setUser, language }) {
-  const [email, setEmail] = useState('ananya@example.com');
-  const [password, setPassword] = useState('password123');
-  const [firstName, setFirstName] = useState('Ananya');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
