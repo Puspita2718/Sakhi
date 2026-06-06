@@ -57,48 +57,50 @@ export default function AuthPage({ view, setPage, setUser, language }) {
         // Successful login
         const supabaseUser = data.user;
         setUser({
-          firstName: supabaseUser.user_metadata?.firstName || 'Ananya',
-          lastName: 'Sharma',
+          firstName: supabaseUser.user_metadata?.firstName || supabaseUser.email.split('@')[0],
+          lastName: supabaseUser.user_metadata?.lastName || '',
           email: supabaseUser.email,
-          isAdmin: supabaseUser.email === 'admin@sakhi.ai' || supabaseUser.email === 'ananya@example.com',
+          isAdmin: supabaseUser.email === 'admin@sakhi.ai',
           subscriptionPlan: 'standard'
         });
         setPage('dashboard');
       } else if (view === 'signup') {
-        const { data, error } = await supabase.auth.signUp({
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
           options: {
             data: {
-              firstName: firstName || 'Ananya',
+              firstName: firstName || '',
             }
           }
         });
-        if (error) throw error;
+        if (signUpError) throw signUpError;
 
-        if (isSupabaseConfigured) {
-          if (data.session) {
+        // If session returned immediately (email confirm disabled), go to dashboard
+        if (signUpData.session) {
+          setUser({
+            firstName: firstName || email.split('@')[0],
+            lastName: '',
+            email: email,
+            isAdmin: email === 'admin@sakhi.ai',
+            subscriptionPlan: 'standard'
+          });
+          setPage('dashboard');
+        } else {
+          // Email confirmation required — attempt sign-in anyway to check
+          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+          if (!signInError && signInData.session) {
             setUser({
-              firstName: firstName || 'Ananya',
-              lastName: 'Sharma',
+              firstName: firstName || signInData.user?.user_metadata?.firstName || email.split('@')[0],
+              lastName: '',
               email: email,
               isAdmin: email === 'admin@sakhi.ai',
               subscriptionPlan: 'standard'
             });
             setPage('dashboard');
           } else {
-            setSuccessMsg('Registration successful! Please check your email to confirm registration.');
+            setSuccessMsg('Account created! Check your email inbox to confirm, then come back and sign in.');
           }
-        } else {
-          // If in sandbox mode, immediately log them in
-          setUser({
-            firstName: firstName || 'Ananya',
-            lastName: 'Sharma',
-            email: email,
-            isAdmin: email === 'admin@sakhi.ai',
-            subscriptionPlan: 'standard'
-          });
-          setPage('dashboard');
         }
       }
     } catch (err) {
