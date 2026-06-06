@@ -127,6 +127,37 @@ export default function AuthPage({ view, setPage, setUser, language }) {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setErrorMsg('');
+    setSuccessMsg('');
+    setIsLoading(true);
+
+    try {
+      if (isSupabaseConfigured) {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.origin
+          }
+        });
+        if (error) throw error;
+      } else {
+        // Sandbox Mock login
+        setUser({
+          firstName: 'Ananya',
+          lastName: 'Sharma',
+          email: 'ananya@example.com',
+          subscriptionPlan: 'standard'
+        });
+        setPage('dashboard');
+      }
+    } catch (err) {
+      setErrorMsg(err.message || 'Google authentication failed.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="slide-in flex items-center justify-center min-h-[600px] w-full max-w-5xl mx-auto rounded-3xl overflow-hidden glass-panel border border-gray-150/30 bg-white/70 dark:bg-zinc-955/20 shadow-xs animate-fade-in">
       <div className="grid grid-cols-1 md:grid-cols-12 w-full min-h-[600px]">
@@ -259,7 +290,7 @@ export default function AuthPage({ view, setPage, setUser, language }) {
                 <div className="flex-grow border-t border-gray-200/60 dark:border-zinc-800"></div>
               </div>
 
-              <button type="button" disabled={isLoading} onClick={() => { setUser({ firstName: 'Ananya', lastName: 'Sharma', email: 'ananya@example.com', subscriptionPlan: 'standard' }); setPage('dashboard'); }} className="w-full flex items-center justify-center gap-2 rounded-full border border-gray-250 bg-white dark:bg-zinc-900 py-3 font-bold text-xs text-gray-800 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-850/50 transition-colors cursor-pointer shadow-xs">
+              <button type="button" disabled={isLoading} onClick={handleGoogleLogin} className="w-full flex items-center justify-center gap-2 rounded-full border border-gray-250 bg-white dark:bg-zinc-900 py-3 font-bold text-xs text-gray-800 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-850/50 transition-colors cursor-pointer shadow-xs">
                 <Globe size={14} className="text-feminine-pink animate-pulse" /> {strings.googleAuth[language] || strings.googleAuth['en']}
               </button>
 
