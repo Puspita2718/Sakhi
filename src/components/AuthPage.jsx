@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, Globe, Database, AlertCircle, Loader } from 'lucide-react';
+import { Mail, Lock, User, Globe, AlertCircle, Loader } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../supabaseClient';
 
 export default function AuthPage({ view, setPage, setUser, language }) {
@@ -196,18 +196,8 @@ export default function AuthPage({ view, setPage, setUser, language }) {
         {/* Right auth form panel */}
         <div className="col-span-1 md:col-span-7 p-8 sm:p-12 flex flex-col justify-center gap-6 bg-white/40 dark:bg-zinc-900/10 text-left animate-fade-in">
           
-          {/* Supabase Status Banner */}
-          {!isSupabaseConfigured && (
-            <div className="p-3.5 bg-amber-50 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/30 rounded-2xl flex items-start gap-3">
-              <Database className="text-amber-500 shrink-0 mt-0.5" size={15} />
-              <div>
-                <h4 className="text-[10px] font-black text-amber-800 dark:text-amber-300 uppercase tracking-wider">Supabase: Sandbox Mock Mode</h4>
-                <p className="text-[9px] text-amber-600 dark:text-amber-400 font-semibold mt-0.5 leading-relaxed">
-                  Running local sandbox auth. To hook up your live Supabase, copy <code className="bg-amber-100/60 dark:bg-amber-900 px-1 py-0.5 rounded font-mono font-bold text-[8px]">.env.example</code> to <code className="bg-amber-100/60 dark:bg-amber-900 px-1 py-0.5 rounded font-mono font-bold text-[8px]">.env</code> and fill in credentials.
-                </p>
-              </div>
-            </div>
-          )}
+
+
 
           {/* Success / Error Messages */}
           {errorMsg && (
