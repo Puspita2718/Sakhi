@@ -8,7 +8,8 @@ const isConfigured =
   !!supabaseUrl && 
   !!supabaseAnonKey && 
   supabaseUrl !== 'https://your-project-id.supabase.co' && 
-  supabaseAnonKey !== 'your-anon-public-api-key-here';
+  supabaseAnonKey !== 'your-anon-public-api-key-here' &&
+  import.meta.env.VITE_USE_MOCK !== 'true';
 
 let supabaseClientInstance = null;
 

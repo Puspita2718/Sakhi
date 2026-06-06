@@ -102,7 +102,11 @@ export default function AuthPage({ view, setPage, setUser, language }) {
         }
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Authentication failed. Please try again.');
+      if (err.message === 'Failed to fetch') {
+        setErrorMsg('Connection to Supabase failed ("Failed to fetch"). Your database project may be paused/deleted, or you are offline. Check your Supabase dashboard, or set VITE_USE_MOCK=true in your .env file to use Sandbox Mock mode.');
+      } else {
+        setErrorMsg(err.message || 'Authentication failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
