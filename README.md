@@ -1,6 +1,6 @@
-# SAKHI - AI-Powered Women's Health & Wellness Platform
+# ArogyaNari - AI-Powered Women's Health & Wellness Platform
 
-![SAKHI Banner](/hero_doctor.png)
+![ArogyaNari Banner](/hero_doctor.png)
 
 > A premium, HIPAA-compliant digital sanctuary offering intelligent symptom analysis, menstrual tracking, customized nutrition planners, and peer-to-peer expert forums.
 
@@ -33,10 +33,10 @@
 
 # 📖 Overview
 
-SAKHI is a comprehensive FemTech health platform built to address critical diagnostic and daily wellness support gaps for women's care globally. Focused on privacy, precision, and elegance, SAKHI translates clinical medical details into manageable, intuitive indicators.
+ArogyaNari is a comprehensive FemTech health platform built to address critical diagnostic and daily wellness support gaps for women's care globally. Focused on privacy, precision, and elegance, ArogyaNari translates clinical medical details into manageable, intuitive indicators.
 
 ### What problem does it solve?
-- **Diagnostic Delay**: Hormonal conditions like PCOS and Endometriosis often take years to diagnose. SAKHI leverages intelligent AI symptom loggers to speed up assessment timelines.
+- **Diagnostic Delay**: Hormonal conditions like PCOS and Endometriosis often take years to diagnose. ArogyaNari leverages intelligent AI symptom loggers to speed up assessment timelines.
 - **Data Fragmentation**: Replaces scattered apps with a single, beautiful dashboard covering menstrual flow indicators, biological tracking, nutrition therapy, and mental wellness.
 - **Social Stigma**: Provides a safe-space anonymous community forum where women can share health struggles and consult qualified specialists without privacy risks.
 
@@ -74,7 +74,7 @@ Specifically designed for women tracking hormonal wellness, reproductive health 
 # 📸 Screenshots
 
 ## Landing Page
-![SAKHI Landing Page](/hero_doctor.png)
+![ArogyaNari Landing Page](/hero_doctor.png)
 
 ## Health Conditions
 | PCOS Management | Endometriosis Care | Pelvic Health | Pregnancy Journey |
@@ -126,7 +126,7 @@ Specifically designed for women tracking hormonal wellness, reproductive health 
        └────────────────────────────┼────────────────────────────┘
                                     ▼
        ┌─────────────────────────────────────────────────────────┐
-       │                SAKHI Logic & AI Services                │
+       │                ArogyaNari Logic & AI Services                │
        │  ┌───────────────────────────────────────────────────┐  │
        │  │     HIPAA Client Encryption & LocalStorage State  │  │
        │  └─────────────────────────┬─────────────────────────┘  │
@@ -145,8 +145,8 @@ Ensure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/Puspita2718/Sakhi.git
-   cd Sakhi
+   git clone https://github.com/Puspita2718/ArogyaNari.git
+   cd ArogyaNari
    ```
 
 2. **Install Dependencies**:
@@ -167,7 +167,7 @@ Ensure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
 Create a `.env` file in the root directory to customize parameters (optional):
 
 ```env
-VITE_API_URL=https://api.sakhi.ai
+VITE_API_URL=https://api.arogyanari.ai
 VITE_ENABLE_ANALYTICS=true
 VITE_APP_MODE=development
 ```
@@ -200,7 +200,7 @@ The platform interacts with mock client endpoints designed for offline-first sta
 # 📂 Folder Structure
 
 ```text
-SAKHI/
+ArogyaNari/
 ├── public/                 # Static clinical assets & PNGs
 ├── src/
 │   ├── assets/             # Brand logos & SVGs
@@ -268,5 +268,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 # ✉ Contact
-SAKHI Support - [support@sakhi.ai](mailto:support@sakhi.ai)  
-Project Link: [https://github.com/Puspita2718/Sakhi](https://github.com/Puspita2718/Sakhi)
+ArogyaNari Support - [support@arogyanari.ai](mailto:support@arogyanari.ai)  
+Project Link: [https://github.com/Puspita2718/ArogyaNari](https://github.com/Puspita2718/ArogyaNari)

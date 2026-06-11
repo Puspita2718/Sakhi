@@ -78,7 +78,7 @@ export default function CommunityPlatform({ language = 'en' }) {
         <div className="absolute top-0 right-0 w-64 h-64 bg-pink-300/10 blur-3xl rounded-full pointer-events-none"></div>
         <div className="z-10 flex-1">
            <h1 className="font-display text-2xl font-extrabold text-[var(--text-primary)] mb-2 flex items-center gap-2">
-             🌸 Welcome to the Sakhi Community
+             🌸 Welcome to the ArogyaNari Community
            </h1>
            <p className="text-sm font-medium text-[var(--text-secondary)] mb-6 max-w-2xl">
              A safe space where women can share experiences, ask questions, and support each other.

@@ -13,7 +13,7 @@ export default function SubscriptionPage({ user, setUser, language = 'en' }) {
 
   const t = {
     en: {
-      title: 'SAKHI Health Pass',
+      title: 'ArogyaNari Health Pass',
       subtitle: 'Choose a dedicated health pass to unlock video consults, customized wellness plans, and comprehensive health analytics.',
       activeStatus: 'Current Plan',
       billingCycle: 'Billing Cycle',
@@ -53,7 +53,7 @@ export default function SubscriptionPage({ user, setUser, language = 'en' }) {
       }
     },
     bn: {
-      title: 'SAKHI হেলথ পাস',
+      title: 'ArogyaNari হেলথ পাস',
       subtitle: 'ভিডিও পরামর্শ, কাস্টমাইজড ওয়েলনেস প্ল্যান এবং ব্যাপক স্বাস্থ্য বিশ্লেষণ আনলক করতে একটি ডেডিকেটেড হেলথ পাস বেছে নিন।',
       activeStatus: 'বর্তমান পরিকল্পনা',
       billingCycle: 'বিলিং চক্র',
@@ -73,7 +73,7 @@ export default function SubscriptionPage({ user, setUser, language = 'en' }) {
       }
     },
     ta: {
-      title: 'SAKHI ஹெல்த் பாஸ்',
+      title: 'ArogyaNari ஹெல்த் பாஸ்',
       subtitle: 'வீடியோ ஆலோசனைகள், தனிப்பயனாக்கப்பட்ட ஆரோக்கிய திட்டங்கள் மற்றும் விரிவான சுகாதார பகுப்பாய்வுகளைத் திறக்க பிரத்யேக ஹெல்த் பாஸைத் தேர்வுசெய்யவும்.',
       activeStatus: 'தற்போதைய திட்டம்',
       billingCycle: 'பில்லிங் சுழற்சி',
@@ -93,7 +93,7 @@ export default function SubscriptionPage({ user, setUser, language = 'en' }) {
       }
     },
     te: {
-      title: 'SAKHI హెల్త్ పాస్',
+      title: 'ArogyaNari హెల్త్ పాస్',
       subtitle: 'వీడియో సంప్రదింపులు, అనుకూలీకరించిన వెల్‌నెస్ ప్లాన్‌లు మరియు సమగ్ర ఆరోగ్య విశ్లేషణలను అన్‌లాక్ చేయడానికి ప్రత్యేక హెల్త్ పాస్‌ను ఎంచుకోండి.',
       activeStatus: 'ప్రస్తుత ప్లాన్',
       billingCycle: 'బిల్లింగ్ సైకిల్',
@@ -113,7 +113,7 @@ export default function SubscriptionPage({ user, setUser, language = 'en' }) {
       }
     },
     mr: {
-      title: 'SAKHI हेल्थ पास',
+      title: 'ArogyaNari हेल्थ पास',
       subtitle: 'व्हिडिओ सल्लामसलत, सानुकूलित कल्याण योजना आणि सर्वसमावेशक आरोग्य विश्लेषणे अनलॉक करण्यासाठी समर्पित हेल्थ पास निवडा।',
       activeStatus: 'सध्याची योजना',
       billingCycle: 'बिलिंग चक्र',

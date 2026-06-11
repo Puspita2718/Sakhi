@@ -15,7 +15,7 @@ export default function LandingPage({ language, setTab }) {
   const t = {
     en: {
       heroTitle: 'AI-Powered Precision Women\'s Health Platform',
-      heroSub: 'SAKHI serves as your clinical health companion. Predict cycles, analyze symptoms, consult top doctors, and manage holistic wellness through end-to-end secure technology.',
+      heroSub: 'ArogyaNari serves as your clinical health companion. Predict cycles, analyze symptoms, consult top doctors, and manage holistic wellness through end-to-end secure technology.',
       explore: 'Explore Dashboard',
       download: 'Mobile App Mockup',
       daysCountdown: 'Next Period in',
@@ -35,7 +35,7 @@ export default function LandingPage({ language, setTab }) {
     },
     hi: {
       heroTitle: 'एआई-संचालित सटीक महिला स्वास्थ्य मंच',
-      heroSub: 'SAKHI आपकी क्लिनिकल स्वास्थ्य सखी के रूप में कार्य करता है। चक्रों की भविष्यवाणी करें, लक्षणों का विश्लेषण करें, शीर्ष डॉक्टरों से परामर्श करें और समग्र कल्याण का प्रबंधन करें।',
+      heroSub: 'ArogyaNari आपकी क्लिनिकल स्वास्थ्य सखी के रूप में कार्य करता है। चक्रों की भविष्यवाणी करें, लक्षणों का विश्लेषण करें, शीर्ष डॉक्टरों से परामर्श करें और समग्र कल्याण का प्रबंधन करें।',
       explore: 'डैशबोर्ड देखें',
       download: 'मोबाइल ऐप मॉकअप',
       daysCountdown: 'अगली अवधि',
@@ -55,7 +55,7 @@ export default function LandingPage({ language, setTab }) {
     },
     bn: {
       heroTitle: 'এআই-চালিত নির্ভুল নারী স্বাস্থ্য প্ল্যাটফর্ম',
-      heroSub: 'SAKHI আপনার ক্লিনিকাল স্বাস্থ্য সঙ্গী হিসেবে কাজ করে। চক্রের ভবিষ্যদ্বাণী করুন, লক্ষণ বিশ্লেষণ করুন, শীর্ষ ডাক্তারদের সাথে পরামর্শ করুন এবং সুরক্ষিত প্রযুক্তির মাধ্যমে সামগ্রিক সুস্থতা পরিচালনা করুন।',
+      heroSub: 'ArogyaNari আপনার ক্লিনিকাল স্বাস্থ্য সঙ্গী হিসেবে কাজ করে। চক্রের ভবিষ্যদ্বাণী করুন, লক্ষণ বিশ্লেষণ করুন, শীর্ষ ডাক্তারদের সাথে পরামর্শ করুন এবং সুরক্ষিত প্রযুক্তির মাধ্যমে সামগ্রিক সুস্থতা পরিচালনা করুন।',
       explore: 'ড্যাশবোর্ড দেখুন',
       download: 'মোবাইল অ্যাপ মকআপ',
       daysCountdown: 'পরবর্তী পিরিয়ড',
@@ -75,7 +75,7 @@ export default function LandingPage({ language, setTab }) {
     },
     ta: {
       heroTitle: 'ஏஐ-இயங்கும் துல்லியமான பெண்கள் சுகாதார தளம்',
-      heroSub: 'SAKHI உங்கள் மருத்துவ சுகாதார தோழியாக செயல்படுகிறது. சுழற்சிகளைக் கணிக்கவும், அறிகுறிகளைப் பகுப்பாய்வு செய்யவும், சிறந்த மருத்துவர்களை அணுகவும் மற்றும் முழுமையான ஆரோக்கியத்தை நிர்வகிக்கவும்.',
+      heroSub: 'ArogyaNari உங்கள் மருத்துவ சுகாதார தோழியாக செயல்படுகிறது. சுழற்சிகளைக் கணிக்கவும், அறிகுறிகளைப் பகுப்பாய்வு செய்யவும், சிறந்த மருத்துவர்களை அணுகவும் மற்றும் முழுமையான ஆரோக்கியத்தை நிர்வகிக்கவும்.',
       explore: 'டாஷ்போர்டை ஆராய்க',
       download: 'மொபைல் ஆப் மோக்கப்',
       daysCountdown: 'அடுத்த மாதவிடாய்',
@@ -95,7 +95,7 @@ export default function LandingPage({ language, setTab }) {
     },
     te: {
       heroTitle: 'ఏఐ-ఆధారిత ప్రెసిషన్ విమెన్స్ హెల్త్ ప్లాట్‌ఫారమ్',
-      heroSub: 'SAKHI మీ క్లినికల్ హెల్త్ కంానియన్‌గా పనిచేస్తుంది. చక్రాలను అంచనా వేయండి, లక్షణాలను విశ్లేషించండి, అగ్రశ్రేణి వైద్యులను సంప్రదించండి మరియు సంపూర్ణ ఆరోగ్యాన్ని నిర్వహించండి.',
+      heroSub: 'ArogyaNari మీ క్లినికల్ హెల్త్ కంానియన్‌గా పనిచేస్తుంది. చక్రాలను అంచనా వేయండి, లక్షణాలను విశ్లేషించండి, అగ్రశ్రేణి వైద్యులను సంప్రదించండి మరియు సంపూర్ణ ఆరోగ్యాన్ని నిర్వహించండి.',
       explore: 'డ్యాష్‌బోర్డ్‌ను అన్వేషించండి',
       download: 'మొబైల్ యాప్ మాక్అప్',
       daysCountdown: 'తదుపరి పీరియడ్',
@@ -115,7 +115,7 @@ export default function LandingPage({ language, setTab }) {
     },
     mr: {
       heroTitle: 'एआय-संचालित अचूक महिला आरोग्य प्लॅटफॉर्म',
-      heroSub: 'SAKHI तुमची क्लिनिकल हेल्थ सखी म्हणून काम करते. सायकल्सचा अंदाज घ्या, लक्षणांचे विश्लेषण करा, शीर्ष डॉक्टरांचा सल्ला घ्या आणि सर्वांगीण कल्याणाचे व्यवस्थापन करा.',
+      heroSub: 'ArogyaNari तुमची क्लिनिकल हेल्थ सखी म्हणून काम करते. सायकल्सचा अंदाज घ्या, लक्षणांचे विश्लेषण करा, शीर्ष डॉक्टरांचा सल्ला घ्या आणि सर्वांगीण कल्याणाचे व्यवस्थापन करा.',
       explore: 'डॅशबोर्ड एक्सप्लोर करा',
       download: 'मोबाईल ॲप मॉकअप',
       daysCountdown: 'पुढची पाळी',

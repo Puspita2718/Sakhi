@@ -168,7 +168,7 @@ export default function Footer({ setPage, language }) {
                 S
               </div>
               <span className="font-display font-extrabold tracking-tight text-gray-800 dark:text-zinc-100 text-lg transition-colors group-hover:text-feminine-pink">
-                SAKHI
+                ArogyaNari
               </span>
             </div>
             <p className="text-xs text-[var(--text-secondary)] leading-relaxed font-medium pr-4">
@@ -320,7 +320,7 @@ export default function Footer({ setPage, language }) {
             <span className="flex items-center gap-1"><HelpCircle size={12} className="text-feminine-purple" /> 24/7 Care</span>
           </div>
           <div className="flex items-center gap-1">
-            <span>© {new Date().getFullYear()} SAKHI Inc. {currentT.copyright}</span>
+            <span>© {new Date().getFullYear()} ArogyaNari Inc. {currentT.copyright}</span>
             <Heart size={10} className="text-feminine-pink fill-feminine-pink animate-pulse" />
           </div>
         </div>

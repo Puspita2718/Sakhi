@@ -79,7 +79,7 @@ export default function Navbar({
           >
             <img 
               src="/logo.png" 
-              alt="SAKHI Logo" 
+              alt="ArogyaNari Logo" 
               className="h-12 w-12 rounded-xl object-contain border border-gray-200 dark:border-zinc-800 bg-white p-1.5 shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:border-pink-200/50" 
             />
           </div>
@@ -218,7 +218,7 @@ export default function Navbar({
                   <div className="h-7 w-7 rounded-lg bg-gradient-to-tr from-pink-500 to-purple-600 text-white flex items-center justify-center font-black text-xs">
                     S
                   </div>
-                  <span className="font-display font-extrabold tracking-tight dark:text-white text-base">SAKHI</span>
+                  <span className="font-display font-extrabold tracking-tight dark:text-white text-base">ArogyaNari</span>
                 </div>
                 <button 
                   onClick={() => setMobileMenuOpen(false)}

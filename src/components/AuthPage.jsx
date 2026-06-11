@@ -60,7 +60,7 @@ export default function AuthPage({ view, setPage, setUser, language }) {
           firstName: supabaseUser.user_metadata?.firstName || supabaseUser.email.split('@')[0],
           lastName: supabaseUser.user_metadata?.lastName || '',
           email: supabaseUser.email,
-          isAdmin: supabaseUser.email === 'admin@sakhi.ai',
+          isAdmin: supabaseUser.email === 'admin@arogyanari.ai',
           subscriptionPlan: 'standard'
         });
         setPage('dashboard');
@@ -82,7 +82,7 @@ export default function AuthPage({ view, setPage, setUser, language }) {
             firstName: firstName || email.split('@')[0],
             lastName: '',
             email: email,
-            isAdmin: email === 'admin@sakhi.ai',
+            isAdmin: email === 'admin@arogyanari.ai',
             subscriptionPlan: 'standard'
           });
           setPage('dashboard');
@@ -94,7 +94,7 @@ export default function AuthPage({ view, setPage, setUser, language }) {
               firstName: firstName || signInData.user?.user_metadata?.firstName || email.split('@')[0],
               lastName: '',
               email: email,
-              isAdmin: email === 'admin@sakhi.ai',
+              isAdmin: email === 'admin@arogyanari.ai',
               subscriptionPlan: 'standard'
             });
             setPage('dashboard');
@@ -174,7 +174,7 @@ export default function AuthPage({ view, setPage, setUser, language }) {
           <div className="absolute -bottom-20 -right-20 h-60 w-60 rounded-full bg-white/10 blur-2xl"></div>
 
           <div className="flex flex-col gap-2 relative z-10">
-            <span className="font-display font-extrabold tracking-tight text-2xl">SAKHI</span>
+            <span className="font-display font-extrabold tracking-tight text-2xl">ArogyaNari</span>
             <span className="text-[10px] uppercase font-bold tracking-widest bg-white/25 px-2.5 py-0.5 rounded-full w-fit">{strings.tag[language] || strings.tag['en']}</span>
           </div>
 

@@ -348,7 +348,7 @@ export default function BloodAnalysis({ language = 'en' }) {
           {/* SECTION 6: AI Health Insights */}
           <div className="glass-panel p-6 rounded-3xl border border-purple-100 dark:border-purple-900/30 bg-purple-50/50 dark:bg-purple-950/20 shadow-lg shadow-purple-100/30 dark:shadow-none">
              <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-4 text-purple-700 dark:text-purple-400">
-                🤖 Sakhi Blood Insights
+                🤖 ArogyaNari Blood Insights
              </h3>
              <ul className="flex flex-col gap-3">
                <li className="flex gap-3 text-xs font-semibold text-[var(--text-primary)] leading-relaxed bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white/40 dark:border-zinc-700/40 hover:-translate-y-1 transition-transform">

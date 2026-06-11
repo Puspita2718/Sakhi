@@ -310,7 +310,7 @@ export default function MentalWellness({ language = 'en' }) {
              {journalAnalysis && (
                <div className="mt-4 p-4 bg-purple-50/50 dark:bg-purple-900/10 border border-purple-100 dark:border-purple-900/30 rounded-2xl animate-fade-in">
                  <h4 className="text-[10px] font-extrabold uppercase tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5 mb-3">
-                   🤖 Sakhi Insights
+                   🤖 ArogyaNari Insights
                  </h4>
                  <div className="grid grid-cols-2 gap-4 mb-3">
                    <div>
@@ -440,7 +440,7 @@ export default function MentalWellness({ language = 'en' }) {
                </div>
              </div>
              <div className="bg-white/60 dark:bg-zinc-900/60 p-2.5 rounded-xl border border-indigo-100 dark:border-indigo-900/30">
-               <span className="text-[9px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase block mb-1">Sakhi Suggests</span>
+               <span className="text-[9px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase block mb-1">ArogyaNari Suggests</span>
                <p className="text-[11px] font-bold text-[var(--text-primary)] leading-tight">Maintain your current sleep schedule. Quality is optimal.</p>
              </div>
           </div>
@@ -453,7 +453,7 @@ export default function MentalWellness({ language = 'en' }) {
       <div className="glass-panel p-6 rounded-3xl border border-emerald-200 dark:border-emerald-900/50 bg-gradient-to-r from-emerald-50 to-white dark:from-emerald-900/20 dark:to-zinc-950 mt-4 shadow-sm relative overflow-hidden">
         <Sparkles className="absolute top-0 right-10 w-32 h-32 text-emerald-200 dark:text-emerald-900/30 opacity-50 pointer-events-none" />
         <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-4 text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
-          🤖 Sakhi Wellness Coach
+          🤖 ArogyaNari Wellness Coach
         </h3>
         <p className="text-xs font-semibold text-[var(--text-secondary)] mb-4">Based on your mood, sleep, journal entries, and cycle phase:</p>
         <div className="flex flex-wrap gap-4">

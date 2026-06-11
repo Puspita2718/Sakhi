@@ -12,7 +12,7 @@ export default function Dashboard({ language = 'en', setTab, triggerEmergency })
   const quickActions = [
     { icon: <HeartPulse className="w-5 h-5" />, label: 'Log Symptoms', color: 'bg-pink-100 text-pink-600 dark:bg-pink-900/40 dark:text-pink-400', action: () => setTab && setTab('calendar') },
     { icon: <TestTube className="w-5 h-5" />, label: 'Analyze Blood', color: 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-400', action: () => setTab && setTab('blood-analysis') },
-    { icon: <MessageSquare className="w-5 h-5" />, label: 'Ask Sakhi AI', color: 'bg-purple-100 text-purple-600 dark:bg-purple-900/40 dark:text-purple-400', action: () => setTab && setTab('ai-chat') },
+    { icon: <MessageSquare className="w-5 h-5" />, label: 'Ask ArogyaNari AI', color: 'bg-purple-100 text-purple-600 dark:bg-purple-900/40 dark:text-purple-400', action: () => setTab && setTab('ai-chat') },
     { icon: <Apple className="w-5 h-5" />, label: 'Update Diet', color: 'bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-400', action: () => setTab && setTab('diet-fitness') },
     { icon: <Smile className="w-5 h-5" />, label: 'Start Meditation', color: 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400', action: () => setTab && setTab('zen') },
     { icon: <Phone className="w-5 h-5" />, label: 'Emergency SOS', color: 'bg-red-500 text-white shadow-md shadow-red-200 dark:shadow-red-900/50', action: () => triggerEmergency && triggerEmergency() }
@@ -265,11 +265,11 @@ export default function Dashboard({ language = 'en', setTab, triggerEmergency })
         {/* RIGHT COLUMN: 4 cols */}
         <div className="xl:col-span-4 flex flex-col gap-6">
           
-          {/* SECTION: SAKHI Care Pass */}
+          {/* SECTION: ArogyaNari Care Pass */}
           <div className="glass-panel p-6 rounded-3xl border border-pink-100 dark:border-pink-900/30 bg-gradient-to-r from-pink-500/10 to-purple-500/10 flex flex-col gap-4">
              <div className="flex justify-between items-center">
                <h3 className="font-display font-extrabold text-base flex items-center gap-2">
-                  <Zap className="text-pink-500 w-5 h-5 animate-pulse" /> SAKHI Health Pass
+                  <Zap className="text-pink-500 w-5 h-5 animate-pulse" /> ArogyaNari Health Pass
                </h3>
                <span className="text-[10px] font-black text-pink-600 bg-pink-100/60 dark:bg-pink-900/30 px-2 py-0.5 rounded-full uppercase tracking-wider">
                   Active
@@ -277,7 +277,7 @@ export default function Dashboard({ language = 'en', setTab, triggerEmergency })
              </div>
              
              <div className="text-xs text-[var(--text-secondary)] font-medium leading-relaxed">
-               Upgrade your SAKHI Care Pass to unlock unlimited clinical consults, personalized meal programs, and comprehensive health monitoring.
+               Upgrade your ArogyaNari Care Pass to unlock unlimited clinical consults, personalized meal programs, and comprehensive health monitoring.
              </div>
 
              <button 
@@ -396,7 +396,7 @@ export default function Dashboard({ language = 'en', setTab, triggerEmergency })
               <span className="text-lg">✨</span>
             </div>
             <h3 className="font-display font-extrabold text-lg text-[var(--text-primary)]">
-              Sakhi AI Recommendation
+              ArogyaNari AI Recommendation
             </h3>
           </div>
           

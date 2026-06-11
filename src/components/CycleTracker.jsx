@@ -366,7 +366,7 @@ export default function CycleTracker({ language = 'en', cycleLogs, setCycleLogs,
           {/* SECTION 6: AI Cycle Insights */}
           <div className="glass-panel p-6 rounded-3xl border border-purple-100 dark:border-purple-900/30 bg-purple-50/50 dark:bg-purple-950/20 shadow-lg shadow-purple-100/30 dark:shadow-none">
              <h3 className="font-display font-extrabold text-base flex items-center gap-2 mb-4">
-                🤖 Sakhi Insights
+                🤖 ArogyaNari Insights
              </h3>
              <p className="text-xs font-bold text-[var(--text-secondary)] mb-3">Based on your previous cycles:</p>
              <ul className="flex flex-col gap-3">

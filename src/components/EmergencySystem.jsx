@@ -288,7 +288,7 @@ export default function EmergencySystem({ language = 'en', closeEmergency }) {
                    <div className="bg-white/60 dark:bg-zinc-900/60 p-3 rounded-xl border border-white dark:border-zinc-800 flex justify-between items-center group cursor-pointer hover:border-indigo-300 transition-colors">
                      <div>
                        <span className="text-[10px] font-extrabold text-indigo-600 block">Women's Help</span>
-                       <p className="text-xs font-bold text-[var(--text-primary)]">Sakhi Shelter Center</p>
+                       <p className="text-xs font-bold text-[var(--text-primary)]">ArogyaNari Shelter Center</p>
                      </div>
                      <div className="flex flex-col items-end">
                        <span className="text-[10px] font-black text-[var(--text-secondary)]">2.5 km</span>
@@ -366,7 +366,7 @@ export default function EmergencySystem({ language = 'en', closeEmergency }) {
               {/* SECTION 13: AI Safety Assistant & SECTION 10: Resources */}
               <div className="glass-panel p-5 rounded-3xl border border-emerald-100 dark:border-emerald-900/30 bg-emerald-50/30 dark:bg-emerald-950/10">
                  <h3 className="font-display font-extrabold text-sm flex items-center gap-2 mb-3 text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
-                   🤖 Sakhi Safety Assistant
+                   🤖 ArogyaNari Safety Assistant
                  </h3>
                  <div className="flex flex-col gap-2 mb-4">
                    <button className="text-left text-[11px] font-bold text-[var(--text-primary)] bg-white/60 dark:bg-zinc-900/60 p-2 rounded-lg border border-white dark:border-zinc-800 hover:border-emerald-300 transition-colors">

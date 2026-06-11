@@ -30,7 +30,7 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
     terms: { en: 'Terms of Service', hi: 'सेवा की शर्तें', bn: 'পরিষেবার শর্তাবলী', ta: 'சேவை விதிமுறைகள்', te: 'సేవా నిబంధనలు', mr: 'सेवा अटी' },
     clinicalStandards: { en: 'Clinical Standards', hi: 'नैदानिक ​​मानक', bn: 'ক্লিনিকাল স্ট্যান্ডার্ড', ta: 'மருத்துவ தரநிலைகள்', te: 'క్లినికల్ ప్రమాణాలు', mr: 'क्लिनिकल मानके' },
     contactUs: { en: 'Contact Us', hi: 'संपर्क करें', bn: 'যোগাযোগ করুন', ta: 'எங்களை தொடர்பு கொள்ளவும்', te: 'మమ్మల్ని సంప్రదించండి', mr: 'आमच्याशी संपर्क साधा' },
-    copyright: { en: '© 2026 SAKHI. Precision in Care.', hi: '© 2026 सखी। देखभाल में सटीकता।', bn: '© 2026 সখী। যত্নে নির্ভুলতা।', ta: '© 2026 சகி. பராமரிப்பில் துல்லியம்.', te: '© 2026 సఖి. సంరక్షణలో ఖచ్చితత్వం.', mr: '© 2026 सखी. काळजी मध्ये अचूकता.' }
+    copyright: { en: '© 2026 ArogyaNari. Precision in Care.', hi: '© 2026 सखी। देखभाल में सटीकता।', bn: '© 2026 সখী। যত্নে নির্ভুলতা।', ta: '© 2026 சகி. பராமரிப்பில் துல்லியம்.', te: '© 2026 సఖి. సంరక్షణలో ఖచ్చితత్వం.', mr: '© 2026 सखी. काळजी मध्ये अचूकता.' }
   };
 
   const conditions = [
@@ -120,7 +120,7 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
 
   const heroContent = {
     badge: {
-      en: "★ SAKHI Platform",
+      en: "★ ArogyaNari Platform",
       hi: "★ सखी प्लेटफॉर्म",
       bn: "★ সখী প্ল্যাটফর্ম",
       ta: "★ சகி தளம்",
@@ -128,7 +128,7 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
       mr: "★ सखी प्लॅटफॉर्म"
     },
     title: {
-      en: "SAKHI: Your AI-Powered Women's Health Companion",
+      en: "ArogyaNari: Your AI-Powered Women's Health Companion",
       hi: "सखी: आपका एआई-संचालित महिला स्वास्थ्य साथी",
       bn: "সখী: আপনার এআই-চালিত নারী স্বাস্থ্য সঙ্গী",
       ta: "சகி: உங்கள் ஏஐ-இயங்கும் பெண்கள் சுகாதார தோழி",
@@ -308,7 +308,7 @@ export default function HomePage({ setPage, setTab, language, setUser }) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
           <div className="md:col-span-5 flex flex-col gap-4">
             <span className="font-display text-xl font-extrabold text-feminine-pink bg-gradient-to-r from-feminine-pink to-feminine-purple bg-clip-text text-transparent">
-              SAKHI
+              ArogyaNari
             </span>
             <p className="text-xs text-[var(--text-secondary)] leading-relaxed max-w-sm font-semibold">
               {strings.footerDesc[language] || strings.footerDesc['en']}

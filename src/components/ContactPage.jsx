@@ -50,7 +50,7 @@ export default function ContactPage({ language }) {
               </div>
               <div>
                 <strong className="block text-[var(--text-primary)] font-extrabold">{strings.emailTitle[language] || strings.emailTitle['en']}</strong>
-                <span className="text-xs text-[var(--text-secondary)] font-bold">support@sakhi.ai</span>
+                <span className="text-xs text-[var(--text-secondary)] font-bold">support@arogyanari.ai</span>
               </div>
             </div>
 

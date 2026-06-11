@@ -80,7 +80,7 @@ exports.logDailyMetrics = async (req, res) => {
       mr: 'स्केलेबल Node.js आणि MongoDB ब्लूप्रिंट्स'
     },
     desc: {
-      en: 'Review the production-ready Mongoose database schemas and Express.js REST controllers compiled for SAKHI.',
+      en: 'Review the production-ready Mongoose database schemas and Express.js REST controllers compiled for ArogyaNari.',
       hi: 'सखी के लिए संकलित उत्पादन-तैयार मोंगोस डेटाबेस स्कीमा और एक्सप्रेस.जेएस रेस्ट नियंत्रकों की समीक्षा करें।',
       bn: 'সখীর জন্য সংকলিত উত্পাদন-প্রস্তুত মঙ্গুজ ডাটাবেস স্কিমা এবং এক্সপ্রেস.জেএস REST কন্ট্রোলারগুলি পর্যালোচনা করুন।',
       ta: 'சகிக்காக தொகுக்கப்பட்ட தயாரிப்புக்கு தயாராக உள்ள Mongoose தரவுத்தள திட்டங்கள் மற்றும் Express.js REST கட்டுப்படுத்திகளை மதிப்பாய்வு செய்யவும்.',

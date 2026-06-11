@@ -8,7 +8,7 @@ export default function FloatingChatbot({ language }) {
   const [isTyping, setIsTyping] = useState(false);
 
   const strings = {
-    title: { en: 'SAKHI AI Assistant', hi: 'सखी एआई सहायक', bn: 'সাখী এআই সহকারী', ta: 'சகி ஏஐ உதவியாளர்', te: 'సఖి ఏఐ అసిస్టెంట్', mr: 'सखी एआय सहाय्यक' },
+    title: { en: 'ArogyaNari AI Assistant', hi: 'सखी एआई सहायक', bn: 'সাখী এআই সহকারী', ta: 'சகி ஏஐ உதவியாளர்', te: 'సఖి ఏఐ అసిస్టెంట్', mr: 'सखी एआय सहाय्यक' },
     online: { en: 'Online & Secure', hi: 'ऑनलाइन और सुरक्षित', bn: 'অনলাইন এবং নিরাপদ', ta: 'ஆன்லைன் மற்றும் பாதுகாப்பானது', te: 'ఆన్‌లైన్ మరియు సురక్షితం', mr: 'ऑनलाइन आणि सुरक्षित' },
     hipaa: { en: 'HIPAA Compliant. AI provides educational guidance only and does not replace professional medical advice.', hi: 'HIPAA अनुपालन। एआई केवल शैक्षिक मार्गदर्शन प्रदान करता है और पेशेवर चिकित्सा सलाह को प्रतिस्थापित नहीं करता है।', bn: 'HIPAA অনুগত। এআই শুধুমাত্র শিক্ষাগত নির্দেশিকা প্রদান করে এবং পেশাদার চিকিৎসা পরামর্শ প্রতিস্থাপন করে না।', ta: 'HIPAA இணக்கமானது. ஏஐ கல்வி வழிகாட்டுதலை மட்டுமே வழங்குகிறது மற்றும் தொழில்முறை மருத்துவ ஆலோசனையை மாற்றாது.', te: 'HIPAA కంప్లైంట్. ఏఐ విద్యా మార్గదర్శకత్వాన్ని మాత్రమే అందిస్తుంది మరియు వృత్తిపరమైన వైద్య సలహాను భర్తీ చేయదు.', mr: 'HIPAA सुसंगत. एआय केवळ शैक्षणिक मार्गदर्शन देते आणि व्यावसायिक वैद्यकीय सल्ल्याची जागा घेत नाही.' },
     placeholder: { en: 'Describe symptoms or ask questions...', hi: 'लक्षणों का वर्णन करें या प्रश्न पूछें...', bn: 'লক্ষণ বর্ণনা করুন বা প্রশ্ন জিজ্ঞাসা করুন...', ta: 'அறிகுறிகளை விவரிக்கவும் அல்லது கேள்விகளைக் கேட்கவும்...', te: 'లక్షణాలను వివరించండి లేదా ప్రశ్నలు అడగండి...', mr: 'लक्षणांचे वर्णन करा किंवा प्रश्न विचारा...' },
@@ -25,7 +25,7 @@ export default function FloatingChatbot({ language }) {
   };
 
   const initialMsg = {
-    en: "Hi! I am SAKHI, your AI women's health companion. Describe your symptoms, ask cycle questions, or query health guides securely.",
+    en: "Hi! I am ArogyaNari, your AI women's health companion. Describe your symptoms, ask cycle questions, or query health guides securely.",
     hi: "नमस्ते! मैं सखी हूं, आपकी एआई महिला स्वास्थ्य साथी। अपने लक्षणों का वर्णन करें, चक्र के प्रश्न पूछें, या सुरक्षित रूप से स्वास्थ्य गाइड क्वेरी करें।",
     bn: "হাই! আমি সাখী, আপনার এআই মহিলাদের স্বাস্থ্য সঙ্গী। আপনার লক্ষণ বর্ণনা করুন, চক্রের প্রশ্ন জিজ্ঞাসা করুন বা নিরাপদে স্বাস্থ্য গাইড জিজ্ঞাসা করুন।",
     ta: "வணக்கம்! நான் சகி, உங்கள் ஏஐ பெண்கள் ஆரோக்கிய தோழி. உங்கள் அறிகுறிகளை விவரிக்கவும், சுழற்சி கேள்விகளைக் கேட்கவும் அல்லது சுகாதார வழிகாட்டிகளை பாதுகாப்பாக வினவவும்.",
@@ -125,7 +125,7 @@ export default function FloatingChatbot({ language }) {
       } else if (query.includes('hi') || query.includes('hello') || query.includes('hey')) {
         aiMsg = {
           sender: 'ai',
-          text: 'Hello! I am SAKHI, your AI intimate health companion. Describe your symptoms or ask health guidelines securely. How can I support you today?'
+          text: 'Hello! I am ArogyaNari, your AI intimate health companion. Describe your symptoms or ask health guidelines securely. How can I support you today?'
         };
       } else {
         aiMsg = {
@@ -270,7 +270,7 @@ export default function FloatingChatbot({ language }) {
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="relative h-14 w-14 rounded-full bg-gradient-to-tr from-feminine-pink to-feminine-purple text-white shadow-xl hover:shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer group"
-        title="Chat with SAKHI"
+        title="Chat with ArogyaNari"
       >
         {isOpen ? (
           <X size={24} className="animate-fade-in" />

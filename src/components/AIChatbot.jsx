@@ -28,7 +28,7 @@ export default function AIChatbot({ language, setTab }) {
       messages: [
         {
           sender: 'ai',
-          text: 'Hello! I am Sakhi, your AI Health Assistant. How are you feeling today?',
+          text: 'Hello! I am ArogyaNari, your AI Health Assistant. How are you feeling today?',
           timestamp: new Date(Date.now() - 3600000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]
@@ -302,7 +302,7 @@ export default function AIChatbot({ language, setTab }) {
                    {/* SECTION 3: Quick Health Questions */}
                    <div className="text-center mb-2">
                      <Sparkles className="w-8 h-8 text-pink-400 mx-auto mb-2 opacity-50" />
-                     <p className="text-sm font-bold text-[var(--text-secondary)]">Ask Sakhi anything about your health...</p>
+                     <p className="text-sm font-bold text-[var(--text-secondary)]">Ask ArogyaNari anything about your health...</p>
                    </div>
                    <div className="flex flex-wrap justify-center gap-2 p-2">
                      {quickQuestions.map((q, idx) => (
@@ -351,7 +351,7 @@ export default function AIChatbot({ language, setTab }) {
                   {msg.analysis && (
                     <div className="ml-8 mt-2 max-w-[85%] bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/30 rounded-2xl p-4 w-full">
                       <h4 className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5 mb-2">
-                        🤖 Sakhi Analysis
+                        🤖 ArogyaNari Analysis
                       </h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
@@ -410,7 +410,7 @@ export default function AIChatbot({ language, setTab }) {
               <div className="flex-1 relative">
                 <input
                   type="text"
-                  placeholder="Ask Sakhi anything about your health..."
+                  placeholder="Ask ArogyaNari anything about your health..."
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}

@@ -249,7 +249,7 @@ export default function DietFitness({ language = 'en' }) {
           {/* SECTION 14: AI Recommendations */}
           <div className="glass-panel p-5 rounded-3xl border border-indigo-100 dark:border-indigo-900/30 bg-indigo-50/50 dark:bg-indigo-950/20 shadow-sm">
             <h3 className="font-display font-extrabold text-sm flex items-center gap-1.5 mb-3 text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
-              🤖 Sakhi Recommendation
+              🤖 ArogyaNari Recommendation
             </h3>
             <p className="text-xs font-semibold text-[var(--text-primary)] mb-3">Based on your recent logs and {goal} goals:</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">

@@ -60,7 +60,7 @@ export default function App() {
       mr: 'एआय रक्त विश्लेषण'
     },
     'ai-chat': {
-      en: 'Sakhi AI Companion',
+      en: 'ArogyaNari AI Companion',
       hi: 'सखी एआई साथी',
       bn: 'সখী এআই সঙ্গী',
       ta: 'சகி ஏஐ தோழி',
@@ -140,7 +140,7 @@ export default function App() {
               firstName: u.user_metadata?.firstName || 'Ananya',
               lastName: 'Sharma',
               email: u.email,
-              isAdmin: u.email === 'admin@sakhi.ai' || u.email === 'ananya@example.com',
+              isAdmin: u.email === 'admin@arogyanari.ai' || u.email === 'ananya@example.com',
               subscriptionPlan: 'standard'
             });
             // Auto-redirect to dashboard on refresh if logged in
@@ -167,7 +167,7 @@ export default function App() {
           firstName: u.user_metadata?.firstName || 'Ananya',
           lastName: 'Sharma',
           email: u.email,
-          isAdmin: u.email === 'admin@sakhi.ai' || u.email === 'ananya@example.com',
+          isAdmin: u.email === 'admin@arogyanari.ai' || u.email === 'ananya@example.com',
           subscriptionPlan: 'standard'
         });
         // Auto-redirect to dashboard when logged in from auth pages

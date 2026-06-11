@@ -16,7 +16,7 @@ export default function ProfilePage({ user, setUser, language }) {
     desc: { en: 'Manage your biological details, tracking parameters, and active care plan.', hi: 'अपने जैविक विवरण, ट्रैकिंग पैरामीटर और सक्रिय देखभाल योजना का प्रबंधन करें।', bn: 'আপনার জৈবিক বিবরণ, ট্র্যাকিং প্যারামিটার এবং সক্রিয় যত্ন পরিকল্পনা পরিচালনা করুন।', ta: 'உங்கள் உயிரியல் விவரங்கள், கண்காணிப்பு அளவுருக்கள் மற்றும் செயலில் உள்ள பராமரிப்பு திட்டத்தை நிர்வகிக்கவும்.', te: 'మీ జీవ వివరాలు, ట్రాకింగ్ పారామితులు మరియు క్రియాశీల సంరక్షణ ప్రణాళికను నిర్వహించండి.', mr: 'तुमचे जैविक तपशील, ट्रॅकिंग पॅरामीटर्स आणि सक्रिय काळजी योजना व्यवस्थापित करा.' },
     subTitle: { en: 'Care Subscription', hi: 'देखभाल सदस्यता', bn: 'যত্ন সাবস্ক্রিপশন', ta: 'பராமரிப்பு சந்தா', te: 'సంరక్షణ సభ్యత్వం', mr: 'काळजी सदस्यता' },
     prem: { en: 'Premium Pass', hi: 'प्रीमियम पास', bn: 'প্রিমিয়াম পাস', ta: 'பிரீமியம் பாஸ்', te: 'ప్రీమియం పాస్', mr: 'प्रीमियम पास' },
-    sakhiPrem: { en: 'SAKHI Premium Pass', hi: 'सखी प्रीमियम पास', bn: 'সখী প্রিমিয়াম পাস', ta: 'சகி பிரீமியம் பாஸ்', te: 'సఖి ప్రీమియం పాస్', mr: 'सखी प्रीमियम पास' },
+    arogyanariPrem: { en: 'ArogyaNari Premium Pass', hi: 'सखी प्रीमियम पास', bn: 'সখী প্রিমিয়াম পাস', ta: 'சகி பிரீமியம் பாஸ்', te: 'సఖి ప్రీమియం పాస్', mr: 'सखी प्रीमियम पास' },
     renews: { en: 'Renews on Nov 24, 2026', hi: '24 नवंबर, 2026 को नवीनीकृत', bn: '২৪ নভেম্বর, ২০২৬-এ নবায়ন হয়', ta: 'நவம்பர் 24, 2026 அன்று புதுப்பிக்கப்படும்', te: 'నవంబర్ 24, 2026న పునరుద్ధరించబడుతుంది', mr: '२४ नोव्हेंबर २०२६ रोजी नूतनीकरण' },
     persInfo: { en: 'Personal Information', hi: 'व्यक्तिगत जानकारी', bn: 'ব্যক্তিগত তথ্য', ta: 'தனிப்பட்ட தகவல்', te: 'వ్యక్తిగత సమాచారం', mr: 'वैयक्तिक माहिती' },
     success: { en: '✓ Clinical records updated successfully.', hi: '✓ नैदानिक रिकॉर्ड सफलतापूर्वक अद्यतन किए गए।', bn: '✓ ক্লিনিকাল রেকর্ড সফলভাবে আপডেট করা হয়েছে।', ta: '✓ மருத்துவ பதிவுகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன.', te: '✓ క్లినికల్ రికార్డ్‌లు విజయవంతంగా నవీకరించబడ్డాయి.', mr: '✓ क्लिनिकल रेकॉर्ड यशस्वीरित्या अद्यतनित केले गेले.' },
@@ -76,7 +76,7 @@ export default function ProfilePage({ user, setUser, language }) {
 
             <div className="w-full bg-feminine-pink/10 border border-feminine-pink/20 rounded-2xl py-3 px-4 flex flex-col gap-1 mt-2">
               <span className="text-[9px] font-extrabold uppercase tracking-widest text-feminine-pink">{strings.subTitle[language] || strings.subTitle['en']}</span>
-              <strong className="text-xs text-[var(--text-primary)]">{user?.subscriptionPlan === 'premium' ? (strings.prem[language] || strings.prem['en']) : (strings.sakhiPrem[language] || strings.sakhiPrem['en'])}</strong>
+              <strong className="text-xs text-[var(--text-primary)]">{user?.subscriptionPlan === 'premium' ? (strings.prem[language] || strings.prem['en']) : (strings.arogyanariPrem[language] || strings.arogyanariPrem['en'])}</strong>
               <span className="text-[10px] text-[var(--text-secondary)]">{strings.renews[language] || strings.renews['en']}</span>
             </div>
           </div>
